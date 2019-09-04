@@ -1,11 +1,13 @@
 import GameContainer from "./GameContainer.js";
 import Keyboard from "./Keyboard.js";
+import Sound from "./Sound.js";
 
 import Background from "./Background.js";
 import Ship from "./Ship.js";
 
 const gameContainer = new GameContainer();
 const keyboard = new Keyboard();
+const sound = new Sound();
 
 gameContainer.initialize();
 
@@ -39,7 +41,7 @@ let gameLoop = () => {
 };
 
 let tick = () => {
-  ship.tick(keyboard);
+  ship.tick(keyboard, sound);
 };
 
 let drawObjects = cx => {

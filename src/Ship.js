@@ -12,7 +12,7 @@ let x = 320,
   };
 
 export default class Ship {
-  tick(keyboard) {
+  tick(keyboard, sound) {
     if (keyboard.isDown(keyboard.LEFT)) yaw -= turnSpeed;
     if (keyboard.isDown(keyboard.RIGHT)) yaw += turnSpeed;
     state.engineOn = keyboard.isDown(keyboard.UP);
@@ -25,6 +25,9 @@ export default class Ship {
         dx = (dx / velocity) * maxSpeed;
         dy = (dy / velocity) * maxSpeed;
       }
+      sound.engineOn();
+    } else {
+      sound.engineOff();
     }
 
     x += dx;
