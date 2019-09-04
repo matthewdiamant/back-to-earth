@@ -58,10 +58,26 @@ export default class Drawer {
     this.cx.fillRect(-size / 2, -size / 2, size, size);
   }
 
-  fillLines({ lines, color }) {
+  fillLinesUnadjusted({ lines, color }) {
     this.cx.beginPath();
     this.cx.moveTo(...lines[0]);
     lines.slice(1).map(line => this.cx.lineTo(...line));
+    this.cx.closePath();
+    this.cx.fillStyle = color;
+    this.cx.fill();
+  }
+
+  fillLines({ lines, color }) {
+    this.cx.beginPath();
+    this.cx.moveTo(
+      this.cameraAdjustX(lines[0][0]),
+      this.cameraAdjustY(lines[0][1])
+    );
+    lines
+      .slice(1)
+      .map(line =>
+        this.cx.lineTo(this.cameraAdjustX(line[0]), this.cameraAdjustY(line[1]))
+      );
     this.cx.closePath();
     this.cx.fillStyle = color;
     this.cx.fill();

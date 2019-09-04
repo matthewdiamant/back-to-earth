@@ -6,6 +6,7 @@ import Sound from "./Sound.js";
 import Background from "./Background.js";
 import Earth from "./Earth.js";
 import Ship from "./Ship.js";
+import Asteroids from "./Asteroids.js";
 
 const gameContainer = new GameContainer();
 
@@ -44,12 +45,14 @@ let gameLoop = () => {
 
 let tick = () => {
   ship.tick(keyboard, sound, drawer);
+  asteroids.tick();
 };
 
-let drawObjects = () => [background, earth, ship];
+let drawObjects = () => [background, earth, ship, asteroids];
 
 const background = new Background(canvas);
 const earth = new Earth();
+const asteroids = new Asteroids();
 const ship = new Ship();
 
 gameLoop();

@@ -39,7 +39,7 @@ export default class Ship {
     drawer.draw(() => {
       drawer.fillRotatedRect({ x, y, size, rotation: yaw, color: "#009900" });
       if (state.engineOn) {
-        drawer.fillLines({
+        drawer.fillLinesUnadjusted({
           lines: [
             [size * -0.5, size * 0.5],
             [size * 0.5, size * 0.5],
