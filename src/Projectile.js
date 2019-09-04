@@ -19,7 +19,12 @@ export default class Projectile {
 
   draw(drawer) {
     drawer.draw(() => {
-      drawer.fillRect({ rect: [this.x, this.y, 2, 2], color: "red" });
+      drawer.fillRect({
+        rect: [this.x, this.y, 2, 2],
+        color: "#f66",
+        shadowBlur: 2,
+        shadowColor: "#f00"
+      });
     });
   }
 }

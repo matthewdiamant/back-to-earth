@@ -40,6 +40,7 @@ export default class Ship {
         projectiles.push(new Projectile({ x, y, yaw }));
         weaponCanFire = false;
         window.setTimeout(() => (weaponCanFire = true), weaponCooldown * 1000);
+        sound.playerShot();
       }
     }
 

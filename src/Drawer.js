@@ -31,8 +31,10 @@ export default class Drawer {
     this.cx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  fillRect({ rect, color }) {
+  fillRect({ rect, color, shadowBlur, shadowColor }) {
     this.cx.fillStyle = color;
+    this.cx.shadowBlur = shadowBlur;
+    this.cx.shadowColor = shadowColor;
     this.cx.fillRect(
       ...[
         this.cameraAdjustX(rect[0]),
