@@ -1,6 +1,5 @@
 class Oscillator {
   constructor({ frequency, type, volume }) {
-    // Temporary workaround until AudioContext is standardized
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
     let context = new AudioContext();

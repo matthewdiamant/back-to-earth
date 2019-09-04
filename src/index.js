@@ -43,7 +43,7 @@ let gameLoop = () => {
 };
 
 let tick = () => {
-  ship.tick(keyboard, sound);
+  ship.tick(keyboard, sound, drawer);
 };
 
 let drawObjects = () => [background, earth, ship];

@@ -1,5 +1,5 @@
-let x = 320,
-  y = 240,
+let x = 0,
+  y = 0,
   dx = 0,
   dy = 0,
   yaw = 0,
@@ -12,7 +12,7 @@ let x = 320,
   };
 
 export default class Ship {
-  tick(keyboard, sound) {
+  tick(keyboard, sound, drawer) {
     if (keyboard.isDown(keyboard.LEFT)) yaw -= turnSpeed;
     if (keyboard.isDown(keyboard.RIGHT)) yaw += turnSpeed;
     state.engineOn = keyboard.isDown(keyboard.UP);
@@ -32,6 +32,8 @@ export default class Ship {
 
     x += dx;
     y += dy;
+    drawer.camera.x = x;
+    drawer.camera.y = y;
   }
   draw(drawer) {
     drawer.draw(() => {
