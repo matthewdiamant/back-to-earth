@@ -29,9 +29,14 @@ export default class Background {
         y: 100
       });
       drawer.fillText({
-        text: "ENTER to land back on earth",
+        text: "ENTER to land back on earth.",
         x: -110,
         y: 125
+      });
+      drawer.fillText({
+        text: "Shoot things. Collect ore. Upgrade weapons.",
+        x: -173,
+        y: 150
       });
     });
   }
