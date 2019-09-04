@@ -15,6 +15,24 @@ export default class Background {
           color: "#fff"
         })
       );
+      drawer.fillText({
+        text: "back to earth",
+        x: -140,
+        y: -100,
+        size: "36px",
+        font: "serif",
+        letterSpacing: true
+      });
+      drawer.fillText({
+        text: "Arrow keys to move. SPACE to shoot.",
+        x: -140,
+        y: 100
+      });
+      drawer.fillText({
+        text: "ENTER to land back on earth",
+        x: -110,
+        y: 125
+      });
     });
   }
 }

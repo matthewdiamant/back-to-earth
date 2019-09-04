@@ -40,9 +40,10 @@ class Asteroid {
 export default class Asteroids {
   constructor() {
     this.asteroids = [];
-    for (let i = 0; i < 10; i++) {
-      let x = Math.random() * 400 - 200;
-      let y = Math.random() * 400 - 200;
+    for (let i = 0; i < 40; i++) {
+      let theta = Math.random() * Math.PI * 2;
+      let x = Math.sin(theta) * (200 + Math.random() * 400);
+      let y = Math.cos(theta) * (200 + Math.random() * 400);
       this.asteroids.push(new Asteroid({ x, y }));
     }
   }

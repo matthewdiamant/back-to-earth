@@ -80,6 +80,19 @@ export default class Drawer {
     this.cx.fill();
   }
 
+  fillText({
+    text,
+    x,
+    y,
+    size = "14px",
+    font = "Courier",
+    letterSpacing = false
+  }) {
+    this.cx.font = size + " " + font;
+    text = letterSpacing ? text.split("").join(" ") : text;
+    this.cx.fillText(text, this.cameraAdjustX(x), this.cameraAdjustY(y));
+  }
+
   strokeLines({ lines, color, shadowBlur = 0, shadowColor }) {
     this.cx.beginPath();
     this.cx.moveTo(
