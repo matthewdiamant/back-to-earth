@@ -14,6 +14,7 @@ let x = 0,
   state = {
     engineOn: false
   },
+  earthIndicator = false,
   projectiles = [];
 
 export default class Ship {
@@ -49,11 +50,28 @@ export default class Ship {
     drawer.camera.x = x;
     drawer.camera.y = y;
 
+    earthIndicator = Math.sqrt(x * x + y * y) > 400;
+
     projectiles.map(p => p.tick());
     projectiles = projectiles.filter(p => !p.isExpired());
   }
   draw(drawer) {
     projectiles.map(p => p.draw(drawer));
+    if (earthIndicator) {
+      drawer.draw(() => {
+        let theta = Math.atan2(y, x);
+        console.log(theta);
+        drawer.fillRectUnadjusted({
+          rect: [
+            Math.cos(theta) * -230 + 320,
+            Math.sin(theta) * -230 + 240,
+            5,
+            5
+          ],
+          color: "#4f4"
+        });
+      });
+    }
     drawer.draw(() => {
       // drawer.strokeLinesRotated({
       //   x: x,
