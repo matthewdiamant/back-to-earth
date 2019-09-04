@@ -33,27 +33,20 @@ export default class Ship {
     x += dx;
     y += dy;
   }
-  draw(cx) {
-    cx.save();
-
-    // Draw ship
-    cx.fillStyle = "#009900";
-    cx.translate(x + size / 2, y + size / 2);
-    cx.rotate(yaw);
-    cx.fillRect(-size / 2, -size / 2, size, size);
-
-    // Draw engine burners
-    if (state.engineOn) {
-      cx.beginPath();
-      cx.moveTo(size * -0.5, size * 0.5);
-      cx.lineTo(size * 0.5, size * 0.5);
-      cx.lineTo(0, size * 0.5 + Math.random() * 5);
-      cx.lineTo(size * -0.5, size * 0.5);
-      cx.closePath();
-      cx.fillStyle = "orange";
-      cx.fill();
-    }
-
-    cx.restore();
+  draw(drawer) {
+    drawer.draw(() => {
+      drawer.fillRotatedRect({ x, y, size, rotation: yaw, color: "#009900" });
+      if (state.engineOn) {
+        drawer.fillLines({
+          lines: [
+            [size * -0.5, size * 0.5],
+            [size * 0.5, size * 0.5],
+            [0, size * 0.5 + Math.random() * 5],
+            [size * -0.5, size * 0.5]
+          ],
+          color: "orange"
+        });
+      }
+    });
   }
 }

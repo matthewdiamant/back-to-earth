@@ -1,3 +1,4 @@
+import Drawer from "./Drawer.js";
 import GameContainer from "./GameContainer.js";
 import Keyboard from "./Keyboard.js";
 import Sound from "./Sound.js";
@@ -7,6 +8,8 @@ import Earth from "./Earth.js";
 import Ship from "./Ship.js";
 
 const gameContainer = new GameContainer();
+
+const drawer = new Drawer(gameContainer.canvas);
 const keyboard = new Keyboard();
 const sound = new Sound();
 
@@ -16,7 +19,6 @@ let canvas = {
     cw: gameContainer.canvas.width,
     ch: gameContainer.canvas.height
   },
-  cx = null,
   fps = 60,
   interval = 1000 / fps,
   lastTime = new Date().getTime(),
@@ -30,8 +32,7 @@ let draw = () => {
   delta = currentTime - lastTime;
 
   if (delta > interval) {
-    cx.clearRect(0, 0, canvas.cw, canvas.ch);
-    drawObjects(cx);
+    drawObjects().map(object => object.draw(drawer));
     lastTime = currentTime - (delta % interval);
   }
 };
@@ -45,13 +46,7 @@ let tick = () => {
   ship.tick(keyboard, sound);
 };
 
-let drawObjects = cx => {
-  background.draw(cx, canvas);
-  earth.draw(cx);
-  ship.draw(cx);
-};
-
-cx = gameContainer.canvas.getContext("2d");
+let drawObjects = () => [background, earth, ship];
 
 const background = new Background(canvas);
 const earth = new Earth();
