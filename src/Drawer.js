@@ -33,6 +33,17 @@ export default class Drawer {
 
   fillRect({ rect, color }) {
     this.cx.fillStyle = color;
+    this.cx.fillRect(
+      ...[
+        this.cameraAdjustX(rect[0]),
+        this.cameraAdjustY(rect[1]),
+        ...rect.slice(2)
+      ]
+    );
+  }
+
+  fillRectUnadjusted({ rect, color }) {
+    this.cx.fillStyle = color;
     this.cx.fillRect(...rect);
   }
 
@@ -50,8 +61,8 @@ export default class Drawer {
   }
 
   fillRotatedRect({ x, y, size, rotation, color }) {
-    x = this.cameraAdjustX(x);
-    y = this.cameraAdjustY(y);
+    x = this.cameraAdjustX(x) - size / 2;
+    y = this.cameraAdjustY(y) - size / 2;
     this.cx.fillStyle = color;
     this.cx.translate(x + size / 2, y + size / 2);
     this.cx.rotate(rotation);
@@ -84,4 +95,28 @@ export default class Drawer {
     this.cx.strokeStyle = color;
     this.cx.stroke();
   }
+
+  // strokeLinesRotated({ x, y, lines, size, rotation, color }) {
+  //   this.cx.fillStyle = color;
+  //   this.cx.translate(
+  //     this.cameraAdjustX(x) + size / 2,
+  //     this.cameraAdjustY(y) + size / 2
+  //   );
+  //   this.cx.rotate(rotation);
+  //   this.cx.beginPath();
+  //   this.cx.moveTo(
+  //     this.cameraAdjustX(lines[0][0]),
+  //     this.cameraAdjustY(lines[0][1])
+  //   );
+  //   lines
+  //     .slice(1)
+  //     .map(line =>
+  //       this.cx.lineTo(this.cameraAdjustX(line[0]), this.cameraAdjustY(line[1]))
+  //     );
+  //   this.cx.closePath();
+  //   // this.cx.shadowBlur = shadowBlur;
+  //   // this.cx.shadowColor = shadowColor;
+  //   this.cx.strokeStyle = color;
+  //   this.cx.stroke();
+  // }
 }
