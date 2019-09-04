@@ -3,6 +3,7 @@ import Keyboard from "./Keyboard.js";
 import Sound from "./Sound.js";
 
 import Background from "./Background.js";
+import Earth from "./Earth.js";
 import Ship from "./Ship.js";
 
 const gameContainer = new GameContainer();
@@ -46,12 +47,14 @@ let tick = () => {
 
 let drawObjects = cx => {
   background.draw(cx, canvas);
+  earth.draw(cx);
   ship.draw(cx);
 };
 
 cx = gameContainer.canvas.getContext("2d");
 
 const background = new Background(canvas);
+const earth = new Earth();
 const ship = new Ship();
 
 gameLoop();
