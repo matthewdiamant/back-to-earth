@@ -67,7 +67,7 @@ export default class Drawer {
     this.cx.fill();
   }
 
-  fillLines({ lines, color }) {
+  strokeLines({ lines, color, shadowBlur = 0, shadowColor }) {
     this.cx.beginPath();
     this.cx.moveTo(
       this.cameraAdjustX(lines[0][0]),
@@ -79,7 +79,9 @@ export default class Drawer {
         this.cx.lineTo(this.cameraAdjustX(line[0]), this.cameraAdjustY(line[1]))
       );
     this.cx.closePath();
-    this.cx.fillStyle = color;
-    this.cx.fill();
+    this.cx.shadowBlur = shadowBlur;
+    this.cx.shadowColor = shadowColor;
+    this.cx.strokeStyle = color;
+    this.cx.stroke();
   }
 }

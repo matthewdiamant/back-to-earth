@@ -48,11 +48,11 @@ let tick = () => {
   asteroids.tick();
 };
 
-let drawObjects = () => [background, earth, ship, asteroids];
+let drawObjects = () => [background, earth, asteroids, ship];
 
 const background = new Background(canvas);
 const earth = new Earth();
-const asteroids = new Asteroids();
 const ship = new Ship();
+const asteroids = new Asteroids();
 
 gameLoop();
