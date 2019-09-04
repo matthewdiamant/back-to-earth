@@ -1,14 +1,14 @@
-export default class Keyboard {
-  _pressed = {};
-
-  LEFT = 37;
-  UP = 38;
-  RIGHT = 39;
-  DOWN = 40;
-
+class Keyboard {
   constructor() {
     document.addEventListener("keyup", event => this.onKeyup(event));
     document.addEventListener("keydown", event => this.onKeydown(event));
+
+    this._pressed = {};
+
+    this.LEFT = 37;
+    this.UP = 38;
+    this.RIGHT = 39;
+    this.DOWN = 40;
   }
 
   isDown(keyCode) {
@@ -23,3 +23,5 @@ export default class Keyboard {
     delete this._pressed[event.keyCode];
   }
 }
+
+export default Keyboard;

@@ -1,6 +1,8 @@
 let canvas = document.getElementById("c");
 export default class GameContainer {
-  canvas = canvas;
+  constructor() {
+    this.canvas = canvas;
+  }
 
   initialize() {
     var container = document.querySelector("body");
