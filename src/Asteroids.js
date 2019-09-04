@@ -42,8 +42,8 @@ export default class Asteroids {
     this.asteroids = [];
     for (let i = 0; i < 40; i++) {
       let theta = Math.random() * Math.PI * 2;
-      let x = Math.sin(theta) * (200 + Math.random() * 400);
-      let y = Math.cos(theta) * (200 + Math.random() * 400);
+      let x = Math.sin(theta) * (210 + Math.random() * 400);
+      let y = Math.cos(theta) * (210 + Math.random() * 400);
       this.asteroids.push(new Asteroid({ x, y }));
     }
   }
