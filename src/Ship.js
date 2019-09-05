@@ -7,7 +7,7 @@ let x = 0,
   yaw = 0.5,
   turnSpeed = 0.05,
   maxSpeed = 1,
-  acceleration = -0.01,
+  acceleration = 0.01,
   size = 10,
   weaponCooldown = 0.3,
   weaponCanFire = true,
@@ -39,8 +39,8 @@ export default class Ship {
     state.engineOn = keyboard.isDown(keyboard.UP);
 
     if (state.engineOn) {
-      dx += Math.sin(yaw) * -acceleration;
-      dy += Math.cos(yaw) * acceleration;
+      dx += Math.sin(yaw) * acceleration;
+      dy += Math.cos(yaw) * -acceleration;
       var velocity = Math.sqrt(dx * dx + dy * dy);
       if (velocity > maxSpeed) {
         dx = (dx / velocity) * maxSpeed;
