@@ -68,17 +68,23 @@ export default class Drawer {
     }
   }
 
-  fillText({
+  text({
     text,
     x,
     y,
     size = "14px",
     font = "Courier",
-    letterSpacing = false
+    letterSpacing = false,
+    isUnadjusted = false
   }) {
+    if (!isUnadjusted) {
+      x = this.cameraAdjustX(x);
+      y = this.cameraAdjustY(y);
+    }
     this.cx.font = size + " " + font;
     text = letterSpacing ? text.split("").join(" ") : text;
-    this.cx.fillText(text, this.cameraAdjustX(x), this.cameraAdjustY(y));
+    this.cx.fillStyle = "#fff";
+    this.cx.fillText(text, x, y);
   }
 
   lines({

@@ -19,8 +19,21 @@ let x = 0,
 export default class Ship {
   constructor() {
     this.projectiles = [];
+    this.landed = false;
+    this.ore = 0;
+    this.timeout = 0;
   }
+
   tick(keyboard, sound, drawer) {
+    if (
+      this.timeout < 0 &&
+      keyboard.isDown(keyboard.ENTER) &&
+      x * x + y * y < 60 * 60
+    ) {
+      this.landed = true;
+    }
+    this.timeout -= 1;
+
     if (keyboard.isDown(keyboard.LEFT)) yaw -= turnSpeed;
     if (keyboard.isDown(keyboard.RIGHT)) yaw += turnSpeed;
     state.engineOn = keyboard.isDown(keyboard.UP);

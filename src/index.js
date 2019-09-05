@@ -5,6 +5,7 @@ import Sound from "./Sound.js";
 import CollisionDetector from "./CollisionDetector.js";
 
 import Background from "./Background.js";
+import EarthScreen from "./EarthScreen.js";
 import Earth from "./Earth.js";
 import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
@@ -35,8 +36,13 @@ let gameLoop = () => {
 };
 
 let tick = () => {
-  ship.tick(keyboard, sound, drawer);
-  asteroids.tick();
+  // ship.landed = true;
+  if (ship.landed) {
+    earthScreen.tick(keyboard, ship);
+  } else {
+    ship.tick(keyboard, sound, drawer);
+    asteroids.tick();
+  }
 };
 
 let collisionDetection = () => {
@@ -54,7 +60,9 @@ let draw = () => {
   delta = currentTime - lastTime;
 
   if (delta > interval) {
+    drawer.clearBackground();
     drawObjects().map(object => object.draw(drawer));
+    if (ship.landed) earthScreen.draw(drawer, ship);
     lastTime = currentTime - (delta % interval);
   }
 };
@@ -62,6 +70,7 @@ let draw = () => {
 let drawObjects = () => [background, earth, asteroids, ship];
 
 const background = new Background(canvas);
+const earthScreen = new EarthScreen();
 const earth = new Earth();
 const ship = new Ship();
 const asteroids = new Asteroids();

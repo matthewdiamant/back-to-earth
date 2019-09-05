@@ -7,7 +7,6 @@ export default class Background {
   }
   draw(drawer) {
     drawer.draw(() => {
-      drawer.clearBackground();
       drawer.drawBackground("#111");
       stars.map(star =>
         drawer.fillRectUnadjusted({
@@ -15,7 +14,7 @@ export default class Background {
           color: "#fff"
         })
       );
-      drawer.fillText({
+      drawer.text({
         text: "back to earth",
         x: -140,
         y: -100,
@@ -23,17 +22,17 @@ export default class Background {
         font: "serif",
         letterSpacing: true
       });
-      drawer.fillText({
+      drawer.text({
         text: "Arrow keys to move. SPACE to shoot.",
         x: -140,
         y: 100
       });
-      drawer.fillText({
+      drawer.text({
         text: "ENTER to land back on earth.",
         x: -110,
         y: 125
       });
-      drawer.fillText({
+      drawer.text({
         text: "Shoot things. Collect ore. Upgrade weapons.",
         x: -173,
         y: 150

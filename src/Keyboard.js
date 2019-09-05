@@ -5,6 +5,7 @@ class Keyboard {
 
     this._pressed = {};
 
+    this.ENTER = 13;
     this.SPACE = 32;
     this.LEFT = 37;
     this.UP = 38;
