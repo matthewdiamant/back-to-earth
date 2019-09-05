@@ -60,7 +60,6 @@ export default class Ship {
     if (earthIndicator) {
       drawer.draw(() => {
         let theta = Math.atan2(y, x);
-        console.log(theta);
         drawer.fillRectUnadjusted({
           rect: [
             Math.cos(theta) * -230 + 320,
