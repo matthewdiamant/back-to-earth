@@ -14,10 +14,12 @@ let x = 0,
   state = {
     engineOn: false
   },
-  earthIndicator = false,
-  projectiles = [];
+  earthIndicator = false;
 
 export default class Ship {
+  constructor() {
+    this.projectiles = [];
+  }
   tick(keyboard, sound, drawer) {
     if (keyboard.isDown(keyboard.LEFT)) yaw -= turnSpeed;
     if (keyboard.isDown(keyboard.RIGHT)) yaw += turnSpeed;
@@ -38,7 +40,7 @@ export default class Ship {
 
     if (keyboard.isDown(keyboard.SPACE)) {
       if (weaponCanFire) {
-        projectiles.push(new Projectile({ x, y, yaw }));
+        this.projectiles.push(new Projectile({ x, y, yaw, damage: 1 }));
         weaponCanFire = false;
         window.setTimeout(() => (weaponCanFire = true), weaponCooldown * 1000);
         sound.playerShot();
@@ -52,14 +54,16 @@ export default class Ship {
 
     earthIndicator = Math.sqrt(x * x + y * y) > 400;
 
-    projectiles.map(p => p.tick());
-    projectiles = projectiles.filter(p => !p.isExpired());
+    this.projectiles.map(p => p.tick());
+    this.projectiles = this.projectiles.filter(p => !p.shouldDie);
   }
 
   draw(drawer) {
-    projectiles.map(p => p.draw(drawer));
+    this.projectiles.map(p => p.draw(drawer));
     earthIndicator && this.drawEarthIndicator(drawer);
     state.engineOn && this.drawEngine(drawer);
+
+    // drawer.draw(() => drawer.hitbox({ x, y, size })); // hitbox
 
     drawer.draw(() => {
       drawer.lines({

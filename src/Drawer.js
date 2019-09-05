@@ -112,4 +112,11 @@ export default class Drawer {
       this.cx.fill();
     }
   }
+
+  hitbox({ x, y, size }) {
+    this.fillRect({
+      rect: [x - size / 2, y - size / 2, size, size],
+      color: "#f00"
+    });
+  }
 }

@@ -2,6 +2,7 @@ import Drawer from "./Drawer.js";
 import GameContainer from "./GameContainer.js";
 import Keyboard from "./Keyboard.js";
 import Sound from "./Sound.js";
+import CollisionDetector from "./CollisionDetector.js";
 
 import Background from "./Background.js";
 import Earth from "./Earth.js";
@@ -13,6 +14,7 @@ const gameContainer = new GameContainer();
 const drawer = new Drawer(gameContainer.canvas);
 const keyboard = new Keyboard();
 const sound = new Sound();
+const collisionDetector = new CollisionDetector();
 
 gameContainer.initialize();
 
@@ -26,6 +28,25 @@ let canvas = {
   currentTime = 0,
   delta = 0;
 
+let gameLoop = () => {
+  tick();
+  collisionDetection();
+  draw();
+};
+
+let tick = () => {
+  ship.tick(keyboard, sound, drawer);
+  asteroids.tick();
+};
+
+let collisionDetection = () => {
+  ship.projectiles.forEach(projectile => {
+    asteroids.asteroids.forEach(asteroid => {
+      collisionDetector.handle(projectile, asteroid);
+    });
+  });
+};
+
 let draw = () => {
   window.requestAnimationFrame(gameLoop);
 
@@ -36,16 +57,6 @@ let draw = () => {
     drawObjects().map(object => object.draw(drawer));
     lastTime = currentTime - (delta % interval);
   }
-};
-
-let gameLoop = () => {
-  tick();
-  draw();
-};
-
-let tick = () => {
-  ship.tick(keyboard, sound, drawer);
-  asteroids.tick();
 };
 
 let drawObjects = () => [background, earth, asteroids, ship];

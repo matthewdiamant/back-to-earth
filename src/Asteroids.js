@@ -36,6 +36,14 @@ class Asteroid {
     this.asteroidStyle = Math.floor(Math.random() * asteroidStyles.length);
     this.rotation = Math.random() * Math.PI;
     this.turnSpeed = Math.random() * 0.03;
+    this.size = 20;
+    this.health = 3;
+    this.shouldDie = false;
+  }
+
+  takeDamage({ damage }) {
+    this.health -= damage;
+    if (this.health <= 0) this.shouldDie = true;
   }
 }
 
@@ -51,10 +59,14 @@ export default class Asteroids {
   }
 
   tick() {
-    this.asteroids.map(asteroid => (asteroid.rotation += asteroid.turnSpeed));
+    this.asteroids.forEach(asteroid => {
+      asteroid.rotation += asteroid.turnSpeed;
+    });
+    this.asteroids = this.asteroids.filter(a => !a.shouldDie);
   }
+
   draw(drawer) {
-    this.asteroids.map(asteroid =>
+    this.asteroids.map(asteroid => {
       drawer.draw(() =>
         drawer.lines({
           lines: asteroidStyles[asteroid.asteroidStyle].map(vertex => [
@@ -68,7 +80,8 @@ export default class Asteroids {
           x: asteroid.x,
           y: asteroid.y
         })
-      )
-    );
+      );
+      // drawer.draw(() => drawer.hitbox(asteroid)); // hitbox
+    });
   }
 }
