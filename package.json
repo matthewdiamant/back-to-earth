@@ -6,14 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server -c-1",
-    "build": "webpack && cp ./index.html dist/index.html"
+    "build": "webpack && cp ./index.html dist/index.html",
+    "watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jsfxr": "0.0.1",
     "webpack": "^4.39.3"
   },
   "devDependencies": {
+    "http-server": "^0.11.1",
     "webpack-cli": "^3.3.7"
   }
 }

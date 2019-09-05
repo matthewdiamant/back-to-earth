@@ -1,3 +1,5 @@
+import jsfxr from "jsfxr";
+
 class Oscillator {
   constructor() {
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -41,9 +43,6 @@ export default class Sound {
       engine: false
     };
   }
-  create() {
-    let oscillator = new Oscillator();
-  }
 
   engineOn() {
     if (this.state.engine) return;
@@ -60,12 +59,14 @@ export default class Sound {
   }
 
   playerShot() {
-    this.playerShotSound = this.playerShotSound || new Oscillator();
-    this.playerShotSound.play({
-      frequency: Math.floor(50 * Math.random() + 300),
-      type: "sine",
-      volume: 0.05,
-      duration: 100
-    });
+    const soundUrl = jsfxr(
+      eval(
+        "[2,,0.1749,,0.3063,0.713,0.2,-0.2645,,,,,,0.0543,0.1546,,,,1,,,,,0.5]"
+      )
+    );
+
+    var player = new Audio();
+    player.src = soundUrl;
+    player.play();
   }
 }
