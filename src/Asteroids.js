@@ -29,6 +29,33 @@ const asteroidStyles = [
   ]
 ];
 
+class Debris {
+  constructor({ x, y }) {
+    this.x = x;
+    this.y = y;
+    this.dx = Math.random() * 4 - 2;
+    this.dy = Math.random() * 4 - 2;
+    this.shouldDie = false;
+    this.exploding = false;
+  }
+
+  tick() {
+    this.x += this.dx;
+    this.y += this.dy;
+  }
+
+  draw(drawer) {
+    drawer.draw(() => {
+      drawer.fillRect({
+        rect: [this.x, this.y, 2, 2],
+        color: "#fff",
+        shadowBlur: 2,
+        shadowColor: "#fff"
+      });
+    });
+  }
+}
+
 class Asteroid {
   constructor({ x, y }) {
     this.x = x;
@@ -44,7 +71,44 @@ class Asteroid {
 
   takeDamage({ damage }) {
     this.health -= damage;
-    if (this.health <= 0) this.shouldDie = true;
+    if (this.health <= 0) {
+      this.exploding = true;
+      this.debris = Array(20)
+        .fill()
+        .map(d => new Debris({ x: this.x, y: this.y }));
+      this.lifespan = 50;
+    }
+  }
+
+  tick() {
+    if (this.exploding) {
+      this.lifespan -= 1;
+      this.debris.map(d => d.tick());
+      if (this.lifespan <= 0) this.shouldDie = true;
+    }
+    this.rotation += this.turnSpeed;
+  }
+
+  draw(drawer) {
+    drawer.draw(() => {
+      if (this.exploding) {
+        this.debris.map(d => d.draw(drawer));
+      } else {
+        drawer.lines({
+          lines: asteroidStyles[this.asteroidStyle].map(vertex => [
+            this.x + vertex[0],
+            this.y + vertex[1]
+          ]),
+          strokeColor: "#fff",
+          shadowBlur: 8,
+          shadowColor: "#fff",
+          rotation: this.rotation,
+          x: this.x,
+          y: this.y
+        });
+        // drawer.draw(() => drawer.hitbox(asteroid)); // hitbox
+      }
+    });
   }
 }
 
@@ -60,29 +124,11 @@ export default class Asteroids {
   }
 
   tick() {
-    this.asteroids.forEach(asteroid => {
-      asteroid.rotation += asteroid.turnSpeed;
-    });
+    this.asteroids.forEach(asteroid => asteroid.tick());
     this.asteroids = this.asteroids.filter(a => !a.shouldDie);
   }
 
   draw(drawer) {
-    this.asteroids.map(asteroid => {
-      drawer.draw(() =>
-        drawer.lines({
-          lines: asteroidStyles[asteroid.asteroidStyle].map(vertex => [
-            asteroid.x + vertex[0],
-            asteroid.y + vertex[1]
-          ]),
-          strokeColor: "#fff",
-          shadowBlur: 8,
-          shadowColor: "#fff",
-          rotation: asteroid.rotation,
-          x: asteroid.x,
-          y: asteroid.y
-        })
-      );
-      // drawer.draw(() => drawer.hitbox(asteroid)); // hitbox
-    });
+    this.asteroids.map(asteroid => asteroid.draw(drawer));
   }
 }
