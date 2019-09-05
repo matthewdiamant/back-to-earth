@@ -9,9 +9,19 @@
       display: flex;
       justify-content: center;
     }
+
     canvas {
       background: white;
       image-rendering: pixelated;
+    }
+
+    main {
+      filter: brightness(0);
+      transition: 5s filter;
+    }
+
+    main.loaded {
+      filter: brightness(1);
     }
 
     .scanlines {
@@ -62,7 +72,7 @@
       }
     }
   </style>
-  <main class="scanlines">
+  <main class="scanlines" onload="function(){ console.log(this.style)">
     <canvas id="c" width="640" height="480"></canvas>
   </main>
   <script type="module" src="./dist/bundle.js"></script>

@@ -1,10 +1,10 @@
 import Projectile from "./Projectile.js";
 
-let x = 0,
-  y = 0,
-  dx = 0,
-  dy = 0,
-  yaw = 0.5,
+let x = 100,
+  y = -400,
+  dx = -0.1,
+  dy = 0.5,
+  yaw = 3.4,
   turnSpeed = 0.05,
   maxSpeed = 1,
   acceleration = 0.01,

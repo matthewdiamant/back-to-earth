@@ -22,71 +22,75 @@ import Earth from "./Earth.js";
 import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
 
-const gameContainer = new GameContainer();
+window.onload = () => {
+  document.querySelector("main").className += " loaded";
 
-const drawer = new Drawer(gameContainer.canvas);
-const keyboard = new Keyboard();
-const sound = new Sound();
-const collisionDetector = new CollisionDetector();
+  const gameContainer = new GameContainer();
 
-gameContainer.initialize();
+  const drawer = new Drawer(gameContainer.canvas);
+  const keyboard = new Keyboard();
+  const sound = new Sound();
+  const collisionDetector = new CollisionDetector();
 
-let canvas = {
-    cw: gameContainer.canvas.width,
-    ch: gameContainer.canvas.height
-  },
-  fps = 60,
-  interval = 1000 / fps,
-  lastTime = new Date().getTime(),
-  currentTime = 0,
-  delta = 0;
+  gameContainer.initialize();
 
-let gameLoop = () => {
-  tick();
-  collisionDetection();
-  draw();
-};
+  let canvas = {
+      cw: gameContainer.canvas.width,
+      ch: gameContainer.canvas.height
+    },
+    fps = 60,
+    interval = 1000 / fps,
+    lastTime = new Date().getTime(),
+    currentTime = 0,
+    delta = 0;
 
-let tick = () => {
-  // ship.landed = true;
-  if (ship.landed) {
-    earthScreen.tick(keyboard, ship);
-  } else {
-    ship.tick(keyboard, sound, drawer);
-    asteroids.tick();
-  }
-};
+  let gameLoop = () => {
+    tick();
+    collisionDetection();
+    draw();
+  };
 
-let collisionDetection = () => {
-  ship.projectiles.forEach(projectile => {
-    asteroids.asteroids.forEach(asteroid => {
-      if (collisionDetector.handle(projectile, asteroid, sound)) {
-        sound.projectileHit();
-      }
+  let tick = () => {
+    // ship.landed = true;
+    if (ship.landed) {
+      earthScreen.tick(keyboard, ship);
+    } else {
+      ship.tick(keyboard, sound, drawer);
+      asteroids.tick();
+    }
+  };
+
+  let collisionDetection = () => {
+    ship.projectiles.forEach(projectile => {
+      asteroids.asteroids.forEach(asteroid => {
+        if (collisionDetector.handle(projectile, asteroid, sound)) {
+          sound.projectileHit();
+        }
+      });
     });
-  });
+  };
+
+  let draw = () => {
+    window.requestAnimationFrame(gameLoop);
+
+    currentTime = new Date().getTime();
+    delta = currentTime - lastTime;
+
+    if (delta > interval) {
+      drawer.clearBackground();
+      drawObjects().map(object => object.draw(drawer));
+      if (ship.landed) earthScreen.draw(drawer, ship);
+      lastTime = currentTime - (delta % interval);
+    }
+  };
+
+  let drawObjects = () => [background, earth, asteroids, ship];
+
+  const background = new Background(canvas);
+  const earthScreen = new EarthScreen();
+  const earth = new Earth();
+  const ship = new Ship();
+  const asteroids = new Asteroids();
+
+  gameLoop();
 };
-
-let draw = () => {
-  window.requestAnimationFrame(gameLoop);
-
-  currentTime = new Date().getTime();
-  delta = currentTime - lastTime;
-
-  if (delta > interval) {
-    drawer.clearBackground();
-    drawObjects().map(object => object.draw(drawer));
-    if (ship.landed) earthScreen.draw(drawer, ship);
-    lastTime = currentTime - (delta % interval);
-  }
-};
-
-let drawObjects = () => [background, earth, asteroids, ship];
-
-const background = new Background(canvas);
-const earthScreen = new EarthScreen();
-const earth = new Earth();
-const ship = new Ship();
-const asteroids = new Asteroids();
-
-gameLoop();
