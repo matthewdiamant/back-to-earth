@@ -55,47 +55,52 @@ export default class Ship {
     projectiles.map(p => p.tick());
     projectiles = projectiles.filter(p => !p.isExpired());
   }
+
   draw(drawer) {
     projectiles.map(p => p.draw(drawer));
-    if (earthIndicator) {
-      drawer.draw(() => {
-        let theta = Math.atan2(y, x);
-        drawer.fillRectUnadjusted({
-          rect: [
-            Math.cos(theta) * -230 + 320,
-            Math.sin(theta) * -230 + 240,
-            5,
-            5
-          ],
-          color: "#4f4"
-        });
-      });
-    }
-    drawer.draw(() => {
-      if (state.engineOn) {
-        drawer.lines({
-          x,
-          y,
-          lines: [
-            [x + size * -0.5, y + size * 0.5],
-            [x + size * 0.5, y + size * 0.5],
-            [x, y + size * 0.5 + Math.random() * 5],
-            [x + size * -0.5, y + size * 0.5]
-          ],
-          rotation: yaw,
-          fillColor: "orange"
-        });
-      }
-    });
+    earthIndicator && this.drawEarthIndicator(drawer);
+    state.engineOn && this.drawEngine(drawer);
 
     drawer.draw(() => {
       drawer.lines({
         x,
         y,
-        lines: [[x - 5, y - 5], [x + 5, y - 5], [x + 5, y + 5], [x - 5, y + 5]],
+        lines: [[x, y - 7], [x + 5, y + 5], [x - 5, y + 5]],
         size,
         rotation: yaw,
-        fillColor: "#090"
+        fillColor: "#070"
+      });
+    });
+  }
+
+  drawEngine(drawer) {
+    drawer.draw(() => {
+      drawer.lines({
+        x,
+        y,
+        lines: [
+          [x + size * -0.5, y + size * 0.5],
+          [x + size * 0.5, y + size * 0.5],
+          [x, y + size * 0.5 + Math.random() * 5],
+          [x + size * -0.5, y + size * 0.5]
+        ],
+        rotation: yaw,
+        fillColor: "orange"
+      });
+    });
+  }
+
+  drawEarthIndicator(drawer) {
+    drawer.draw(() => {
+      let theta = Math.atan2(y, x);
+      drawer.fillRectUnadjusted({
+        rect: [
+          Math.cos(theta) * -230 + 320,
+          Math.sin(theta) * -230 + 240,
+          5,
+          5
+        ],
+        color: "#4f4"
       });
     });
   }
