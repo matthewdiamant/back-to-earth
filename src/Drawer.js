@@ -49,8 +49,7 @@ export default class Drawer {
     this.cx.fillRect(...rect);
   }
 
-  fillArc({ arc, color, shadowBlur, shadowColor }) {
-    this.cx.fillStyle = color;
+  arc({ arc, fillColor, strokeColor, shadowBlur, shadowColor }) {
     this.cx.beginPath();
     this.cx.arc(
       this.cameraAdjustX(arc[0]),
@@ -59,7 +58,14 @@ export default class Drawer {
     );
     this.cx.shadowBlur = shadowBlur;
     this.cx.shadowColor = shadowColor;
-    this.cx.fill();
+    if (fillColor) {
+      this.cx.fillStyle = fillColor;
+      this.cx.fill();
+    }
+    if (strokeColor) {
+      this.cx.strokeStyle = strokeColor;
+      this.cx.stroke();
+    }
   }
 
   fillText({

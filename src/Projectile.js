@@ -8,27 +8,39 @@ export default class Projectile {
     this.size = 1;
     this.shouldDie = false;
     this.damage = damage;
+    this.exploding = false;
   }
 
   tick() {
-    this.x += Math.sin(this.yaw) * this.speed;
-    this.y -= Math.cos(this.yaw) * this.speed;
     this.lifeSpan -= 1;
     if (this.lifeSpan < 0) this.shouldDie = true;
+    if (this.exploding) return;
+    this.x += Math.sin(this.yaw) * this.speed;
+    this.y -= Math.cos(this.yaw) * this.speed;
   }
 
   destroy() {
-    this.shouldDie = true;
+    this.exploding = true;
+    this.lifeSpan = 2;
   }
 
   draw(drawer) {
     drawer.draw(() => {
-      drawer.fillRect({
-        rect: [this.x, this.y, 2, 2],
-        color: "#f66",
-        shadowBlur: 2,
-        shadowColor: "#f00"
-      });
+      if (this.exploding) {
+        drawer.arc({
+          arc: [this.x, this.y, 4 / this.lifeSpan, 0, 2 * Math.PI],
+          strokeColor: "#ff3",
+          shadowBlur: 10,
+          shadowColor: "#ff0"
+        });
+      } else {
+        drawer.fillRect({
+          rect: [this.x, this.y, 2, 2],
+          color: "#f66",
+          shadowBlur: 2,
+          shadowColor: "#f00"
+        });
+      }
     });
   }
 }

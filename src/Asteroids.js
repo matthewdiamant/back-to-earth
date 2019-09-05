@@ -39,6 +39,7 @@ class Asteroid {
     this.size = 20;
     this.health = 3;
     this.shouldDie = false;
+    this.exploding = false;
   }
 
   takeDamage({ damage }) {
