@@ -62,24 +62,6 @@ export default class Drawer {
     this.cx.fill();
   }
 
-  fillRotatedRect({ x, y, size, rotation, color }) {
-    x = this.cameraAdjustX(x) - size / 2;
-    y = this.cameraAdjustY(y) - size / 2;
-    this.cx.fillStyle = color;
-    this.cx.translate(x + size / 2, y + size / 2);
-    this.cx.rotate(rotation);
-    this.cx.fillRect(-size / 2, -size / 2, size, size);
-  }
-
-  fillLinesUnadjusted({ lines, color }) {
-    this.cx.beginPath();
-    this.cx.moveTo(...lines[0]);
-    lines.slice(1).map(line => this.cx.lineTo(...line));
-    this.cx.closePath();
-    this.cx.fillStyle = color;
-    this.cx.fill();
-  }
-
   fillText({
     text,
     x,
@@ -93,7 +75,21 @@ export default class Drawer {
     this.cx.fillText(text, this.cameraAdjustX(x), this.cameraAdjustY(y));
   }
 
-  strokeLines({ lines, color, shadowBlur = 0, shadowColor }) {
+  lines({
+    lines,
+    shadowBlur = 0,
+    shadowColor,
+    rotation,
+    x,
+    y,
+    fillColor,
+    strokeColor
+  }) {
+    if (rotation) {
+      this.cx.translate(this.cameraAdjustX(x), this.cameraAdjustY(y));
+      this.cx.rotate(rotation);
+      this.cx.translate(-1 * this.cameraAdjustX(x), -1 * this.cameraAdjustY(y));
+    }
     this.cx.beginPath();
     this.cx.moveTo(
       this.cameraAdjustX(lines[0][0]),
@@ -107,31 +103,13 @@ export default class Drawer {
     this.cx.closePath();
     this.cx.shadowBlur = shadowBlur;
     this.cx.shadowColor = shadowColor;
-    this.cx.strokeStyle = color;
-    this.cx.stroke();
+    if (strokeColor) {
+      this.cx.strokeStyle = strokeColor;
+      this.cx.stroke();
+    }
+    if (fillColor) {
+      this.cx.fillStyle = fillColor;
+      this.cx.fill();
+    }
   }
-
-  // strokeLinesRotated({ x, y, lines, size, rotation, color }) {
-  //   this.cx.fillStyle = color;
-  //   this.cx.translate(
-  //     this.cameraAdjustX(x) + size / 2,
-  //     this.cameraAdjustY(y) + size / 2
-  //   );
-  //   this.cx.rotate(rotation);
-  //   this.cx.beginPath();
-  //   this.cx.moveTo(
-  //     this.cameraAdjustX(lines[0][0]),
-  //     this.cameraAdjustY(lines[0][1])
-  //   );
-  //   lines
-  //     .slice(1)
-  //     .map(line =>
-  //       this.cx.lineTo(this.cameraAdjustX(line[0]), this.cameraAdjustY(line[1]))
-  //     );
-  //   this.cx.closePath();
-  //   // this.cx.shadowBlur = shadowBlur;
-  //   // this.cx.shadowColor = shadowColor;
-  //   this.cx.strokeStyle = color;
-  //   this.cx.stroke();
-  // }
 }

@@ -72,26 +72,31 @@ export default class Ship {
       });
     }
     drawer.draw(() => {
-      // drawer.strokeLinesRotated({
-      //   x: x,
-      //   y: y,
-      //   lines: [[x - 5, y - 5], [x + 5, y - 5], [x + 5, y + 5], [x - 5, y + 5]],
-      //   size,
-      //   rotation: yaw,
-      //   color: "#009900"
-      // });
-      drawer.fillRotatedRect({ x, y, size, rotation: yaw, color: "#090" });
       if (state.engineOn) {
-        drawer.fillLinesUnadjusted({
+        drawer.lines({
+          x,
+          y,
           lines: [
-            [size * -0.5, size * 0.5],
-            [size * 0.5, size * 0.5],
-            [0, size * 0.5 + Math.random() * 5],
-            [size * -0.5, size * 0.5]
+            [x + size * -0.5, y + size * 0.5],
+            [x + size * 0.5, y + size * 0.5],
+            [x, y + size * 0.5 + Math.random() * 5],
+            [x + size * -0.5, y + size * 0.5]
           ],
-          color: "orange"
+          rotation: yaw,
+          fillColor: "orange"
         });
       }
+    });
+
+    drawer.draw(() => {
+      drawer.lines({
+        x,
+        y,
+        lines: [[x - 5, y - 5], [x + 5, y - 5], [x + 5, y + 5], [x - 5, y + 5]],
+        size,
+        rotation: yaw,
+        fillColor: "#090"
+      });
     });
   }
 }

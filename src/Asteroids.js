@@ -34,6 +34,8 @@ class Asteroid {
     this.x = x;
     this.y = y;
     this.asteroidStyle = Math.floor(Math.random() * asteroidStyles.length);
+    this.rotation = Math.random() * Math.PI;
+    this.turnSpeed = Math.random() * 0.03;
   }
 }
 
@@ -48,18 +50,23 @@ export default class Asteroids {
     }
   }
 
-  tick() {}
+  tick() {
+    this.asteroids.map(asteroid => (asteroid.rotation += asteroid.turnSpeed));
+  }
   draw(drawer) {
     this.asteroids.map(asteroid =>
       drawer.draw(() =>
-        drawer.strokeLines({
+        drawer.lines({
           lines: asteroidStyles[asteroid.asteroidStyle].map(vertex => [
             asteroid.x + vertex[0],
             asteroid.y + vertex[1]
           ]),
-          color: "#fff",
+          strokeColor: "#fff",
           shadowBlur: 8,
-          shadowColor: "#fff"
+          shadowColor: "#fff",
+          rotation: asteroid.rotation,
+          x: asteroid.x,
+          y: asteroid.y
         })
       )
     );
