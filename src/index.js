@@ -1,3 +1,15 @@
+/*
+  TODO:
+    * Finish earth screen
+    * Add resources
+    * Add HUD
+    * Add ship upgrades
+    * Add enemies
+    * Add intro fly-in
+    * Improve compass
+    * 
+*/
+
 import Drawer from "./Drawer.js";
 import GameContainer from "./GameContainer.js";
 import Keyboard from "./Keyboard.js";
