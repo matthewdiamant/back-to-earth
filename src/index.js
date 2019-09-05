@@ -48,7 +48,9 @@ let tick = () => {
 let collisionDetection = () => {
   ship.projectiles.forEach(projectile => {
     asteroids.asteroids.forEach(asteroid => {
-      collisionDetector.handle(projectile, asteroid);
+      if (collisionDetector.handle(projectile, asteroid, sound)) {
+        sound.projectileHit();
+      }
     });
   });
 };

@@ -9,6 +9,9 @@ export default class CollisionDetector {
     ) {
       projectile.destroy();
       object.takeDamage(projectile);
+      return true;
+    } else {
+      return false;
     }
   }
 }

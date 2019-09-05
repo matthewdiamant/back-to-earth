@@ -58,15 +58,21 @@ export default class Sound {
     this.engine = null;
   }
 
-  playerShot() {
-    const soundUrl = jsfxr(
-      eval(
-        "[2,,0.1749,,0.3063,0.713,0.2,-0.2645,,,,,,0.0543,0.1546,,,,1,,,,,0.5]"
-      )
-    );
+  playSound(url) {
+    const soundUrl = jsfxr(eval(url));
 
     var player = new Audio();
     player.src = soundUrl;
     player.play();
+  }
+
+  playerShot() {
+    this.playSound(
+      "[2,,0.1749,,0.3063,0.713,0.2,-0.2645,,,,,,0.0543,0.1546,,,,1,,,,,0.5]"
+    );
+  }
+
+  projectileHit() {
+    this.playSound("[3,,0.0867,,0.2283,0.2711,,-0.6853,,,,,,,,,,,1,,,,,0.5]");
   }
 }

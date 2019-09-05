@@ -29,7 +29,7 @@ export default class Projectile {
       if (this.exploding) {
         drawer.arc({
           arc: [this.x, this.y, 4 / this.lifeSpan, 0, 2 * Math.PI],
-          strokeColor: "#ff8",
+          fillColor: "#ff8",
           shadowBlur: 10,
           shadowColor: "#ff0"
         });
