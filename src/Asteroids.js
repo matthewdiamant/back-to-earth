@@ -60,6 +60,8 @@ class Asteroid {
   constructor({ x, y }) {
     this.x = x;
     this.y = y;
+    this.dx = 0;
+    this.dy = 0;
     this.asteroidStyle = Math.floor(Math.random() * asteroidStyles.length);
     this.rotation = Math.random() * Math.PI;
     this.turnSpeed = Math.random() * 0.03;
@@ -69,7 +71,9 @@ class Asteroid {
     this.exploding = false;
   }
 
-  takeDamage({ damage }) {
+  takeDamage({ damage, dx, dy }) {
+    this.dx += dx / 30;
+    this.dy += dy / 30;
     this.health -= damage;
     if (this.health <= 0) {
       this.exploding = true;
@@ -86,6 +90,8 @@ class Asteroid {
       this.debris.map(d => d.tick());
       if (this.lifespan <= 0) this.shouldDie = true;
     }
+    this.x += this.dx;
+    this.y += this.dy;
     this.rotation += this.turnSpeed;
   }
 
