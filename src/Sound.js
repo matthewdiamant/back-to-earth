@@ -66,9 +66,15 @@ export default class Sound {
     player.play();
   }
 
-  playerShot() {
+  mainLaser() {
     this.playSound(
       "[2,,0.1749,,0.3063,0.713,0.2,-0.2645,,,,,,0.0543,0.1546,,,,1,,,,,0.5]"
+    );
+  }
+
+  secondaryLaser() {
+    this.playSound(
+      "[2,,0.1426,,0.2251,0.7799,0.2555,-0.2285,,,,,,0.7631,-0.4501,,,,1,,,0.0846,,0.5]"
     );
   }
 

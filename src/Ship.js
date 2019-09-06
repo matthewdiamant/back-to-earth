@@ -9,8 +9,11 @@ let x = 100,
   maxSpeed = 1,
   acceleration = 0.01,
   size = 10,
-  weaponCooldown = 0.3,
-  weaponCanFire = true,
+  mainLaserCooldown = 0.3,
+  mainLaserCanFire = true,
+  secondaryLaserCanFire = true,
+  secondaryLaserPosition = 1,
+  secondaryLaserCooldown = 0.2,
   state = {
     engineOn: false
   },
@@ -22,6 +25,40 @@ export default class Ship {
     this.landed = false;
     this.ore = 0;
     this.timeout = 0;
+  }
+
+  weaponsTick(keyboard, sound) {
+    if (keyboard.isDown(keyboard.SPACE)) {
+      if (mainLaserCanFire) {
+        this.projectiles.push(
+          new Projectile({ x, y, yaw, damage: 1, type: "main-laser" })
+        );
+        mainLaserCanFire = false;
+        window.setTimeout(
+          () => (mainLaserCanFire = true),
+          mainLaserCooldown * 1000
+        );
+        sound.mainLaser();
+      }
+      if (secondaryLaserCanFire) {
+        this.projectiles.push(
+          new Projectile({
+            x: secondaryLaserPosition * Math.cos(yaw) * (size / 2) + x,
+            y: secondaryLaserPosition * Math.sin(yaw) * (size / 2) + y,
+            yaw,
+            damage: 1,
+            type: "secondary-laser"
+          })
+        );
+        secondaryLaserPosition *= -1;
+        secondaryLaserCanFire = false;
+        window.setTimeout(
+          () => (secondaryLaserCanFire = true),
+          secondaryLaserCooldown * 1000
+        );
+        sound.secondaryLaser();
+      }
+    }
   }
 
   tick(keyboard, sound, drawer) {
@@ -51,14 +88,7 @@ export default class Ship {
       sound.engineOff();
     }
 
-    if (keyboard.isDown(keyboard.SPACE)) {
-      if (weaponCanFire) {
-        this.projectiles.push(new Projectile({ x, y, yaw, damage: 1 }));
-        weaponCanFire = false;
-        window.setTimeout(() => (weaponCanFire = true), weaponCooldown * 1000);
-        sound.playerShot();
-      }
-    }
+    this.weaponsTick(keyboard, sound);
 
     x += dx;
     y += dy;

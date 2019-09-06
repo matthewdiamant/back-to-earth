@@ -1,10 +1,26 @@
+let projectileTypes = {
+  "main-laser": {
+    color: "#f66",
+    shadowColor: "#f00",
+    speed: 4,
+    lifespan: 3
+  },
+  "secondary-laser": {
+    color: "#f6f",
+    shadowColor: "#f0f",
+    speed: 10,
+    lifeSpan: 1
+  }
+};
+
 export default class Projectile {
-  constructor({ x, y, yaw, damage }) {
+  constructor({ x, y, yaw, damage, type }) {
     this.x = x;
     this.y = y;
     this.yaw = yaw;
-    this.speed = 4;
-    this.lifeSpan = (3 * 1000) / 60;
+
+    this.type = projectileTypes[type];
+    this.lifeSpan = (this.type.lifeSpan * 1000) / 60;
     this.size = 1;
     this.shouldDie = false;
     this.damage = damage;
@@ -15,8 +31,8 @@ export default class Projectile {
     this.lifeSpan -= 1;
     if (this.lifeSpan < 0) this.shouldDie = true;
     if (this.exploding) return;
-    this.x += Math.sin(this.yaw) * this.speed;
-    this.y -= Math.cos(this.yaw) * this.speed;
+    this.x += Math.sin(this.yaw) * this.type.speed;
+    this.y -= Math.cos(this.yaw) * this.type.speed;
   }
 
   destroy() {
@@ -36,9 +52,9 @@ export default class Projectile {
       } else {
         drawer.fillRect({
           rect: [this.x, this.y, 2, 2],
-          color: "#f66",
+          color: this.type.color,
           shadowBlur: 2,
-          shadowColor: "#f00"
+          shadowColor: this.type.shadowColor
         });
       }
     });

@@ -3,7 +3,7 @@
     * Finish earth screen
     * Add resources
     * Add HUD
-    * Add ship upgrades
+    * Add ship upgrades (weapons, stats, shapes)
     * Add enemies
     * Add intro fly-in
     * Improve compass
