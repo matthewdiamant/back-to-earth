@@ -1,5 +1,40 @@
 import Projectile from "./Projectile.js";
 
+let shipLevels = [
+  {
+    turnSpeed: 0.05,
+    maxSpeed: 1,
+    acceleration: 0.01,
+    size: 10,
+    mainLaserCooldown: 0.3,
+    mainLaserCanFire: true
+  },
+  {
+    cost: 100,
+    turnSpeed: 0.05,
+    maxSpeed: 1,
+    acceleration: 0.01,
+    size: 10,
+    mainLaserCooldown: 0.3,
+    mainLaserCanFire: true,
+    secondaryLaserCooldown: 0.2,
+    secondaryLaserCanFire: true
+  },
+  {
+    cost: 400,
+    turnSpeed: 0.05,
+    maxSpeed: 1,
+    acceleration: 0.01,
+    size: 10,
+    mainLaserCooldown: 0.3,
+    mainLaserCanFire: true,
+    secondaryLaserCooldown: 0.2,
+    secondaryLaserCanFire: true,
+    missileCooldown: 0.2,
+    missileCanFire: true
+  }
+];
+
 let x = 100,
   y = -400,
   dx = -0.1,
@@ -42,8 +77,10 @@ export default class Ship {
   constructor() {
     this.projectiles = [];
     this.landed = false;
-    this.ore = 0;
+    this.ore = 1000;
     this.timeout = 0;
+    this.level = 0;
+    this.shipLevels = shipLevels;
   }
 
   weaponsTick(keyboard, sound, enemies) {

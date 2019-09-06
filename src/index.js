@@ -7,7 +7,9 @@
     * Add enemies
     * Projectile hits impact speed
     * Improve compass
-    * 
+    * Refactor opportunities
+    * * Create object with x/y/dx/dy
+    * * Create vector library utils
 */
 
 import Drawer from "./Drawer.js";
