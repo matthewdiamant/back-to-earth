@@ -22,6 +22,13 @@ export default class EarthScreen {
   }
 
   draw(drawer, ship) {
+    let text = t =>
+      drawer.text({
+        text: t[2],
+        x: t[0],
+        y: t[1],
+        isUnadjusted: true
+      });
     drawer.draw(() => {
       drawer.fillRectUnadjusted({
         rect: [0, 0, 640, 480],

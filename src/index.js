@@ -1,6 +1,7 @@
 /*
-  TODO:
+  MVP:
     * Finish earth screen
+    * Earth looks like earth
     * Add resources
     * Add HUD
     * Add ship upgrades
@@ -15,12 +16,16 @@
     * * Enemy aggro distance
     * purple laser should be a line instead of a rect
     * Improve compass
+    
+  FUTURE:
+    * Slow down on first flyby and stop on Earth
+    * Add other worlds / compasses
+    * Music?
     * Refactor opportunities
     * * Create object with x/y/dx/dy
     * * Create vector library utils
+    * * SVG graphics over "line"
     * * Move to objects over classes
-    * Add other worlds / compasses
-    * Music? 
 */
 
 import Drawer from "./Drawer.js";
