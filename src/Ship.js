@@ -57,7 +57,7 @@ let x = 100,
   },
   earthIndicator = false;
 
-function getClosestEnemy(x, y, enemies) {
+function getClosestEnemy(x, y, enemies, maxDistance) {
   let closestEnemy = null;
   let closestEnemyDistance = 99999999;
   enemies.forEach(enemy => {
@@ -65,6 +65,7 @@ function getClosestEnemy(x, y, enemies) {
     let dx = enemy.x - x;
     let dy = enemy.y - y;
     let distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance > maxDistance) return;
     if (distance < closestEnemyDistance) {
       closestEnemy = enemy;
       closestEnemyDistance = distance;
@@ -122,7 +123,7 @@ export default class Ship {
             yaw: yaw + (Math.PI / 2) * missilePosition,
             damage: 1,
             type: "missile",
-            target: getClosestEnemy(x, y, enemies)
+            target: getClosestEnemy(x, y, enemies, 260)
           })
         );
         missilePosition *= -1;

@@ -5,7 +5,6 @@
     * Add HUD
     * Add ship upgrades
     * * beam laser
-    * * missiles should only target within given radius
     * * shapes
     * * more levels (stats)
     * * apply stats
