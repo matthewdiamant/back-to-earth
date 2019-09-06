@@ -60,8 +60,8 @@ export default class Projectile {
         dx = (dx / amplitude) * this.type.speed;
         dy = (dy / amplitude) * this.type.speed;
       } else {
-        dx = Math.sin(this.yaw) * -this.type.speed;
-        dy = Math.cos(this.yaw) * this.type.speed;
+        dx = this.dx * -this.type.speed;
+        dy = this.dy * -this.type.speed;
       }
 
       this.dx -= dx;
