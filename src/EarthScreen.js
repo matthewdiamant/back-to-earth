@@ -46,28 +46,44 @@ export default class EarthScreen {
         letterSpacing: true,
         isUnadjusted: true
       });
+      if (ship.level >= ship.shipLevels.length - 1) {
+        drawer.text({
+          text: "You have all ship upgrades",
+          x: 245,
+          y: 180,
+          isUnadjusted: true
+        });
+      } else {
+        let upgradeCost = ship.shipLevels[ship.level + 1].cost;
+        drawer.text({
+          text: "If you have " + upgradeCost + " ore,",
+          x: 245,
+          y: 180,
+          isUnadjusted: true
+        });
+        drawer.text({
+          text: "you may upgrade your ship",
+          x: 215,
+          y: 205,
+          isUnadjusted: true
+        });
+        drawer.text({
+          text: "by pressing SPACE",
+          x: 247,
+          y: 230,
+          isUnadjusted: true
+        });
+        drawer.text({
+          text: "You have " + ship.ore + " ore",
+          x: 260,
+          y: 270,
+          isUnadjusted: true
+        });
+      }
       drawer.text({
-        text: "If you have " + ship.ore + " ore,",
-        x: 245,
-        y: 180,
-        isUnadjusted: true
-      });
-      drawer.text({
-        text: "you may upgrade your ship",
-        x: 215,
-        y: 205,
-        isUnadjusted: true
-      });
-      drawer.text({
-        text: "by pressing SPACE",
-        x: 247,
-        y: 230,
-        isUnadjusted: true
-      });
-      drawer.text({
-        text: "You have " + ship.ore + " ore",
-        x: 260,
-        y: 270,
+        text: "Leave Earth by pressing ENTER",
+        x: 195,
+        y: 360,
         isUnadjusted: true
       });
     });
