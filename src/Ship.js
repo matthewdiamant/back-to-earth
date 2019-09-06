@@ -14,10 +14,29 @@ let x = 100,
   secondaryLaserCanFire = true,
   secondaryLaserPosition = 1,
   secondaryLaserCooldown = 0.2,
+  missileCanFire = true,
+  missilePosition = 1,
+  missileCooldown = 0.2,
   state = {
     engineOn: false
   },
   earthIndicator = false;
+
+function getClosestEnemy(x, y, enemies) {
+  let closestEnemy = null;
+  let closestEnemyDistance = 99999999;
+  enemies.forEach(enemy => {
+    if (enemy.exploding) return;
+    let dx = enemy.x - x;
+    let dy = enemy.y - y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance < closestEnemyDistance) {
+      closestEnemy = enemy;
+      closestEnemyDistance = distance;
+    }
+  });
+  return closestEnemy;
+}
 
 export default class Ship {
   constructor() {
@@ -27,7 +46,7 @@ export default class Ship {
     this.timeout = 0;
   }
 
-  weaponsTick(keyboard, sound) {
+  weaponsTick(keyboard, sound, enemies) {
     if (keyboard.isDown(keyboard.SPACE)) {
       if (mainLaserCanFire) {
         this.projectiles.push(
@@ -58,10 +77,29 @@ export default class Ship {
         );
         sound.secondaryLaser();
       }
+      if (missileCanFire) {
+        this.projectiles.push(
+          new Projectile({
+            x: missilePosition * Math.cos(yaw) * (size / 2) + x,
+            y: missilePosition * Math.sin(yaw) * (size / 2) + y,
+            yaw: yaw + (Math.PI / 2) * missilePosition,
+            damage: 1,
+            type: "missile",
+            target: getClosestEnemy(x, y, enemies)
+          })
+        );
+        missilePosition *= -1;
+        missileCanFire = false;
+        window.setTimeout(
+          () => (missileCanFire = true),
+          missileCooldown * 1000
+        );
+        sound.missile();
+      }
     }
   }
 
-  tick(keyboard, sound, drawer) {
+  tick(keyboard, sound, drawer, enemies) {
     if (
       this.timeout < 0 &&
       keyboard.isDown(keyboard.ENTER) &&
@@ -78,7 +116,7 @@ export default class Ship {
     if (state.engineOn) {
       dx += Math.sin(yaw) * acceleration;
       dy += Math.cos(yaw) * -acceleration;
-      var velocity = Math.sqrt(dx * dx + dy * dy);
+      let velocity = Math.sqrt(dx * dx + dy * dy);
       if (velocity > maxSpeed) {
         dx = (dx / velocity) * maxSpeed;
         dy = (dy / velocity) * maxSpeed;
@@ -88,7 +126,7 @@ export default class Ship {
       sound.engineOff();
     }
 
-    this.weaponsTick(keyboard, sound);
+    this.weaponsTick(keyboard, sound, enemies);
 
     x += dx;
     y += dy;

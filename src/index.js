@@ -5,7 +5,7 @@
     * Add HUD
     * Add ship upgrades (weapons, stats, shapes)
     * Add enemies
-    * Add intro fly-in
+    * Projectile hits impact speed
     * Improve compass
     * 
 */
@@ -55,7 +55,7 @@ window.onload = () => {
     if (ship.landed) {
       earthScreen.tick(keyboard, ship);
     } else {
-      ship.tick(keyboard, sound, drawer);
+      ship.tick(keyboard, sound, drawer, asteroids.asteroids);
       asteroids.tick();
     }
   };

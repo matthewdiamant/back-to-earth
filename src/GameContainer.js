@@ -5,7 +5,7 @@ export default class GameContainer {
   }
 
   initialize() {
-    var container = document.querySelector("body");
+    let container = document.querySelector("body");
     const resize = e => {
       container.clientWidth / container.clientHeight > 640 / 480
         ? (canvas.style.height = "100vh") && (canvas.style.width = "auto")

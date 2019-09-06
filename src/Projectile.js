@@ -3,36 +3,79 @@ let projectileTypes = {
     color: "#f66",
     shadowColor: "#f00",
     speed: 4,
-    lifespan: 3
+    lifespan: 1
   },
   "secondary-laser": {
     color: "#f6f",
     shadowColor: "#f0f",
     speed: 10,
     lifeSpan: 1
+  },
+  missile: {
+    type: "missile",
+    color: "#ff0",
+    shadowColor: "#ff0",
+    speed: 0.8,
+    lifeSpan: 10,
+    maxSpeed: 5
   }
 };
 
 export default class Projectile {
-  constructor({ x, y, yaw, damage, type }) {
+  constructor({ x, y, yaw, damage, type, target }) {
+    this.type = projectileTypes[type];
+
     this.x = x;
     this.y = y;
     this.yaw = yaw;
 
-    this.type = projectileTypes[type];
     this.lifeSpan = (this.type.lifeSpan * 1000) / 60;
     this.size = 1;
     this.shouldDie = false;
     this.damage = damage;
     this.exploding = false;
+
+    this.dx = Math.sin(this.yaw) * this.type.speed;
+    this.dy = -Math.cos(this.yaw) * this.type.speed;
+
+    this.target = target;
   }
 
   tick() {
     this.lifeSpan -= 1;
     if (this.lifeSpan < 0) this.shouldDie = true;
     if (this.exploding) return;
-    this.x += Math.sin(this.yaw) * this.type.speed;
-    this.y -= Math.cos(this.yaw) * this.type.speed;
+
+    if (this.type.type === "missile") {
+      let dx, dy;
+
+      if (
+        this.target &&
+        !this.target.exploding &&
+        this.lifeSpan < ((this.type.lifeSpan - 0.5) * 1000) / 60
+      ) {
+        dx = this.x - this.target.x;
+        dy = this.y - this.target.y;
+        let amplitude = Math.sqrt(dx * dx + dy * dy);
+        dx = (dx / amplitude) * this.type.speed;
+        dy = (dy / amplitude) * this.type.speed;
+      } else {
+        dx = Math.sin(this.yaw) * -this.type.speed;
+        dy = Math.cos(this.yaw) * this.type.speed;
+      }
+
+      this.dx -= dx;
+      this.dy -= dy;
+
+      let velocity = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+      if (velocity > this.type.maxSpeed) {
+        this.dx = (this.dx / velocity) * this.type.maxSpeed;
+        this.dy = (this.dy / velocity) * this.type.maxSpeed;
+      }
+    }
+
+    this.x += this.dx;
+    this.y += this.dy;
   }
 
   destroy() {
