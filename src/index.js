@@ -3,13 +3,24 @@
     * Finish earth screen
     * Add resources
     * Add HUD
-    * Add ship upgrades (weapons, stats, shapes)
+    * Add ship upgrades
+    * * beam laser
+    * * missiles should only target within given radius
+    * * shapes
+    * * more levels (stats)
+    * * apply stats
     * Add enemies
-    * Projectile hits impact speed
+    * * Basic enemy
+    * * Bigger / badder enemies
+    * * Squads of enemies
+    * * Enemy aggro distance
+    * purple laser should be a line instead of a rect
     * Improve compass
     * Refactor opportunities
     * * Create object with x/y/dx/dy
     * * Create vector library utils
+    * * Move to objects over classes
+    * Add other worlds / compasses
 */
 
 import Drawer from "./Drawer.js";
