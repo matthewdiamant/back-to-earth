@@ -2,11 +2,13 @@ export default class EarthScreen {
   constructor() {
     this.timeout = 15;
   }
-  tick(keyboard, ship) {
+
+  tick(keyboard, ship, asteroids) {
     if (keyboard.isDown(keyboard.ENTER) && this.timeout < 0) {
       this.timeout = 15;
       ship.landed = false;
       ship.timeout = 15;
+      asteroids.initializeAsteroids();
     }
     this.timeout -= 1;
 

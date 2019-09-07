@@ -122,6 +122,10 @@ class Asteroid {
 export default class Asteroids {
   constructor() {
     this.asteroids = [];
+  }
+
+  initializeAsteroids() {
+    this.asteroids = [];
     for (let i = 0; i < 40; i++) {
       let theta = Math.random() * Math.PI * 2;
       let x = Math.sin(theta) * (210 + Math.random() * 400);
