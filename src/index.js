@@ -36,6 +36,7 @@ import Sound from "./Sound.js";
 import CollisionDetector from "./CollisionDetector.js";
 
 import Background from "./Background.js";
+import Compasses from "./Compasses.js";
 import EarthScreen from "./EarthScreen.js";
 import Earth from "./Earth.js";
 import HUD from "./HUD.js";
@@ -72,6 +73,7 @@ window.onload = () => {
       earthScreen.tick(keyboard, ship);
     } else {
       hud.tick(ship);
+      compasses.tick(ship);
       ship.tick(keyboard, sound, drawer, asteroids.asteroids);
       asteroids.tick();
     }
@@ -101,12 +103,13 @@ window.onload = () => {
     }
   };
 
-  let drawObjects = () => [background, earth, asteroids, ship, hud];
+  let drawObjects = () => [background, earth, asteroids, ship, compasses, hud];
 
   const background = new Background({
     cw: gameContainer.canvas.width,
     ch: gameContainer.canvas.height
   });
+  const compasses = new Compasses();
   const hud = new HUD();
   const earthScreen = new EarthScreen();
   const earth = new Earth();

@@ -54,8 +54,7 @@ let x = 100,
   missileCooldown = 0.2,
   state = {
     engineOn: false
-  },
-  earthIndicator = false;
+  };
 
 function getClosestEnemy(x, y, enemies, maxDistance) {
   let closestEnemy = null;
@@ -82,6 +81,14 @@ export default class Ship {
     this.timeout = 0;
     this.level = 0;
     this.shipLevels = shipLevels;
+  }
+
+  getX() {
+    return x;
+  }
+
+  getY() {
+    return y;
   }
 
   weaponsTick(keyboard, sound, enemies) {
@@ -181,15 +188,12 @@ export default class Ship {
     drawer.camera.x = x;
     drawer.camera.y = y;
 
-    earthIndicator = Math.sqrt(x * x + y * y) > 400;
-
     this.projectiles.map(p => p.tick());
     this.projectiles = this.projectiles.filter(p => !p.shouldDie);
   }
 
   draw(drawer) {
     this.projectiles.map(p => p.draw(drawer));
-    earthIndicator && this.drawEarthIndicator(drawer);
     state.engineOn && this.drawEngine(drawer);
 
     // drawer.draw(() => drawer.hitbox({ x, y, size })); // hitbox
@@ -219,21 +223,6 @@ export default class Ship {
         ],
         rotation: yaw,
         fillColor: "orange"
-      });
-    });
-  }
-
-  drawEarthIndicator(drawer) {
-    drawer.draw(() => {
-      let theta = Math.atan2(y, x);
-      drawer.fillRectUnadjusted({
-        rect: [
-          Math.cos(theta) * -230 + 320,
-          Math.sin(theta) * -230 + 240,
-          5,
-          5
-        ],
-        color: "#4f4"
       });
     });
   }

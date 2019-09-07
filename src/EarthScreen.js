@@ -14,7 +14,7 @@ export default class EarthScreen {
       this.timeout = 15;
       if (ship.level >= ship.shipLevels.length - 1) return;
       let upgradeCost = ship.shipLevels[ship.level + 1].cost;
-      if (ship.ore > upgradeCost) {
+      if (ship.ore >= upgradeCost) {
         ship.ore -= upgradeCost;
         ship.level += 1;
       }
