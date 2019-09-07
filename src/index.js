@@ -1,19 +1,17 @@
 /*
   MVP:
-    * Finish earth screen
-    * Earth looks like earth
-    * Add resources
-    * Add HUD
-    * Add ship upgrades
-    * * beam laser
-    * * shapes
-    * * more levels (stats)
-    * * apply stats
     * Add enemies
     * * Basic enemy
     * * Bigger / badder enemies
     * * Squads of enemies
     * * Enemy aggro distance
+    * Earth looks like earth
+    * Finish earth screen
+    * Add HUD
+    * Add ship upgrades
+    * * beam laser
+    * * shapes
+    * * more levels (stats)
     * purple laser should be a line instead of a rect
     * Improve compass
     

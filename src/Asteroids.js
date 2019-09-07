@@ -121,7 +121,7 @@ class Asteroid {
 
 export default class Asteroids {
   constructor() {
-    this.asteroids = [];
+    this.initializeAsteroids();
   }
 
   initializeAsteroids() {

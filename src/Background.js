@@ -16,26 +16,26 @@ export default class Background {
       );
       drawer.text({
         text: "back to earth",
-        x: -140,
-        y: -100,
+        x: -145,
+        y: -95,
         size: "36px",
         font: "serif",
         letterSpacing: true
       });
       drawer.text({
         text: "Arrow keys to move. SPACE to shoot.",
-        x: -140,
-        y: 100
+        x: -145,
+        y: 105
       });
       drawer.text({
         text: "ENTER to land back on earth.",
-        x: -110,
-        y: 125
+        x: -115,
+        y: 130
       });
       drawer.text({
         text: "Shoot things. Collect ore. Upgrade weapons.",
-        x: -173,
-        y: 150
+        x: -178,
+        y: 155
       });
     });
   }

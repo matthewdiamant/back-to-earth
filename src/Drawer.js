@@ -77,12 +77,14 @@ export default class Drawer {
     size = "14px",
     font = "Courier",
     letterSpacing = false,
-    isUnadjusted = false
+    isUnadjusted = false,
+    filter
   }) {
     if (!isUnadjusted) {
       x = this.cameraAdjustX(x);
       y = this.cameraAdjustY(y);
     }
+    if (filter) cx.filter = filter;
     cx.font = size + " " + font;
     text = letterSpacing ? text.split("").join(" ") : text;
     cx.fillStyle = "#fff";
