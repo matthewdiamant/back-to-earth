@@ -177,8 +177,6 @@ export default class Ship {
         sound.missile();
       }
     }
-    this.projectiles.map(p => p.tick());
-    this.projectiles = this.projectiles.filter(p => !p.shouldDie);
   }
 
   tick(keyboard, sound, drawer, enemies) {
@@ -207,6 +205,9 @@ export default class Ship {
     }
 
     this.weaponsTick(keyboard, sound, enemies);
+
+    this.projectiles.map(p => p.tick());
+    this.projectiles = this.projectiles.filter(p => !p.shouldDie);
 
     x += dx;
     y += dy;

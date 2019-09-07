@@ -81,7 +81,12 @@ window.onload = () => {
   let collisionDetection = () => {
     ship.projectiles.forEach(projectile => {
       asteroids.asteroids.forEach(asteroid => {
-        if (collisionDetector.handle(projectile, asteroid, sound)) {
+        if (collisionDetector.handle(projectile, asteroid)) {
+          sound.projectileHit();
+        }
+      });
+      enemies.enemies.forEach(enemy => {
+        if (collisionDetector.handle(projectile, enemy)) {
           sound.projectileHit();
         }
       });

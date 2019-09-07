@@ -1,4 +1,5 @@
 import Projectile from "./Projectile.js";
+import Debris from "./Debris.js";
 
 let enemyTypes = [
   {
@@ -16,7 +17,10 @@ let enemyTypes = [
     turnSpeed: 0.05,
     maxSpeed: 1,
     weapons: ["main-laser"],
-    mainLaserCooldown: 0.3
+    mainLaserCooldown: 0.3,
+    health: 5,
+    bounty: 100,
+    size: 10
   }
 ];
 
@@ -27,18 +31,41 @@ class Enemy {
     this.dx = 0;
     this.dy = 0;
     this.yaw = 0;
-    this.projectiles = [];
+    this.shouldDie = false;
+    this.exploding = false;
 
     this.type = type;
+    this.projectiles = [];
 
-    this.size = 10;
+    this.size = type.size;
     this.acceleration = type.acceleration;
     this.maxSpeed = type.maxSpeed;
     this.turnSpeed = type.turnSpeed;
+    this.health = type.health;
+    this.bounty = type.bounty;
     this.engineOn = true;
 
     this.mainLaserCanFire = type.weapons.includes("main-laser");
     this.mainLaserCooldown = type.mainLaserCooldown;
+  }
+
+  takeDamage({ damage, dx, dy, owner }) {
+    this.dx += dx / 30;
+    this.dy += dy / 30;
+    this.health -= damage;
+    if (this.health <= 0) {
+      this.exploding = true;
+      this.debris = Array(20)
+        .fill()
+        .map(d => new Debris({ x: this.x, y: this.y, color: "#aa3" }))
+        .concat(
+          Array(20)
+            .fill()
+            .map(d => new Debris({ x: this.x, y: this.y, color: "#a33" }))
+        );
+      this.lifeSpan = 50;
+      owner.ore += this.bounty;
+    }
   }
 
   weaponsTick(sound, enemies) {
@@ -60,38 +87,50 @@ class Enemy {
       );
       // sound.mainLaser();
     }
-    this.projectiles.map(p => p.tick());
-    this.projectiles = this.projectiles.filter(p => !p.shouldDie);
   }
 
   tick(sound, ship) {
-    let theta = Math.atan2(ship.getX() - this.x, -ship.getY() + this.y);
-    this.yaw += this.yaw - theta > 0 ? -this.turnSpeed : this.turnSpeed;
-    this.yaw %= Math.PI * 2;
+    this.projectiles.map(p => p.tick());
+    this.projectiles = this.projectiles.filter(p => !p.shouldDie);
 
-    this.engineOn = true;
-
-    if (this.engineOn) {
-      this.dx += Math.sin(this.yaw) * this.acceleration;
-      this.dy += Math.cos(this.yaw) * -this.acceleration;
-      let velocity = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
-      if (velocity > this.maxSpeed) {
-        this.dx = (this.dx / velocity) * this.maxSpeed;
-        this.dy = (this.dy / velocity) * this.maxSpeed;
-      }
-      // sound.engineOn();
+    if (this.exploding) {
+      this.lifeSpan -= 1;
+      this.debris.map(d => d.tick());
+      if (this.lifeSpan <= 0) this.shouldDie = true;
     } else {
-      // sound.engineOff();
+      let theta = Math.atan2(ship.getX() - this.x, -ship.getY() + this.y);
+      this.yaw += this.yaw - theta > 0 ? -this.turnSpeed : this.turnSpeed;
+      this.yaw %= Math.PI * 2;
+
+      this.engineOn = true;
+
+      if (this.engineOn) {
+        this.dx += Math.sin(this.yaw) * this.acceleration;
+        this.dy += Math.cos(this.yaw) * -this.acceleration;
+        let velocity = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+        if (velocity > this.maxSpeed) {
+          this.dx = (this.dx / velocity) * this.maxSpeed;
+          this.dy = (this.dy / velocity) * this.maxSpeed;
+        }
+        // sound.engineOn();
+      } else {
+        // sound.engineOff();
+      }
+
+      this.weaponsTick(sound, [ship]);
     }
+
     this.x += this.dx;
     this.y += this.dy;
-
-    this.weaponsTick(sound, [ship]);
   }
 
   draw(drawer) {
     this.projectiles.map(p => p.draw(drawer));
-    this.type.draw(drawer, this.x, this.y, this.size, this.yaw);
+    if (this.exploding) {
+      this.debris.map(d => d.draw(drawer));
+    } else {
+      this.type.draw(drawer, this.x, this.y, this.size, this.yaw);
+    }
     // drawer.draw(() => drawer.hitbox({ x: this.x, y: this.y, size: this.size })); // hitbox
   }
 }
@@ -108,6 +147,7 @@ export default class Enemies {
 
   tick(sound, ship) {
     this.enemies.forEach(enemy => enemy.tick(sound, ship));
+    this.enemies = this.enemies.filter(a => !a.shouldDie);
   }
 
   draw(drawer) {

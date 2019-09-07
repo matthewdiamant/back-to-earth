@@ -1,3 +1,5 @@
+import Debris from "./Debris";
+
 const asteroidStyles = [
   [
     [-6, -10],
@@ -28,33 +30,6 @@ const asteroidStyles = [
     [-9, -6]
   ]
 ];
-
-class Debris {
-  constructor({ x, y }) {
-    this.x = x;
-    this.y = y;
-    this.dx = Math.random() * 4 - 2;
-    this.dy = Math.random() * 4 - 2;
-    this.shouldDie = false;
-    this.exploding = false;
-  }
-
-  tick() {
-    this.x += this.dx;
-    this.y += this.dy;
-  }
-
-  draw(drawer) {
-    drawer.draw(() => {
-      drawer.rect({
-        rect: [this.x, this.y, 2, 2],
-        fillColor: "#fff",
-        shadowBlur: 2,
-        shadowColor: "#fff"
-      });
-    });
-  }
-}
 
 class Asteroid {
   constructor({ x, y }) {
