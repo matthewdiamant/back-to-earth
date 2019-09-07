@@ -91,6 +91,23 @@ export default class Ship {
     return y;
   }
 
+  setLevel(level) {
+    ({
+      turnSpeed,
+      maxSpeed,
+      acceleration,
+      size,
+      mainLaserCooldown,
+      mainLaserCanFire,
+      secondaryLaserCooldown,
+      secondaryLaserCanFire,
+      missileCooldown,
+      missileCanFire
+    } = shipLevels[level]);
+
+    this.level = level;
+  }
+
   weaponsTick(keyboard, sound, enemies) {
     if (keyboard.isDown(keyboard.SPACE)) {
       if (mainLaserCanFire) {

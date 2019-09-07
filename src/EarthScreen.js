@@ -16,7 +16,7 @@ export default class EarthScreen {
       let upgradeCost = ship.shipLevels[ship.level + 1].cost;
       if (ship.ore >= upgradeCost) {
         ship.ore -= upgradeCost;
-        ship.level += 1;
+        ship.setLevel(ship.level + 1);
       }
     }
   }
