@@ -54,7 +54,8 @@ let x = 100,
   missileCooldown = 0.2,
   state = {
     engineOn: false
-  };
+  },
+  haloSize = 0;
 
 function getClosestEnemy(x, y, enemies, maxDistance) {
   let closestEnemy = null;
@@ -89,6 +90,14 @@ export default class Ship {
 
   getY() {
     return y;
+  }
+
+  setDx(d) {
+    dx = d;
+  }
+
+  setDy(d) {
+    dy = d;
   }
 
   setLevel(level) {
@@ -171,14 +180,12 @@ export default class Ship {
   }
 
   tick(keyboard, sound, drawer, enemies) {
-    if (
-      this.timeout < 0 &&
-      keyboard.isDown(keyboard.ENTER) &&
-      x * x + y * y < 60 * 60
-    ) {
+    if (this.timeout < 0 && keyboard.isDown(keyboard.ENTER)) {
       this.landed = true;
     }
     this.timeout -= 1;
+
+    haloSize += 1;
 
     if (keyboard.isDown(keyboard.LEFT)) yaw -= turnSpeed;
     if (keyboard.isDown(keyboard.RIGHT)) yaw += turnSpeed;
@@ -211,6 +218,7 @@ export default class Ship {
   draw(drawer) {
     this.projectiles.map(p => p.draw(drawer));
     state.engineOn && this.drawEngine(drawer);
+    x * x + y * y < 60 * 60 && this.drawHalo(drawer);
 
     // drawer.draw(() => drawer.hitbox({ x, y, size })); // hitbox
 
@@ -239,6 +247,17 @@ export default class Ship {
         ],
         rotation: yaw,
         fillColor: "orange"
+      });
+    });
+  }
+
+  drawHalo(drawer) {
+    drawer.draw(() => {
+      drawer.arc({
+        arc: [x, y, Math.sin(haloSize / 8) + 10, 0, 2 * Math.PI],
+        strokeColor: "#aaa",
+        shadowBlur: 1,
+        shadowColor: "#aaa"
       });
     });
   }

@@ -8,6 +8,8 @@ export default class EarthScreen {
       this.timeout = 15;
       ship.landed = false;
       ship.timeout = 15;
+      ship.setDx(0);
+      ship.setDy(0);
       asteroids.initializeAsteroids();
     }
     this.timeout -= 1;
