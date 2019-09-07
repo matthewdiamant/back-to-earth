@@ -16,7 +16,6 @@
     * Improve compass
     
   FUTURE:
-    * Slow down on first flyby and stop on Earth
     * Add other worlds / compasses
     * Parallaxing stars/background
     * Music?

@@ -33,22 +33,15 @@ export default class Drawer {
     cx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  fillRect({ rect, color, shadowBlur, shadowColor }) {
-    cx.fillStyle = color;
+  rect({ rect, fillColor, shadowBlur, shadowColor, adjusted = true }) {
+    if (adjusted) {
+      rect[0] = this.cameraAdjustX(rect[0]);
+      rect[1] = this.cameraAdjustY(rect[1]);
+    }
+    cx.fillStyle = fillColor;
     cx.shadowBlur = shadowBlur;
     cx.shadowColor = shadowColor;
-    cx.fillRect(
-      ...[
-        this.cameraAdjustX(rect[0]),
-        this.cameraAdjustY(rect[1]),
-        ...rect.slice(2)
-      ]
-    );
-  }
-
-  fillRectUnadjusted({ rect, color }) {
-    cx.fillStyle = color;
-    cx.fillRect(...rect);
+    cx.fillRect(...[rect[0], rect[1], ...rect.slice(2)]);
   }
 
   arc({ arc, fillColor, strokeColor, shadowBlur, shadowColor }) {
@@ -127,7 +120,7 @@ export default class Drawer {
   }
 
   hitbox({ x, y, size }) {
-    this.fillRect({
+    this.rect({
       rect: [x - size / 2, y - size / 2, size, size],
       color: "#f00"
     });

@@ -34,19 +34,22 @@ export default class EarthScreen {
         isUnadjusted: true
       });
     drawer.draw(() => {
-      drawer.fillRectUnadjusted({
+      drawer.rect({
         rect: [0, 0, 640, 480],
-        color: "rgba(0, 0, 0, 0.6)"
+        fillColor: "rgba(0, 0, 0, 0.6)",
+        adjusted: false
       });
-      drawer.fillRectUnadjusted({
+      drawer.rect({
         rect: [150, 90, 340, 300],
-        color: "#fff"
+        fillColor: "#fff",
+        adjusted: false
       });
-      drawer.fillRectUnadjusted({
+      drawer.rect({
         rect: [151, 91, 338, 298],
-        color: "#000",
+        fillColor: "#000",
         shadowBlur: 2,
-        shadowColor: "#fff"
+        shadowColor: "#fff",
+        adjusted: false
       });
       drawer.text({
         text: "Welcome to Earth",

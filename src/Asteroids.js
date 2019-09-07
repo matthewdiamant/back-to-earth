@@ -46,9 +46,9 @@ class Debris {
 
   draw(drawer) {
     drawer.draw(() => {
-      drawer.fillRect({
+      drawer.rect({
         rect: [this.x, this.y, 2, 2],
-        color: "#fff",
+        fillColor: "#fff",
         shadowBlur: 2,
         shadowColor: "#fff"
       });

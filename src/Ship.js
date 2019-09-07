@@ -11,9 +11,9 @@ let shipLevels = [
   },
   {
     cost: 100,
-    turnSpeed: 0.05,
-    maxSpeed: 1,
-    acceleration: 0.01,
+    turnSpeed: 0.1,
+    maxSpeed: 2,
+    acceleration: 0.015,
     size: 15,
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
@@ -22,9 +22,9 @@ let shipLevels = [
   },
   {
     cost: 400,
-    turnSpeed: 0.05,
-    maxSpeed: 1,
-    acceleration: 0.01,
+    turnSpeed: 0.15,
+    maxSpeed: 3,
+    acceleration: 0.02,
     size: 20,
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
@@ -227,7 +227,6 @@ export default class Ship {
         x,
         y,
         lines: [[x, y - 7], [x + 5, y + 5], [x - 5, y + 5]],
-        size,
         rotation: yaw,
         fillColor: "#070"
       });

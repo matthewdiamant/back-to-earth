@@ -94,9 +94,9 @@ export default class Projectile {
           shadowColor: "#ff0"
         });
       } else {
-        drawer.fillRect({
+        drawer.rect({
           rect: [this.x, this.y, 2, 2],
-          color: this.type.color,
+          fillColor: this.type.color,
           shadowBlur: 2,
           shadowColor: this.type.shadowColor
         });

@@ -20,14 +20,15 @@ export default class Compasses {
       compass =>
         compass.visible &&
         drawer.draw(() => {
-          drawer.fillRectUnadjusted({
+          drawer.rect({
             rect: [
               Math.cos(compass.theta) * -230 + 320,
               Math.sin(compass.theta) * -230 + 240,
               5,
               5
             ],
-            color: compass.color
+            fillColor: compass.color,
+            adjusted: false
           });
         })
     );

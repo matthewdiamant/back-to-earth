@@ -9,9 +9,10 @@ export default class Background {
     drawer.draw(() => {
       drawer.drawBackground("#111");
       stars.map(star =>
-        drawer.fillRectUnadjusted({
+        drawer.rect({
           rect: [star[0], star[1], 1, 1],
-          color: "#fff"
+          fillColor: "#fff",
+          adjusted: false
         })
       );
       drawer.text({
