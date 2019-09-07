@@ -82,6 +82,7 @@ export default class Ship {
     this.timeout = 0;
     this.level = 0;
     this.shipLevels = shipLevels;
+    this.health = 5;
   }
 
   getX() {

@@ -16,11 +16,11 @@ let enemyTypes = [
     acceleration: 0.01,
     turnSpeed: 0.05,
     maxSpeed: 1,
-    weapons: ["main-laser"],
-    mainLaserCooldown: 0.3,
+    weapons: ["enemy-laser"],
+    mainLaserCooldown: 0.5,
     health: 5,
     bounty: 100,
-    size: 10
+    size: 20
   }
 ];
 
@@ -45,7 +45,7 @@ class Enemy {
     this.bounty = type.bounty;
     this.engineOn = true;
 
-    this.mainLaserCanFire = type.weapons.includes("main-laser");
+    this.mainLaserCanFire = type.weapons.includes("enemy-laser");
     this.mainLaserCooldown = type.mainLaserCooldown;
   }
 
@@ -63,7 +63,7 @@ class Enemy {
             .fill()
             .map(d => new Debris({ x: this.x, y: this.y, color: "#a33" }))
         );
-      this.lifeSpan = 50;
+      this.lifeSpan = 80;
       owner.ore += this.bounty;
     }
   }
@@ -76,7 +76,7 @@ class Enemy {
           y: this.y,
           yaw: this.yaw,
           damage: 1,
-          type: "main-laser",
+          type: "enemy-laser",
           owner: this
         })
       );
@@ -85,7 +85,7 @@ class Enemy {
         () => (this.mainLaserCanFire = true),
         this.mainLaserCooldown * 1000
       );
-      // sound.mainLaser();
+      sound.enemyLaser();
     }
   }
 
@@ -128,6 +128,25 @@ class Enemy {
     this.projectiles.map(p => p.draw(drawer));
     if (this.exploding) {
       this.debris.map(d => d.draw(drawer));
+      drawer.draw(() => {
+        drawer.arc({
+          arc: [
+            this.x + Math.random() * 20 - 10,
+            this.y + Math.random() * 20 - 10,
+            2 + 6 * Math.random(),
+            0,
+            2 * Math.PI
+          ],
+          strokeColor:
+            "rgb(255," +
+            Math.floor(Math.random() * 155 + 100) +
+            "," +
+            Math.floor(Math.random() * 50) +
+            ")",
+          shadowBlur: 10,
+          shadowColor: "#f00"
+        });
+      });
     } else {
       this.type.draw(drawer, this.x, this.y, this.size, this.yaw);
     }
