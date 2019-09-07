@@ -72,7 +72,7 @@ window.onload = () => {
     } else {
       hud.tick(ship);
       compasses.tick(ship);
-      enemies.tick(ship);
+      enemies.tick(sound, ship);
       ship.tick(keyboard, sound, drawer, asteroids.asteroids);
       asteroids.tick();
     }

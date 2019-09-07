@@ -1,3 +1,5 @@
+import Projectile from "./Projectile.js";
+
 let enemyTypes = [
   {
     draw: (drawer, x, y, size, rotation) => {
@@ -13,7 +15,8 @@ let enemyTypes = [
     acceleration: 0.01,
     turnSpeed: 0.05,
     maxSpeed: 1,
-    weapons: ["main-laser"]
+    weapons: ["main-laser"],
+    mainLaserCooldown: 0.3
   }
 ];
 
@@ -24,6 +27,7 @@ class Enemy {
     this.dx = 0;
     this.dy = 0;
     this.yaw = 0;
+    this.projectiles = [];
 
     this.type = type;
 
@@ -32,9 +36,35 @@ class Enemy {
     this.maxSpeed = type.maxSpeed;
     this.turnSpeed = type.turnSpeed;
     this.engineOn = true;
+
+    this.mainLaserCanFire = type.weapons.includes("main-laser");
+    this.mainLaserCooldown = type.mainLaserCooldown;
   }
 
-  tick(ship) {
+  weaponsTick(sound, enemies) {
+    if (this.mainLaserCanFire) {
+      this.projectiles.push(
+        new Projectile({
+          x: this.x,
+          y: this.y,
+          yaw: this.yaw,
+          damage: 1,
+          type: "main-laser",
+          owner: this
+        })
+      );
+      this.mainLaserCanFire = false;
+      window.setTimeout(
+        () => (this.mainLaserCanFire = true),
+        this.mainLaserCooldown * 1000
+      );
+      // sound.mainLaser();
+    }
+    this.projectiles.map(p => p.tick());
+    this.projectiles = this.projectiles.filter(p => !p.shouldDie);
+  }
+
+  tick(sound, ship) {
     let theta = Math.atan2(ship.getX() - this.x, -ship.getY() + this.y);
     this.yaw += this.yaw - theta > 0 ? -this.turnSpeed : this.turnSpeed;
     this.yaw %= Math.PI * 2;
@@ -55,9 +85,12 @@ class Enemy {
     }
     this.x += this.dx;
     this.y += this.dy;
+
+    this.weaponsTick(sound, [ship]);
   }
 
   draw(drawer) {
+    this.projectiles.map(p => p.draw(drawer));
     this.type.draw(drawer, this.x, this.y, this.size, this.yaw);
     // drawer.draw(() => drawer.hitbox({ x: this.x, y: this.y, size: this.size })); // hitbox
   }
@@ -73,8 +106,8 @@ export default class Enemies {
     this.enemies.push(new Enemy(enemyTypes[0]));
   }
 
-  tick(ship) {
-    this.enemies.forEach(enemy => enemy.tick(ship));
+  tick(sound, ship) {
+    this.enemies.forEach(enemy => enemy.tick(sound, ship));
   }
 
   draw(drawer) {
