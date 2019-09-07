@@ -3,7 +3,7 @@ export default class EarthScreen {
     this.timeout = 15;
   }
 
-  tick(keyboard, ship, asteroids) {
+  tick(keyboard, ship, asteroids, enemies) {
     if (keyboard.isDown(keyboard.ENTER) && this.timeout < 0) {
       this.timeout = 15;
       ship.landed = false;
@@ -11,6 +11,13 @@ export default class EarthScreen {
       ship.setDx(0);
       ship.setDy(0);
       asteroids.initializeAsteroids();
+      if (ship.level >= 1)
+        enemies.addEnemy(
+          (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
+            ship.getX(),
+          (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
+            ship.getY()
+        );
     }
     this.timeout -= 1;
 

@@ -68,7 +68,7 @@ window.onload = () => {
   let tick = () => {
     // ship.landed = true;
     if (ship.landed) {
-      earthScreen.tick(keyboard, ship, asteroids);
+      earthScreen.tick(keyboard, ship, asteroids, enemies);
     } else {
       hud.tick(ship);
       compasses.tick(ship);

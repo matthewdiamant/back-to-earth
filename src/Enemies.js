@@ -25,9 +25,9 @@ let enemyTypes = [
 ];
 
 class Enemy {
-  constructor(type) {
-    this.x = 0;
-    this.y = 0;
+  constructor(type, x, y) {
+    this.x = x;
+    this.y = y;
     this.dx = 0;
     this.dy = 0;
     this.yaw = 0;
@@ -157,11 +157,10 @@ class Enemy {
 export default class Enemies {
   constructor() {
     this.enemies = [];
-    this.addEnemy();
   }
 
-  addEnemy() {
-    this.enemies.push(new Enemy(enemyTypes[0]));
+  addEnemy(x, y) {
+    this.enemies.push(new Enemy(enemyTypes[0], x, y));
   }
 
   tick(sound, ship) {
