@@ -53,6 +53,7 @@ export default class Projectile {
       if (
         this.target &&
         !this.target.exploding &&
+        // missiles take a half second to lock on to target
         this.lifeSpan < ((this.type.lifeSpan - 0.5) * 1000) / 60
       ) {
         dx = this.x - this.target.x;

@@ -36,6 +36,7 @@ import Background from "./Background.js";
 import Compasses from "./Compasses.js";
 import EarthScreen from "./EarthScreen.js";
 import Earth from "./Earth.js";
+import Enemies from "./Enemies.js";
 import HUD from "./HUD.js";
 import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
@@ -71,6 +72,7 @@ window.onload = () => {
     } else {
       hud.tick(ship);
       compasses.tick(ship);
+      enemies.tick(ship);
       ship.tick(keyboard, sound, drawer, asteroids.asteroids);
       asteroids.tick();
     }
@@ -100,7 +102,15 @@ window.onload = () => {
     }
   };
 
-  let drawObjects = () => [background, earth, asteroids, ship, compasses, hud];
+  let drawObjects = () => [
+    background,
+    earth,
+    asteroids,
+    enemies,
+    ship,
+    compasses,
+    hud
+  ];
 
   const background = new Background({
     cw: gameContainer.canvas.width,
@@ -110,6 +120,7 @@ window.onload = () => {
   const hud = new HUD();
   const earthScreen = new EarthScreen();
   const earth = new Earth();
+  const enemies = new Enemies();
   const ship = new Ship();
   const asteroids = new Asteroids();
 
