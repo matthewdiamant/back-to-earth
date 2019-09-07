@@ -20,6 +20,7 @@
   FUTURE:
     * Slow down on first flyby and stop on Earth
     * Add other worlds / compasses
+    * Parallaxing stars/background
     * Music?
     * Refactor opportunities
     * * Create object with x/y/dx/dy
