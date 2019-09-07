@@ -1,4 +1,4 @@
-import Debris from "./Debris";
+import Debris from "./Debris.js";
 
 const asteroidStyles = [
   [

@@ -1,5 +1,6 @@
 /*
   MVP:
+    * Player death
     * Add enemies
     * * Bigger / badder enemies
     * * Squads of enemies
@@ -28,6 +29,7 @@ import Drawer from "./Drawer.js";
 import GameContainer from "./GameContainer.js";
 import Keyboard from "./Keyboard.js";
 import Sound from "./Sound.js";
+import Music from "./Music.js";
 import CollisionDetector from "./CollisionDetector.js";
 
 import Background from "./Background.js";
@@ -40,8 +42,6 @@ import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
 
 window.onload = () => {
-  document.querySelector("main").className += " loaded";
-
   const gameContainer = new GameContainer();
 
   const drawer = new Drawer(gameContainer.canvas);
@@ -129,8 +129,12 @@ window.onload = () => {
   const earthScreen = new EarthScreen();
   const earth = new Earth();
   const enemies = new Enemies();
+  const music = new Music();
   const ship = new Ship();
   const asteroids = new Asteroids();
 
-  gameLoop();
+  document.addEventListener("startGame", () => {
+    document.querySelector("main").className += " loaded";
+    gameLoop();
+  });
 };
