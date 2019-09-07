@@ -1,11 +1,9 @@
 /*
   MVP:
     * Add enemies
-    * * Basic enemy
     * * Bigger / badder enemies
     * * Squads of enemies
     * * Enemy aggro distance
-    * Earth looks like earth
     * Finish earth screen
     * Add HUD
     * Add ship upgrades
@@ -73,7 +71,12 @@ window.onload = () => {
       hud.tick(ship);
       compasses.tick(ship);
       enemies.tick(sound, ship);
-      ship.tick(keyboard, sound, drawer, asteroids.asteroids);
+      ship.tick(
+        keyboard,
+        sound,
+        drawer,
+        asteroids.asteroids.concat(enemies.enemies)
+      );
       asteroids.tick();
     }
   };

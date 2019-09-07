@@ -11,9 +11,9 @@ let shipLevels = [
   },
   {
     cost: 100,
-    turnSpeed: 0.1,
+    turnSpeed: 0.07,
     maxSpeed: 2,
-    acceleration: 0.015,
+    acceleration: 0.03,
     size: 15,
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
@@ -22,9 +22,9 @@ let shipLevels = [
   },
   {
     cost: 400,
-    turnSpeed: 0.15,
+    turnSpeed: 0.09,
     maxSpeed: 3,
-    acceleration: 0.02,
+    acceleration: 0.5,
     size: 20,
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
