@@ -78,7 +78,7 @@ export default class Ship {
   constructor() {
     this.projectiles = [];
     this.landed = false;
-    this.ore = 1000;
+    this.ore = 0;
     this.timeout = 0;
     this.level = 0;
     this.shipLevels = shipLevels;
@@ -88,7 +88,14 @@ export default class Ship {
     if (keyboard.isDown(keyboard.SPACE)) {
       if (mainLaserCanFire) {
         this.projectiles.push(
-          new Projectile({ x, y, yaw, damage: 1, type: "main-laser" })
+          new Projectile({
+            x,
+            y,
+            yaw,
+            damage: 1,
+            type: "main-laser",
+            owner: this
+          })
         );
         mainLaserCanFire = false;
         window.setTimeout(
@@ -98,13 +105,15 @@ export default class Ship {
         sound.mainLaser();
       }
       if (secondaryLaserCanFire) {
+        console.log(this);
         this.projectiles.push(
           new Projectile({
             x: secondaryLaserPosition * Math.cos(yaw) * (size / 2) + x,
             y: secondaryLaserPosition * Math.sin(yaw) * (size / 2) + y,
             yaw,
             damage: 1,
-            type: "secondary-laser"
+            type: "secondary-laser",
+            owner: this
           })
         );
         secondaryLaserPosition *= -1;
@@ -123,6 +132,7 @@ export default class Ship {
             yaw: yaw + (Math.PI / 2) * missilePosition,
             damage: 1,
             type: "missile",
+            owner: this,
             target: getClosestEnemy(x, y, enemies, 260)
           })
         );

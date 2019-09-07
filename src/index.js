@@ -38,6 +38,7 @@ import CollisionDetector from "./CollisionDetector.js";
 import Background from "./Background.js";
 import EarthScreen from "./EarthScreen.js";
 import Earth from "./Earth.js";
+import HUD from "./HUD.js";
 import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
 
@@ -53,11 +54,7 @@ window.onload = () => {
 
   gameContainer.initialize();
 
-  let canvas = {
-      cw: gameContainer.canvas.width,
-      ch: gameContainer.canvas.height
-    },
-    fps = 60,
+  let fps = 60,
     interval = 1000 / fps,
     lastTime = new Date().getTime(),
     currentTime = 0,
@@ -74,6 +71,7 @@ window.onload = () => {
     if (ship.landed) {
       earthScreen.tick(keyboard, ship);
     } else {
+      hud.tick(ship);
       ship.tick(keyboard, sound, drawer, asteroids.asteroids);
       asteroids.tick();
     }
@@ -103,9 +101,13 @@ window.onload = () => {
     }
   };
 
-  let drawObjects = () => [background, earth, asteroids, ship];
+  let drawObjects = () => [background, earth, asteroids, ship, hud];
 
-  const background = new Background(canvas);
+  const background = new Background({
+    cw: gameContainer.canvas.width,
+    ch: gameContainer.canvas.height
+  });
+  const hud = new HUD();
   const earthScreen = new EarthScreen();
   const earth = new Earth();
   const ship = new Ship();

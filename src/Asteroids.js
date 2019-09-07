@@ -71,7 +71,7 @@ class Asteroid {
     this.exploding = false;
   }
 
-  takeDamage({ damage, dx, dy }) {
+  takeDamage({ damage, dx, dy, owner }) {
     this.dx += dx / 30;
     this.dy += dy / 30;
     this.health -= damage;
@@ -80,15 +80,16 @@ class Asteroid {
       this.debris = Array(20)
         .fill()
         .map(d => new Debris({ x: this.x, y: this.y }));
-      this.lifespan = 50;
+      this.lifeSpan = 50;
+      owner.ore += 10;
     }
   }
 
   tick() {
     if (this.exploding) {
-      this.lifespan -= 1;
+      this.lifeSpan -= 1;
       this.debris.map(d => d.tick());
-      if (this.lifespan <= 0) this.shouldDie = true;
+      if (this.lifeSpan <= 0) this.shouldDie = true;
     }
     this.x += this.dx;
     this.y += this.dy;

@@ -3,7 +3,7 @@ let projectileTypes = {
     color: "#f66",
     shadowColor: "#f00",
     speed: 4,
-    lifespan: 1
+    lifeSpan: 4
   },
   "secondary-laser": {
     color: "#f6f",
@@ -22,13 +22,14 @@ let projectileTypes = {
 };
 
 export default class Projectile {
-  constructor({ x, y, yaw, damage, type, target }) {
+  constructor({ x, y, yaw, damage, type, owner, target }) {
     this.type = projectileTypes[type];
 
     this.x = x;
     this.y = y;
     this.yaw = yaw;
 
+    this.owner = owner;
     this.lifeSpan = (this.type.lifeSpan * 1000) / 60;
     this.size = 1;
     this.shouldDie = false;
@@ -43,7 +44,7 @@ export default class Projectile {
 
   tick() {
     this.lifeSpan -= 1;
-    if (this.lifeSpan < 0) this.shouldDie = true;
+    if (this.lifeSpan <= 0) this.shouldDie = true;
     if (this.exploding) return;
 
     if (this.type.type === "missile") {
