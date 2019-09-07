@@ -68,7 +68,7 @@ class Enemy {
     }
   }
 
-  weaponsTick(sound, enemies) {
+  weaponsTick(sound) {
     if (this.mainLaserCanFire) {
       this.projectiles.push(
         new Projectile({
@@ -117,7 +117,12 @@ class Enemy {
         // sound.engineOff();
       }
 
-      this.weaponsTick(sound, [ship]);
+      let distanceFromShip = Math.sqrt(
+        (this.x - ship.x) * (this.x - ship.x) +
+          (this.y - ship.y) * (this.y - ship.y)
+      );
+      if (!ship.exploding && distanceFromShip < 320)
+        this.weaponsTick(sound, [ship]);
     }
 
     this.x += this.dx;

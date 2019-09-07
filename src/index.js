@@ -37,6 +37,7 @@ import Compasses from "./Compasses.js";
 import EarthScreen from "./EarthScreen.js";
 import Earth from "./Earth.js";
 import Enemies from "./Enemies.js";
+import GameOverScreen from "./GameOverScreen.js";
 import HUD from "./HUD.js";
 import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
@@ -94,6 +95,18 @@ window.onload = () => {
         }
       });
     });
+    enemies.enemies.forEach(enemy => {
+      enemy.projectiles.forEach(projectile => {
+        if (collisionDetector.handle(projectile, ship)) {
+          sound.projectileHit();
+        }
+        asteroids.asteroids.forEach(asteroid => {
+          if (collisionDetector.handle(projectile, asteroid)) {
+            sound.projectileHit();
+          }
+        });
+      });
+    });
   };
 
   let draw = () => {
@@ -106,6 +119,7 @@ window.onload = () => {
       drawer.clearBackground();
       drawObjects().map(object => object.draw(drawer));
       if (ship.landed) earthScreen.draw(drawer, ship);
+      if (ship.death) gameOverScreen.draw(drawer);
       lastTime = currentTime - (delta % interval);
     }
   };
@@ -129,6 +143,7 @@ window.onload = () => {
   const earthScreen = new EarthScreen();
   const earth = new Earth();
   const enemies = new Enemies();
+  const gameOverScreen = new GameOverScreen();
   const music = new Music();
   const ship = new Ship();
   const asteroids = new Asteroids();

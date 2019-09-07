@@ -1,3 +1,4 @@
+import Debris from "./Debris.js";
 import Projectile from "./Projectile.js";
 
 let shipLevels = [
@@ -7,7 +8,8 @@ let shipLevels = [
     acceleration: 0.01,
     size: 10,
     mainLaserCooldown: 0.3,
-    mainLaserCanFire: true
+    mainLaserCanFire: true,
+    health: 10
   },
   {
     cost: 100,
@@ -18,28 +20,26 @@ let shipLevels = [
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
     secondaryLaserCooldown: 0.2,
-    secondaryLaserCanFire: true
+    secondaryLaserCanFire: true,
+    health: 20
   },
   {
     cost: 400,
     turnSpeed: 0.09,
     maxSpeed: 3,
-    acceleration: 0.5,
+    acceleration: 0.2,
     size: 20,
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
     secondaryLaserCooldown: 0.2,
     secondaryLaserCanFire: true,
     missileCooldown: 0.2,
-    missileCanFire: true
+    missileCanFire: true,
+    health: 40
   }
 ];
 
-let x = 100,
-  y = -400,
-  dx = -0.1,
-  dy = 0.5,
-  yaw = 3.4,
+let yaw = 3.4,
   turnSpeed = 0.05,
   maxSpeed = 1,
   acceleration = 0.01,
@@ -76,29 +76,57 @@ function getClosestEnemy(x, y, enemies, maxDistance) {
 
 export default class Ship {
   constructor() {
+    this.x = 100;
+    this.y = -400;
+    this.dx = -0.1;
+    this.dy = 0.5;
     this.projectiles = [];
     this.landed = false;
     this.ore = 0;
     this.timeout = 0;
     this.level = 0;
     this.shipLevels = shipLevels;
-    this.health = 5;
+    this.health = 10;
+    this.exploding = false;
+    this.size = size;
   }
 
   getX() {
-    return x;
+    return this.x;
   }
 
   getY() {
-    return y;
+    return this.y;
   }
 
   setDx(d) {
-    dx = d;
+    this.dx = d;
   }
 
   setDy(d) {
-    dy = d;
+    this.dy = d;
+  }
+
+  takeDamage({ damage, dx1, dy1 }) {
+    // this.dx += dx1 / 30;
+    // this.dy += dy1 / 30;
+    this.health -= damage;
+    if (this.health <= 0) {
+      this.exploding = true;
+      this.debris = Array(100)
+        .fill()
+        .map(d => new Debris({ x: this.x, y: this.y, color: "#aa3" }))
+        .concat(
+          Array(100)
+            .fill()
+            .map(d => new Debris({ x: this.x, y: this.y, color: "#a33" }))
+        );
+      this.lifeSpan = 80;
+    }
+  }
+
+  heal() {
+    this.health = shipLevels[this.level].health;
   }
 
   setLevel(level) {
@@ -123,8 +151,8 @@ export default class Ship {
       if (mainLaserCanFire) {
         this.projectiles.push(
           new Projectile({
-            x,
-            y,
+            x: this.x,
+            y: this.y,
             yaw,
             damage: 1,
             type: "main-laser",
@@ -141,8 +169,8 @@ export default class Ship {
       if (secondaryLaserCanFire) {
         this.projectiles.push(
           new Projectile({
-            x: secondaryLaserPosition * Math.cos(yaw) * (size / 2) + x,
-            y: secondaryLaserPosition * Math.sin(yaw) * (size / 2) + y,
+            x: secondaryLaserPosition * Math.cos(yaw) * (size / 2) + this.x,
+            y: secondaryLaserPosition * Math.sin(yaw) * (size / 2) + this.y,
             yaw,
             damage: 1,
             type: "secondary-laser",
@@ -160,13 +188,13 @@ export default class Ship {
       if (missileCanFire) {
         this.projectiles.push(
           new Projectile({
-            x: missilePosition * Math.cos(yaw) * (size / 2) + x,
-            y: missilePosition * Math.sin(yaw) * (size / 2) + y,
+            x: missilePosition * Math.cos(yaw) * (size / 2) + this.x,
+            y: missilePosition * Math.sin(yaw) * (size / 2) + this.y,
             yaw: yaw + (Math.PI / 2) * missilePosition,
             damage: 1,
             type: "missile",
             owner: this,
-            target: getClosestEnemy(x, y, enemies, 260)
+            target: getClosestEnemy(this.x, this.y, enemies, 260)
           })
         );
         missilePosition *= -1;
@@ -181,69 +209,101 @@ export default class Ship {
   }
 
   tick(keyboard, sound, drawer, enemies) {
-    if (this.timeout < 0 && keyboard.isDown(keyboard.ENTER)) {
-      this.landed = true;
-    }
-    this.timeout -= 1;
-
-    haloSize += 1;
-
-    if (keyboard.isDown(keyboard.LEFT)) yaw -= turnSpeed;
-    if (keyboard.isDown(keyboard.RIGHT)) yaw += turnSpeed;
-    state.engineOn = keyboard.isDown(keyboard.UP);
-
-    if (state.engineOn) {
-      dx += Math.sin(yaw) * acceleration;
-      dy += Math.cos(yaw) * -acceleration;
-      let velocity = Math.sqrt(dx * dx + dy * dy);
-      if (velocity > maxSpeed) {
-        dx = (dx / velocity) * maxSpeed;
-        dy = (dy / velocity) * maxSpeed;
-      }
-      sound.engineOn();
-    } else {
-      sound.engineOff();
-    }
-
-    this.weaponsTick(keyboard, sound, enemies);
-
     this.projectiles.map(p => p.tick());
     this.projectiles = this.projectiles.filter(p => !p.shouldDie);
+    if (this.exploding) {
+      this.lifeSpan -= 1;
+      this.debris.map(d => d.tick());
+      if (this.lifeSpan <= 0) this.death = true;
+    } else {
+      if (this.timeout < 0 && keyboard.isDown(keyboard.ENTER)) {
+        this.landed = true;
+      }
+      this.timeout -= 1;
 
-    x += dx;
-    y += dy;
-    drawer.camera.x = x;
-    drawer.camera.y = y;
+      haloSize += 1;
+
+      if (keyboard.isDown(keyboard.LEFT)) yaw -= turnSpeed;
+      if (keyboard.isDown(keyboard.RIGHT)) yaw += turnSpeed;
+      state.engineOn = keyboard.isDown(keyboard.UP);
+
+      if (state.engineOn) {
+        this.dx += Math.sin(yaw) * acceleration;
+        this.dy += Math.cos(yaw) * -acceleration;
+        let velocity = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+        if (velocity > maxSpeed) {
+          this.dx = (this.dx / velocity) * maxSpeed;
+          this.dy = (this.dy / velocity) * maxSpeed;
+        }
+        sound.engineOn();
+      } else {
+        sound.engineOff();
+      }
+
+      this.weaponsTick(keyboard, sound, enemies);
+
+      this.x += this.dx;
+      this.y += this.dy;
+      drawer.camera.x = this.x;
+      drawer.camera.y = this.y;
+    }
   }
 
   draw(drawer) {
     this.projectiles.map(p => p.draw(drawer));
-    state.engineOn && this.drawEngine(drawer);
-    x * x + y * y < 60 * 60 && this.drawHalo(drawer);
-
-    // drawer.draw(() => drawer.hitbox({ x, y, size })); // hitbox
-
-    drawer.draw(() => {
-      drawer.lines({
-        x,
-        y,
-        lines: [[x, y - 7], [x + 5, y + 5], [x - 5, y + 5]],
-        rotation: yaw,
-        fillColor: "#070"
+    if (this.exploding) {
+      this.debris.map(d => d.draw(drawer));
+      drawer.draw(() => {
+        drawer.arc({
+          arc: [
+            this.x + Math.random() * 20 - 10,
+            this.y + Math.random() * 20 - 10,
+            2 + 6 * Math.random(),
+            0,
+            2 * Math.PI
+          ],
+          strokeColor:
+            "rgb(255," +
+            Math.floor(Math.random() * 155 + 100) +
+            "," +
+            Math.floor(Math.random() * 50) +
+            ")",
+          shadowBlur: 10,
+          shadowColor: "#f00"
+        });
       });
-    });
+    } else {
+      state.engineOn && this.drawEngine(drawer);
+      this.x * this.x + this.y * this.y < 60 * 60 && this.drawHalo(drawer);
+
+      // drawer.draw(() => drawer.hitbox({ x, y, size })); // hitbox
+
+      drawer.draw(() => {
+        drawer.lines({
+          x: this.x,
+          y: this.y,
+          lines: [
+            [this.x, this.y - 7],
+            [this.x + 5, this.y + 5],
+            [this.x - 5, this.y + 5]
+          ],
+          rotation: yaw,
+          fillColor: "#070"
+        });
+      });
+    }
   }
 
   drawEngine(drawer) {
     drawer.draw(() => {
       drawer.lines({
-        x,
-        y,
+        x: this.x,
+        y: this.y,
         lines: [
-          [x + size * -0.5, y + size * 0.5],
-          [x + size * 0.5, y + size * 0.5],
-          [x, y + size * 0.5 + Math.random() * 5],
-          [x + size * -0.5, y + size * 0.5]
+          [this.x + size * -0.5, this.y + size * 0.5],
+          [this.x + size * 0.5, this.y + size * 0.5],
+          [this.x, this.y + size * 0.5 + Math.random() * 5],
+          [this.x + size * -0.5, this.y + size * 0.5]
         ],
         rotation: yaw,
         fillColor: "orange"
@@ -254,7 +314,7 @@ export default class Ship {
   drawHalo(drawer) {
     drawer.draw(() => {
       drawer.arc({
-        arc: [x, y, Math.sin(haloSize / 8) + 10, 0, 2 * Math.PI],
+        arc: [this.x, this.y, Math.sin(haloSize / 8) + 10, 0, 2 * Math.PI],
         strokeColor: "#aaa",
         shadowBlur: 1,
         shadowColor: "#aaa"

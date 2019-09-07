@@ -11,6 +11,7 @@ export default class EarthScreen {
       ship.setDx(0);
       ship.setDy(0);
       asteroids.initializeAsteroids();
+      ship.heal();
       if (ship.level >= 1)
         enemies.addEnemy(
           (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
@@ -38,7 +39,7 @@ export default class EarthScreen {
         text: t[2],
         x: t[0],
         y: t[1],
-        isUnadjusted: true
+        adjusted: false
       });
     drawer.draw(() => {
       drawer.rect({
@@ -65,14 +66,14 @@ export default class EarthScreen {
         size: "20px",
         font: "serif",
         letterSpacing: true,
-        isUnadjusted: true
+        adjusted: false
       });
       if (ship.level >= ship.shipLevels.length - 1) {
         drawer.text({
           text: "You have all ship upgrades",
           x: 245,
           y: 180,
-          isUnadjusted: true
+          adjusted: false
         });
       } else {
         let upgradeCost = ship.shipLevels[ship.level + 1].cost;
@@ -80,32 +81,32 @@ export default class EarthScreen {
           text: "If you have " + upgradeCost + " ore,",
           x: 245,
           y: 180,
-          isUnadjusted: true
+          adjusted: false
         });
         drawer.text({
           text: "you may upgrade your ship",
           x: 215,
           y: 205,
-          isUnadjusted: true
+          adjusted: false
         });
         drawer.text({
           text: "by pressing SPACE",
           x: 247,
           y: 230,
-          isUnadjusted: true
+          adjusted: false
         });
         drawer.text({
           text: "You have " + ship.ore + " ore",
           x: 260,
           y: 270,
-          isUnadjusted: true
+          adjusted: false
         });
       }
       drawer.text({
         text: "Leave Earth by pressing ENTER",
         x: 195,
         y: 360,
-        isUnadjusted: true
+        adjusted: false
       });
     });
   }

@@ -83,10 +83,10 @@ export default class Drawer {
     size = "14px",
     font = "Courier",
     letterSpacing = false,
-    isUnadjusted = false,
+    adjusted = true,
     filter
   }) {
-    if (!isUnadjusted) {
+    if (adjusted) {
       x = this.cameraAdjustX(x);
       y = this.cameraAdjustY(y);
     }

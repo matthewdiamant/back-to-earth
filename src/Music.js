@@ -2,7 +2,7 @@ import Soundbox from "../lib/sound-box.js";
 
 let started = false;
 
-function startDemo() {
+function startMusic() {
   // Initialize music generation (player).
   let t0 = new Date();
   let player = new Soundbox();
@@ -24,6 +24,7 @@ function startDemo() {
       let wave = player.createWave();
       let audio = document.createElement("audio");
       audio.src = URL.createObjectURL(new Blob([wave], { type: "audio/wav" }));
+      audio.volume = 0.5;
       audio.loop = true;
       let playPromise = audio.play();
       let event = new Event("startGame");
@@ -44,7 +45,7 @@ function startDemo() {
 
 export default class Music {
   constructor() {
-    startDemo();
+    startMusic();
   }
 }
 

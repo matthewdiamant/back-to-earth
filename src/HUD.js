@@ -4,6 +4,7 @@ export default class HUD {
   }
   tick(ship) {
     this.ore = ship.ore;
+    this.health = ship.health;
   }
   draw(drawer) {
     drawer.draw(() => {
@@ -13,9 +14,16 @@ export default class HUD {
           x: "305",
           y: "20",
           size: "11px",
-          isUnadjusted: true
+          adjusted: false
         });
       }
+      drawer.text({
+        text: "health: " + this.health,
+        x: "305",
+        y: "40",
+        size: "11px",
+        adjusted: false
+      });
       // drawer.fillRectUnadjusted({
       //   rect: [
       //     Math.cos(theta) * -230 + 320,
