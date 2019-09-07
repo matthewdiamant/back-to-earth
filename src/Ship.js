@@ -112,7 +112,6 @@ export default class Ship {
         sound.mainLaser();
       }
       if (secondaryLaserCanFire) {
-        console.log(this);
         this.projectiles.push(
           new Projectile({
             x: secondaryLaserPosition * Math.cos(yaw) * (size / 2) + x,
