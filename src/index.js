@@ -1,11 +1,11 @@
 /*
   MVP:
+    * Add HUD
     * Add enemies
     * * Bigger / badder enemies
     * * Squads of enemies
     * * Enemy aggro distance
     * Finish earth screen
-    * Add HUD
     * Add ship upgrades
     * * beam laser
     * * shapes
@@ -145,8 +145,6 @@ window.onload = () => {
   const ship = new Ship();
   const asteroids = new Asteroids();
 
-  document.addEventListener("startGame", () => {
-    document.querySelector("main").className += " loaded";
-    gameLoop();
-  });
+  document.querySelector("main").className += " loaded";
+  gameLoop();
 };
