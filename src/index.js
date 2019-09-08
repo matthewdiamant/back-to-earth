@@ -1,6 +1,5 @@
 /*
   MVP:
-    * Player death
     * Add enemies
     * * Bigger / badder enemies
     * * Squads of enemies
@@ -11,12 +10,10 @@
     * * beam laser
     * * shapes
     * * more levels (stats)
-    * purple laser should be a line instead of a rect
     * Improve compass
     
   FUTURE:
     * Add other worlds / compasses
-    * Parallaxing stars/background
     * Music?
     * Refactor opportunities
     * * Create object with x/y/dx/dy
