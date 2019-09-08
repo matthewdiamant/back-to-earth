@@ -15,7 +15,8 @@ let projectileTypes = {
     color: "#f6f",
     shadowColor: "#f0f",
     speed: 10,
-    lifeSpan: 1
+    lifeSpan: 1,
+    line: 8
   },
   missile: {
     type: "missile",
@@ -101,12 +102,23 @@ export default class Projectile {
           shadowColor: "#ff0"
         });
       } else {
-        drawer.rect({
-          rect: [this.x, this.y, 2, 2],
-          fillColor: this.type.color,
-          shadowBlur: 2,
-          shadowColor: this.type.shadowColor
-        });
+        if (this.type.line) {
+          drawer.rect({
+            rect: [this.x, this.y, 1, this.type.line],
+            fillColor: this.type.color,
+            shadowBlur: 2,
+            shadowColor: this.type.shadowColor,
+            rotation: this.yaw,
+            size: 1
+          });
+        } else {
+          drawer.rect({
+            rect: [this.x, this.y, 2, 2],
+            fillColor: this.type.color,
+            shadowBlur: 2,
+            shadowColor: this.type.shadowColor
+          });
+        }
       }
     });
   }
