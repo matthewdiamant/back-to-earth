@@ -274,7 +274,8 @@ export default class Ship {
       });
     } else {
       state.engineOn && this.drawEngine(drawer);
-      this.x * this.x + this.y * this.y < 60 * 60 && this.drawHalo(drawer);
+      let distanceToEarth = this.x * this.x + this.y * this.y;
+      distanceToEarth < 60 * 60 && this.drawHalo(drawer, distanceToEarth);
 
       // drawer.draw(() => drawer.hitbox({ x, y, size })); // hitbox
 
@@ -311,13 +312,17 @@ export default class Ship {
     });
   }
 
-  drawHalo(drawer) {
+  drawHalo(drawer, distanceToEarth) {
     drawer.draw(() => {
       drawer.arc({
-        arc: [this.x, this.y, Math.sin(haloSize / 8) + 10, 0, 2 * Math.PI],
-        strokeColor: "#aaa",
-        shadowBlur: 1,
-        shadowColor: "#aaa"
+        arc: [
+          this.x,
+          this.y,
+          (distanceToEarth * 4) / 60 + Math.sin(haloSize / 8) + 10,
+          0,
+          2 * Math.PI
+        ],
+        strokeColor: `rgba(255, 255, 255, ${1 - distanceToEarth / (60 * 60)})`
       });
     });
   }

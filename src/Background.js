@@ -29,7 +29,7 @@ export default class Background {
             1,
             1
           ],
-          fillColor: "#fff",
+          fillColor: "rgba(255, 255, 255, 0.6)",
           adjusted: false
         })
       );
