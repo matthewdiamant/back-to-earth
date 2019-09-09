@@ -3,36 +3,35 @@ export default class HUD {
     this.ore = 0;
   }
   tick(ship) {
-    this.ore = ship.ore;
     this.health = ship.health;
+    this.maxHealth = ship.maxHealth;
+    this.ore = ship.ore;
   }
   draw(drawer) {
     drawer.draw(() => {
-      if (this.ore > 0) {
+      drawer.rect({
+        rect: ["270", "10", 100, 5],
+        strokeColor: "#fff",
+        adjusted: false
+      });
+    });
+    drawer.draw(() => {
+      let hp = this.health / this.maxHealth;
+      drawer.rect({
+        rect: ["270", "10", hp * 100, 5],
+        fillColor: `rgb(${200 - hp * 255}, ${hp * 200}, 0)`,
+        adjusted: false
+      });
+      if (this.ore > -10) {
+        let text = `ore: ${this.ore}`;
         drawer.text({
-          text: "ore: " + this.ore,
-          x: "305",
-          y: "20",
+          text,
+          x: "299" - (text.length - 6) * 3.5,
+          y: "30",
           size: "11px",
           adjusted: false
         });
       }
-      drawer.text({
-        text: "health: " + this.health,
-        x: "305",
-        y: "40",
-        size: "11px",
-        adjusted: false
-      });
-      // drawer.fillRectUnadjusted({
-      //   rect: [
-      //     Math.cos(theta) * -230 + 320,
-      //     Math.sin(theta) * -230 + 240,
-      //     5,
-      //     5
-      //   ],
-      //   color: "#4f4"
-      // });
     });
   }
 }

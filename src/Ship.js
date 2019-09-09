@@ -1,43 +1,8 @@
 import Debris from "./Debris.js";
 import Projectile from "./Projectile.js";
 
-let shipLevels = [
-  {
-    turnSpeed: 0.05,
-    maxSpeed: 1,
-    acceleration: 0.01,
-    size: 10,
-    mainLaserCooldown: 0.3,
-    mainLaserCanFire: true,
-    health: 10
-  },
-  {
-    cost: 100,
-    turnSpeed: 0.07,
-    maxSpeed: 2,
-    acceleration: 0.03,
-    size: 15,
-    mainLaserCooldown: 0.3,
-    mainLaserCanFire: true,
-    secondaryLaserCooldown: 0.2,
-    secondaryLaserCanFire: true,
-    health: 20
-  },
-  {
-    cost: 400,
-    turnSpeed: 0.09,
-    maxSpeed: 3,
-    acceleration: 0.2,
-    size: 20,
-    mainLaserCooldown: 0.3,
-    mainLaserCanFire: true,
-    secondaryLaserCooldown: 0.2,
-    secondaryLaserCanFire: true,
-    missileCooldown: 0.2,
-    missileCanFire: true,
-    health: 40
-  }
-];
+import shipLevels from "./constants/ship-levels.js";
+import { runInThisContext } from "vm";
 
 let yaw = 3.4,
   turnSpeed = 0.05,
@@ -86,6 +51,7 @@ export default class Ship {
     this.timeout = 0;
     this.level = 0;
     this.shipLevels = shipLevels;
+    this.maxHealth = 10;
     this.health = 10;
     this.exploding = false;
     this.size = size;
@@ -126,7 +92,7 @@ export default class Ship {
   }
 
   heal() {
-    this.health = shipLevels[this.level].health;
+    this.health = shipLevels[this.level].maxHealth;
   }
 
   setLevel(level) {
@@ -143,6 +109,7 @@ export default class Ship {
       missileCanFire
     } = shipLevels[level]);
 
+    this.maxHealth = shipLevels[level].maxHealth;
     this.level = level;
   }
 

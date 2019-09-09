@@ -1,28 +1,7 @@
 import Projectile from "./Projectile.js";
 import Debris from "./Debris.js";
 
-let enemyTypes = [
-  {
-    draw: (drawer, x, y, size, rotation) => {
-      drawer.draw(() => {
-        drawer.rect({
-          rect: [x - size / 2, y - size / 2, size, size],
-          fillColor: "#fff",
-          rotation: rotation,
-          size: size
-        });
-      });
-    },
-    acceleration: 0.01,
-    turnSpeed: 0.05,
-    maxSpeed: 1,
-    weapons: ["enemy-laser"],
-    mainLaserCooldown: 0.5,
-    health: 5,
-    bounty: 100,
-    size: 20
-  }
-];
+import enemyTypes from "./constants/enemy-types.js";
 
 class Enemy {
   constructor(type, x, y) {
@@ -165,7 +144,8 @@ export default class Enemies {
   }
 
   addEnemy(x, y) {
-    this.enemies.push(new Enemy(enemyTypes[0], x, y));
+    let enemyType = Math.floor(Math.random() * 2);
+    this.enemies.push(new Enemy(enemyTypes[enemyType], x, y));
   }
 
   tick(sound, ship) {

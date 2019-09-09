@@ -36,8 +36,10 @@ export default class Drawer {
   rect({
     rect,
     fillColor,
+    strokeColor,
     shadowBlur,
     shadowColor,
+    lineWidth = 1,
     adjusted = true,
     rotation,
     size
@@ -51,10 +53,17 @@ export default class Drawer {
       cx.rotate(rotation);
       cx.translate(-1 * rect[0] - size / 2, -1 * rect[1] - size / 2);
     }
-    cx.fillStyle = fillColor;
     cx.shadowBlur = shadowBlur;
     cx.shadowColor = shadowColor;
-    cx.fillRect(...[rect[0], rect[1], ...rect.slice(2)]);
+    if (fillColor) {
+      cx.fillStyle = fillColor;
+      cx.fillRect(...[rect[0], rect[1], ...rect.slice(2)]);
+    }
+    if (strokeColor) {
+      cx.strokeStyle = strokeColor;
+      cx.lineWidth = lineWidth;
+      cx.strokeRect(...[rect[0], rect[1], ...rect.slice(2)]);
+    }
   }
 
   arc({ arc, fillColor, strokeColor, shadowBlur, shadowColor }) {
