@@ -1,5 +1,6 @@
 /*
   MVP:
+    * Improve compass
     * Add enemies
     * * Bigger / badder enemies
     * * Squads of enemies
@@ -8,7 +9,6 @@
     * * beam laser
     * * shapes
     * * more levels (stats)
-    * Improve compass
     
   FUTURE:
     * Add other worlds / compasses

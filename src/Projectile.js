@@ -24,7 +24,9 @@ let projectileTypes = {
     shadowColor: "#ff0",
     speed: 0.8,
     lifeSpan: 10,
-    maxSpeed: 5
+    maxSpeed: 5,
+    arc: 2,
+    largeExplosion: true
   }
 };
 
@@ -96,7 +98,13 @@ export default class Projectile {
     drawer.draw(() => {
       if (this.exploding) {
         drawer.arc({
-          arc: [this.x, this.y, 4 / this.lifeSpan, 0, 2 * Math.PI],
+          arc: [
+            this.x,
+            this.y,
+            (4 / this.lifeSpan) * (this.type.largeExplosion ? 2 : 1),
+            0,
+            2 * Math.PI
+          ],
           fillColor: "#ff8",
           shadowBlur: 10,
           shadowColor: "#ff0"
@@ -110,6 +118,13 @@ export default class Projectile {
             shadowColor: this.type.shadowColor,
             rotation: this.yaw,
             size: 1
+          });
+        } else if (this.type.arc) {
+          drawer.arc({
+            arc: [this.x, this.y, this.type.arc, 0, 2 * Math.PI],
+            fillColor: this.type.color,
+            shadowBlur: 1,
+            shadowColor: this.type.color
           });
         } else {
           drawer.rect({
