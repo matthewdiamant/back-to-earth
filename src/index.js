@@ -1,6 +1,5 @@
 /*
   MVP:
-    * Improve compass
     * Add enemies
     * * Bigger / badder enemies
     * * Squads of enemies

@@ -142,6 +142,23 @@ export default class Drawer {
     }
   }
 
+  fill({ path, x, y, fillColor, rotation, adjusted = true }) {
+    if (adjusted) {
+      x = this.cameraAdjustX(x);
+      y = this.cameraAdjustY(y);
+    }
+    if (rotation) {
+      cx.translate(x, y);
+      cx.rotate(rotation);
+      cx.translate(-1 * x, -1 * y);
+    }
+    cx.translate(x, y);
+    if (fillColor) {
+      cx.fillStyle = fillColor;
+      cx.fill(path);
+    }
+  }
+
   hitbox({ x, y, size }) {
     this.rect({
       rect: [x - size / 2, y - size / 2, size, size],
