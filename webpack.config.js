@@ -1,3 +1,5 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
 const path = require("path");
 
 module.exports = {
@@ -5,8 +7,7 @@ module.exports = {
   bail: false,
   mode: "production",
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    path: path.resolve(__dirname, "docs")
   },
   module: {
     rules: [
@@ -18,5 +19,20 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
+      },
+      template: "./index.html",
+      inlineSource: ".js$"
+    }),
+    new HtmlWebpackInlineSourcePlugin()
+  ]
 };

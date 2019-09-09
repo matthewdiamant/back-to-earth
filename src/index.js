@@ -1,6 +1,5 @@
 /*
   MVP:
-    * Add HUD
     * Add enemies
     * * Bigger / badder enemies
     * * Squads of enemies
@@ -14,7 +13,7 @@
     
   FUTURE:
     * Add other worlds / compasses
-    * Music?
+    * Music
     * Refactor opportunities
     * * Create object with x/y/dx/dy
     * * Create vector library utils
