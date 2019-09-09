@@ -1,13 +1,13 @@
 let projectileTypes = {
   "main-laser": {
-    color: "#f66",
-    shadowColor: "#f00",
+    color: "#3ff",
+    shadowColor: "#0ff",
     speed: 4,
     lifeSpan: 4
   },
   "enemy-laser": {
-    color: "#a0f",
-    shadowColor: "#a0f",
+    color: "#f00",
+    shadowColor: "#f00",
     speed: 4,
     lifeSpan: 4
   },
