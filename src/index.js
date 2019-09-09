@@ -4,7 +4,6 @@
     * * Bigger / badder enemies
     * * Squads of enemies
     * * Enemy aggro distance
-    * Finish earth screen
     * Add ship upgrades
     * * beam laser
     * * shapes

@@ -18,7 +18,10 @@ export default [
     mainLaserCanFire: true,
     secondaryLaserCooldown: 0.2,
     secondaryLaserCanFire: true,
-    maxHealth: 20
+    maxHealth: 20,
+    speed: "fast",
+    weapons: "dual-blasters",
+    hull: "strong"
   },
   {
     cost: 400,
@@ -32,6 +35,9 @@ export default [
     secondaryLaserCanFire: true,
     missileCooldown: 0.2,
     missileCanFire: true,
-    maxHealth: 40
+    maxHealth: 40,
+    speed: "fastest",
+    weapons: "missiles",
+    hull: "strong"
   }
 ];

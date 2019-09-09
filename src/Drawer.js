@@ -93,7 +93,8 @@ export default class Drawer {
     font = "Courier",
     letterSpacing = false,
     adjusted = true,
-    filter
+    filter,
+    fillColor
   }) {
     if (adjusted) {
       x = this.cameraAdjustX(x);
@@ -102,7 +103,7 @@ export default class Drawer {
     if (filter) cx.filter = filter;
     cx.font = size + " " + font;
     text = letterSpacing ? text.split("").join(" ") : text;
-    cx.fillStyle = "#fff";
+    cx.fillStyle = fillColor || "#fff";
     cx.fillText(text, x, y);
   }
 

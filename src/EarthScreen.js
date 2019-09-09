@@ -52,7 +52,8 @@ export default class EarthScreen {
         text: t[2],
         x: t[0],
         y: t[1],
-        adjusted: false
+        adjusted: false,
+        fillColor: t[3] || "#fff"
       });
     drawer.draw(() => {
       drawer.rect({
@@ -77,52 +78,25 @@ export default class EarthScreen {
       drawer.text({
         text: "Welcome to Earth",
         x: 210,
-        y: 140,
+        y: 130,
         size: "20px",
         font: "serif",
         letterSpacing: true,
         adjusted: false
       });
       if (ship.level >= ship.shipLevels.length - 1) {
-        drawer.text({
-          text: "You have all ship upgrades",
-          x: 245,
-          y: 180,
-          adjusted: false
-        });
+        text([212, 210, "You have all ship upgrades"]);
       } else {
-        let upgradeCost = ship.shipLevels[ship.level + 1].cost;
-        drawer.text({
-          text: "If you have " + upgradeCost + " ore,",
-          x: 245,
-          y: 180,
-          adjusted: false
-        });
-        drawer.text({
-          text: "you may upgrade your ship",
-          x: 215,
-          y: 205,
-          adjusted: false
-        });
-        drawer.text({
-          text: "by pressing SPACE",
-          x: 247,
-          y: 230,
-          adjusted: false
-        });
-        drawer.text({
-          text: "You have " + ship.ore + " ore",
-          x: 260,
-          y: 270,
-          adjusted: false
-        });
+        let nextShip = ship.shipLevels[ship.level + 1];
+        text([230, 165, "Next ship improvements"]);
+        text([245, 195, `Speed:     ${nextShip.speed}`, "#ffa"]);
+        text([227, 220, `Weapons:     ${nextShip.weapons}`, "#ffa"]);
+        text([252, 245, `Hull:     ${nextShip.hull}`, "#ffa"]);
+        text([252, 270, `Cost:     ${nextShip.cost} ore`, "#ffa"]);
+        text([218, 300, `You have:     ${ship.ore} ore`]);
+        text([230, 335, `SPACE to upgrade ship`]);
       }
-      drawer.text({
-        text: "Leave Earth by pressing ENTER",
-        x: 195,
-        y: 360,
-        adjusted: false
-      });
+      text([235, 360, "ENTER to leave Earth"]);
     });
   }
 }

@@ -34,15 +34,15 @@ module.exports = {
       template: "./index.html",
       inlineSource: ".js$"
     }),
-    new HtmlWebpackInlineSourcePlugin(),
-    new ClosureCompilerPlugin({
-      compiler: {
-        language_in: "ECMASCRIPT6",
-        language_out: "ECMASCRIPT5",
-        compilation_level: "ADVANCED"
-      },
-      concurrency: 3,
-      jsCompiler: true
-    })
+    new HtmlWebpackInlineSourcePlugin()
+    // new ClosureCompilerPlugin({
+    //   compiler: {
+    //     language_in: "ECMASCRIPT6",
+    //     language_out: "ECMASCRIPT5",
+    //     compilation_level: "ADVANCED"
+    //   },
+    //   concurrency: 3,
+    //   jsCompiler: true
+    // })
   ]
 };

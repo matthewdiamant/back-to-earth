@@ -2,7 +2,6 @@ import Debris from "./Debris.js";
 import Projectile from "./Projectile.js";
 
 import shipLevels from "./constants/ship-levels.js";
-import { runInThisContext } from "vm";
 
 let yaw = 3.4,
   turnSpeed = 0.05,
@@ -41,7 +40,7 @@ function getClosestEnemy(x, y, enemies, maxDistance) {
 
 export default class Ship {
   constructor() {
-    this.x = 100;
+    this.x = 85;
     this.y = -400;
     this.dx = -0.1;
     this.dy = 0.5;
