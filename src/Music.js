@@ -1,7 +1,10 @@
 // https://sb.bitsnbites.eu/?data=U0JveAwC7dcxCsJQEITheRsFixRildJ7iOQQOUGatGnENg8bGxGbEKucJeDBdHlEEDsLu_-DYWHK7aaxoExrsynKpstGGstRiS2lrVSsgmu9OOqg9_1V_pWHp_y4rQAAAAAAyT76UIo-nXZ1N--zp--zKjstFKTz7ZrKob_3A98CAAAAgL95AQ
 
+import Worker from "./sound-box.worker.js";
+
 function startMusic() {
-  var myWorker = new Worker("./src/sound-box-worker.js");
+  var myWorker = new Worker();
+
   myWorker.onmessage = function(e) {
     let wave = e.data;
     let audio = document.createElement("audio");
