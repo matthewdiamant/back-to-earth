@@ -1,5 +1,6 @@
 /*
   MVP:
+    * Improve enemy spawning logic
     * Add enemies
     * * Bigger / badder enemies
     * * Squads of enemies
