@@ -72,6 +72,8 @@ export default class EarthScreen {
         shadowColor: "#fff",
         adjusted: false
       });
+    });
+    drawer.draw(() => {
       drawer.text({
         text: "Welcome to Earth",
         x: 210,
