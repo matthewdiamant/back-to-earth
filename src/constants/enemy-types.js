@@ -1,5 +1,16 @@
 import shipDesigns from "./ship-designs";
 
+/*
+
+  TODO:
+  * Small, fast enemy with just beam
+  * Medium enemy with primary and secondary
+  * Medium missile boat
+  * Slow goliath with all weapons
+  * HUGE ENEMY / BOSS
+
+*/
+
 export default [
   {
     path: shipDesigns.enemies.medium,
