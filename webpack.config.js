@@ -1,3 +1,4 @@
+const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
 const ClosureCompilerPlugin = require("webpack-closure-compiler");
@@ -19,6 +20,19 @@ module.exports = {
           options: { inline: true, fallback: false }
         }
       }
+    ]
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          mangle: {
+            properties: {
+              keep_quoted: true
+            }
+          }
+        }
+      })
     ]
   },
   plugins: [

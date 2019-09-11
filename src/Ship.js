@@ -60,8 +60,6 @@ export default class Ship {
     this.secondaryLaserPosition = 1;
     this.missileCanFire = false;
     this.missilePosition = 1;
-
-    this.setLevel(1);
   }
 
   getX() {
