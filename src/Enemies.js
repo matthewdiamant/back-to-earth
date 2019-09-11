@@ -1,5 +1,6 @@
 import Projectile from "./Projectile.js";
 import Debris from "./Debris.js";
+import { fireMainWeapon, fireSecondaryWeapon } from "./weaponsHelper.js";
 
 import enemyTypes from "./constants/enemy-types.js";
 
@@ -26,6 +27,10 @@ class Enemy {
 
     this.mainLaserCanFire = type.weapons.includes("enemy-laser");
     this.mainLaserCooldown = type.mainLaserCooldown;
+
+    this.secondaryLaserCanFire = type.weapons.includes("enemy-secondary-laser");
+    this.secondaryLaserCooldown = type.secondaryLaserCooldown;
+    this.secondaryLaserPosition = 1;
   }
 
   takeDamage({ damage, dx, dy, owner }) {
@@ -43,24 +48,32 @@ class Enemy {
   }
 
   weaponsTick(sound) {
-    if (this.mainLaserCanFire) {
-      this.projectiles.push(
-        new Projectile({
-          x: this.x,
-          y: this.y,
-          yaw: this.yaw,
-          damage: 1,
-          type: "enemy-laser",
-          owner: this
-        })
-      );
-      this.mainLaserCanFire = false;
-      window.setTimeout(
-        () => (this.mainLaserCanFire = true),
-        this.mainLaserCooldown * 1000
-      );
-      sound.enemyLaser();
-    }
+    fireMainWeapon({
+      canFire: this.mainLaserCanFire,
+      cooldown: this.mainLaserCooldown,
+      x: this.x,
+      y: this.y,
+      size: this.size,
+      yaw: this.yaw,
+      type: "enemy-laser",
+      owner: this,
+      sound: () => sound.enemyLaser()
+    });
+    fireSecondaryWeapon({
+      canFire: this.secondaryLaserCanFire,
+      cooldown: this.secondaryLaserCooldown,
+      x:
+        this.secondaryLaserPosition * Math.cos(this.yaw) * (this.size / 2) +
+        this.x,
+      y:
+        this.secondaryLaserPosition * Math.sin(this.yaw) * (this.size / 2) +
+        this.y,
+      size: this.size,
+      yaw: this.yaw,
+      type: "enemy-secondary-laser",
+      owner: this,
+      sound: () => sound.secondaryLaser()
+    });
   }
 
   tick(sound, ship) {

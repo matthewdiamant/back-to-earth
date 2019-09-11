@@ -1,6 +1,8 @@
 import Debris from "./Debris.js";
 import Projectile from "./Projectile.js";
 
+import { fireMainWeapon, fireSecondaryWeapon } from "./weaponsHelper.js";
+
 import shipDesigns from "./constants/ship-designs.js";
 import shipLevels from "./constants/ship-levels.js";
 
@@ -10,9 +12,6 @@ let yaw = 3.4,
   acceleration = 0.01,
   size = 20,
   mainLaserCooldown = 0.3,
-  mainLaserCanFire = true,
-  secondaryLaserCanFire = false,
-  secondaryLaserPosition = 1,
   secondaryLaserCooldown = 0.2,
   missileCanFire = false,
   missilePosition = 1,
@@ -55,6 +54,11 @@ export default class Ship {
     this.health = 10;
     this.exploding = false;
     this.size = size;
+    this.mainLaserCanFire = true;
+    this.secondaryLaserCanFire = false;
+    this.secondaryLaserPosition = 1;
+
+    this.setLevel(1);
   }
 
   getX() {
@@ -102,56 +106,42 @@ export default class Ship {
       acceleration,
       size,
       mainLaserCooldown,
-      mainLaserCanFire,
       secondaryLaserCooldown,
-      secondaryLaserCanFire,
       missileCooldown,
       missileCanFire
     } = shipLevels[level]);
 
+    this.mainLaserCanFire = shipLevels[level].mainLaserCanFire;
+    this.secondaryLaserCanFire = shipLevels[level].secondaryLaserCanFire;
     this.maxHealth = shipLevels[level].maxHealth;
     this.level = level;
   }
 
   weaponsTick(keyboard, sound, enemies) {
     if (keyboard.isDown(keyboard.SPACE)) {
-      if (mainLaserCanFire) {
-        this.projectiles.push(
-          new Projectile({
-            x: this.x + (Math.sin(yaw) * size) / 2,
-            y: this.y - (Math.cos(yaw) * size) / 2,
-            yaw,
-            damage: 1,
-            type: "main-laser",
-            owner: this
-          })
-        );
-        mainLaserCanFire = false;
-        window.setTimeout(
-          () => (mainLaserCanFire = true),
-          mainLaserCooldown * 1000
-        );
-        sound.mainLaser();
-      }
-      if (secondaryLaserCanFire) {
-        this.projectiles.push(
-          new Projectile({
-            x: secondaryLaserPosition * Math.cos(yaw) * (size / 2) + this.x,
-            y: secondaryLaserPosition * Math.sin(yaw) * (size / 2) + this.y,
-            yaw,
-            damage: 1,
-            type: "secondary-laser",
-            owner: this
-          })
-        );
-        secondaryLaserPosition *= -1;
-        secondaryLaserCanFire = false;
-        window.setTimeout(
-          () => (secondaryLaserCanFire = true),
-          secondaryLaserCooldown * 1000
-        );
-        sound.secondaryLaser();
-      }
+      fireMainWeapon({
+        canFire: this.mainLaserCanFire,
+        cooldown: mainLaserCooldown,
+        x: this.x,
+        y: this.y,
+        size,
+        yaw,
+        type: "main-laser",
+        owner: this,
+        sound: () => sound.mainLaser()
+      });
+      fireSecondaryWeapon({
+        canFire: this.secondaryLaserCanFire,
+        cooldown: secondaryLaserCooldown,
+        x: this.secondaryLaserPosition * Math.cos(yaw) * (size / 2) + this.x,
+        y: this.secondaryLaserPosition * Math.sin(yaw) * (size / 2) + this.y,
+        size,
+        yaw,
+        type: "secondary-laser",
+        owner: this,
+        sound: () => sound.secondaryLaser()
+      });
+
       if (missileCanFire) {
         this.projectiles.push(
           new Projectile({

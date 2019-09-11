@@ -18,6 +18,13 @@ let projectileTypes = {
     lifeSpan: 1,
     line: 8
   },
+  "enemy-secondary-laser": {
+    color: "#f00",
+    shadowColor: "#f00",
+    speed: 10,
+    lifeSpan: 1,
+    line: 8
+  },
   missile: {
     type: "missile",
     color: "#ff0",
