@@ -86,9 +86,6 @@ class Enemy {
           this.dx = (this.dx / velocity) * this.maxSpeed;
           this.dy = (this.dy / velocity) * this.maxSpeed;
         }
-        // sound.engineOn();
-      } else {
-        // sound.engineOff();
       }
 
       let distanceFromShip = Math.sqrt(
@@ -139,7 +136,7 @@ export default class Enemies {
   }
 
   addEnemy(x, y) {
-    let enemyType = Math.floor(Math.random() * 2);
+    let enemyType = Math.floor(Math.random() * 3);
     this.enemies.push(new Enemy(enemyTypes[enemyType], x, y));
   }
 

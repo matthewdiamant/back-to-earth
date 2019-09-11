@@ -38,6 +38,6 @@ export default [
     maxHealth: 40,
     speed: "fastest",
     weapons: "missiles",
-    hull: "strong"
+    hull: "strongest"
   }
 ];

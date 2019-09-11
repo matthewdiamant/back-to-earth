@@ -5,7 +5,7 @@ export default [
     draw: (drawer, x, y, size, rotation) => {
       drawer.draw(() => {
         drawer.fill({
-          path: new Path2D(shipDesigns.enemies[1]),
+          path: new Path2D(shipDesigns.enemies.medium),
           x: x,
           y: y,
           rotation: rotation,
@@ -29,12 +29,12 @@ export default [
     draw: (drawer, x, y, size, rotation) => {
       drawer.draw(() => {
         drawer.fill({
-          path: new Path2D(shipDesigns.enemies[0]),
+          path: new Path2D(shipDesigns.enemies.small),
           x: x,
           y: y,
           rotation: rotation,
-          fillColor: "#300",
-          strokeColor: "#f44",
+          fillColor: "#700",
+          strokeColor: "#a44",
           centered: false,
           size
         });
@@ -48,5 +48,30 @@ export default [
     health: 3,
     bounty: 100,
     size: 10
+  },
+
+  {
+    draw: (drawer, x, y, size, rotation) => {
+      drawer.draw(() => {
+        drawer.fill({
+          path: new Path2D(shipDesigns.enemies.large),
+          x: x,
+          y: y,
+          rotation: rotation,
+          fillColor: "#700",
+          strokeColor: "#a44",
+          centered: false,
+          size
+        });
+      });
+    },
+    acceleration: 0.05,
+    turnSpeed: 0.1,
+    maxSpeed: 1.5,
+    weapons: ["enemy-laser"],
+    mainLaserCooldown: 0.5,
+    health: 10,
+    bounty: 100,
+    size: 40
   }
 ];
