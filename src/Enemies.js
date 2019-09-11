@@ -155,7 +155,18 @@ class Enemy {
         });
       });
     } else {
-      this.type.draw(drawer, this.x, this.y, this.size, this.yaw);
+      drawer.draw(() => {
+        drawer.fill({
+          path: new Path2D(this.type.path),
+          x: this.x,
+          y: this.y,
+          rotation: this.yaw,
+          fillColor: "#700",
+          strokeColor: "#a44",
+          centered: false,
+          size: this.size
+        });
+      });
     }
     // drawer.draw(() => drawer.hitbox({ x: this.x, y: this.y, size: this.size })); // hitbox
   }
