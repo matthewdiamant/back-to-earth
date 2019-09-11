@@ -1,13 +1,14 @@
 import Debris from "./Debris.js";
 import Projectile from "./Projectile.js";
 
+import shipDesigns from "./constants/ship-designs.js";
 import shipLevels from "./constants/ship-levels.js";
 
 let yaw = 3.4,
   turnSpeed = 0.05,
   maxSpeed = 1,
   acceleration = 0.01,
-  size = 10,
+  size = 20,
   mainLaserCooldown = 0.3,
   mainLaserCanFire = true,
   secondaryLaserCanFire = false,
@@ -117,8 +118,8 @@ export default class Ship {
       if (mainLaserCanFire) {
         this.projectiles.push(
           new Projectile({
-            x: this.x,
-            y: this.y,
+            x: this.x + (Math.sin(yaw) * size) / 2,
+            y: this.y - (Math.cos(yaw) * size) / 2,
             yaw,
             damage: 1,
             type: "main-laser",
@@ -243,21 +244,20 @@ export default class Ship {
       let distanceToEarth = this.x * this.x + this.y * this.y;
       distanceToEarth < 60 * 60 && this.drawHalo(drawer, distanceToEarth);
 
-      // drawer.draw(() => drawer.hitbox({ x, y, size })); // hitbox
-
       drawer.draw(() => {
-        drawer.lines({
+        drawer.fill({
+          path: new Path2D(shipDesigns.ship),
           x: this.x,
           y: this.y,
-          lines: [
-            [this.x, this.y - 7],
-            [this.x + 5, this.y + 5],
-            [this.x - 5, this.y + 5]
-          ],
           rotation: yaw,
-          fillColor: "#070"
+          strokeColor: "#070",
+          centered: false,
+          size
         });
       });
+      // drawer.draw(() =>
+      //   drawer.hitbox({ x: this.x, y: this.y, size: this.size })
+      // ); // hitbox
     }
   }
 
@@ -267,10 +267,10 @@ export default class Ship {
         x: this.x,
         y: this.y,
         lines: [
-          [this.x + size * -0.5, this.y + size * 0.5],
-          [this.x + size * 0.5, this.y + size * 0.5],
-          [this.x, this.y + size * 0.5 + Math.random() * 5],
-          [this.x + size * -0.5, this.y + size * 0.5]
+          [this.x + size * -0.25, this.y + size * 0.25],
+          [this.x + size * 0.25, this.y + size * 0.25],
+          [this.x, this.y + size * 0.25 + Math.random() * 5],
+          [this.x + size * -0.25, this.y + size * 0.25]
         ],
         rotation: yaw,
         fillColor: "orange"

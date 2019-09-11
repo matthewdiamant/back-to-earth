@@ -9,7 +9,7 @@ function startMusic() {
     let wave = e.data;
     let audio = document.createElement("audio");
     audio.src = URL.createObjectURL(new Blob([wave], { type: "audio/wav" }));
-    audio.volume = 0.5;
+    audio.volume = 0.0;
     audio.loop = true;
     let playPromise = audio.play();
     (function tryAgain(playPromise) {

@@ -34,14 +34,9 @@ class Enemy {
     this.health -= damage;
     if (this.health <= 0) {
       this.exploding = true;
-      this.debris = Array(20)
+      this.debris = Array(40)
         .fill()
-        .map(d => new Debris({ x: this.x, y: this.y, color: "#aa3" }))
-        .concat(
-          Array(20)
-            .fill()
-            .map(d => new Debris({ x: this.x, y: this.y, color: "#a33" }))
-        );
+        .map(d => new Debris({ x: this.x, y: this.y, color: "#aa3" }));
       this.lifeSpan = 80;
       owner.ore += this.bounty;
     }

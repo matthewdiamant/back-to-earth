@@ -142,7 +142,17 @@ export default class Drawer {
     }
   }
 
-  fill({ path, x, y, fillColor, rotation, adjusted = true }) {
+  fill({
+    path,
+    x,
+    y,
+    fillColor,
+    strokeColor,
+    rotation,
+    adjusted = true,
+    centered = true,
+    size
+  }) {
     if (adjusted) {
       x = this.cameraAdjustX(x);
       y = this.cameraAdjustY(y);
@@ -153,9 +163,18 @@ export default class Drawer {
       cx.translate(-1 * x, -1 * y);
     }
     cx.translate(x, y);
+    if (!centered) {
+      cx.translate(-size / 2, -size / 2 + 0.5);
+    }
     if (fillColor) {
       cx.fillStyle = fillColor;
       cx.fill(path);
+    }
+    if (strokeColor) {
+      cx.strokeStyle = strokeColor;
+      cx.fillStyle = "#131";
+      cx.fill(path);
+      cx.stroke(path);
     }
   }
 
