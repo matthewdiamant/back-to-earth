@@ -6,8 +6,6 @@
     * * Squads of enemies
     * * Enemy aggro distance
     * Add ship upgrades
-    * * beam laser
-    * * shapes
     * * more levels (stats)
     
   FUTURE:
@@ -16,7 +14,6 @@
     * Refactor opportunities
     * * Create object with x/y/dx/dy
     * * Create vector library utils
-    * * SVG graphics over "line"
     * * Move to objects over classes
 */
 

@@ -22,19 +22,19 @@ module.exports = {
       }
     ]
   },
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          mangle: {
-            properties: {
-              keep_quoted: true
-            }
-          }
-        }
-      })
-    ]
-  },
+  // optimization: {
+  //   minimizer: [
+  //     new TerserPlugin({
+  //       terserOptions: {
+  //         mangle: {
+  //           properties: {
+  //             keep_quoted: true
+  //           }
+  //         }
+  //       }
+  //     })
+  //   ]
+  // },
   plugins: [
     new HtmlWebpackPlugin({
       minify: {

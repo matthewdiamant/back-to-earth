@@ -65,3 +65,22 @@ export function fireMissile({
     sound();
   }
 }
+
+export function fireBeam({
+  canFire,
+  cooldown,
+  x,
+  y,
+  yaw,
+  type,
+  owner,
+  target,
+  sound
+}) {
+  if (canFire) {
+    owner.projectiles.push(
+      new Projectile({ x, y, yaw, damage: 0.03, type, owner, target })
+    );
+    sound();
+  }
+}

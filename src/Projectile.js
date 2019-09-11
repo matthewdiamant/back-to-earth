@@ -44,6 +44,13 @@ let projectileTypes = {
     maxSpeed: 5,
     arc: 2,
     largeExplosion: true
+  },
+  beam: {
+    type: "beam",
+    color: "#3ff",
+    shadowColor: "#0ff",
+    speed: 100,
+    lifeSpan: (1 / 1000) * 60
   }
 };
 
@@ -102,8 +109,17 @@ export default class Projectile {
       }
     }
 
-    this.x += this.dx;
-    this.y += this.dy;
+    if (this.type.type === "beam") {
+      this.target.takeDamage({
+        damage: this.damage,
+        dx: 0,
+        dy: 0,
+        owner: this.owner
+      });
+    } else {
+      this.x += this.dx;
+      this.y += this.dy;
+    }
   }
 
   destroy() {
@@ -142,6 +158,23 @@ export default class Projectile {
             fillColor: this.type.color,
             shadowBlur: 1,
             shadowColor: this.type.color
+          });
+        } else if (this.type.type === "beam") {
+          let distance = Math.sqrt(
+            Math.pow(this.owner.x - this.target.x, 2) +
+              Math.pow(this.owner.y - this.target.y, 2)
+          );
+          let theta = Math.atan2(
+            this.owner.x - this.target.x,
+            -this.owner.y + this.target.y
+          );
+          drawer.rect({
+            rect: [this.owner.x, this.owner.y, 1, distance],
+            fillColor: this.type.color,
+            shadowBlur: 2,
+            shadowColor: this.type.shadowColor,
+            rotation: theta,
+            size: 1
           });
         } else {
           drawer.rect({

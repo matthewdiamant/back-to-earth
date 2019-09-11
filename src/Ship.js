@@ -3,7 +3,8 @@ import Debris from "./Debris.js";
 import {
   fireMainWeapon,
   fireSecondaryWeapon,
-  fireMissile
+  fireMissile,
+  fireBeam
 } from "./weaponsHelper.js";
 
 import shipDesigns from "./constants/ship-designs.js";
@@ -60,8 +61,7 @@ export default class Ship {
     this.secondaryLaserPosition = 1;
     this.missileCanFire = false;
     this.missilePosition = 1;
-
-    this.setLevel(1);
+    this.beamCanFire = false;
   }
 
   getX() {
@@ -116,12 +116,14 @@ export default class Ship {
     this.mainLaserCanFire = shipLevels[level].mainLaserCanFire;
     this.secondaryLaserCanFire = shipLevels[level].secondaryLaserCanFire;
     this.missileCanFire = shipLevels[level].missileCanFire;
+    this.beamCanFire = shipLevels[level].beamCanFire;
     this.maxHealth = shipLevels[level].maxHealth;
     this.level = level;
   }
 
   weaponsTick(keyboard, sound, enemies) {
     if (keyboard.isDown(keyboard.SPACE)) {
+      let closestEnemy = getClosestEnemy(this.x, this.y, enemies, 260);
       fireMainWeapon({
         canFire: this.mainLaserCanFire,
         cooldown: mainLaserCooldown,
@@ -151,9 +153,20 @@ export default class Ship {
         yaw: yaw + (Math.PI / 2) * this.missilePosition,
         type: "missile",
         owner: this,
-        target: getClosestEnemy(this.x, this.y, enemies, 260),
+        target: closestEnemy,
         sound: () => sound.missile()
       });
+      if (closestEnemy) {
+        fireBeam({
+          canFire: this.beamCanFire,
+          x: this.x + (Math.sin(yaw) * size) / 2,
+          y: this.y - (Math.cos(yaw) * size) / 2,
+          type: "beam",
+          owner: this,
+          target: closestEnemy,
+          sound: () => {}
+        });
+      }
     }
   }
 
