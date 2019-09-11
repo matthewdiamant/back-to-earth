@@ -19,7 +19,7 @@ export default [
     secondaryLaserCooldown: 0.2,
     secondaryLaserCanFire: true,
     beamCanFire: true,
-    maxHealth: 20,
+    maxHealth: 100,
     speed: "fast",
     weapons: "dual-blasters",
     hull: "strong"
@@ -37,7 +37,7 @@ export default [
     beamCanFire: true,
     missileCooldown: 0.2,
     missileCanFire: true,
-    maxHealth: 40,
+    maxHealth: 500,
     speed: "fastest",
     weapons: "missiles",
     hull: "strongest"

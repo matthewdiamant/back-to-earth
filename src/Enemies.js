@@ -41,8 +41,8 @@ class Enemy {
   }
 
   takeDamage({ damage, dx, dy, owner }) {
-    this.dx += dx / 30;
-    this.dy += dy / 30;
+    if (dx) this.dx += dx / 30;
+    if (dy) this.dy += dy / 30;
     this.health -= damage;
     if (this.health <= 0) {
       this.exploding = true;
