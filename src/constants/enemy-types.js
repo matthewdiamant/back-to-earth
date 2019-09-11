@@ -69,8 +69,10 @@ export default [
     acceleration: 0.05,
     turnSpeed: 0.1,
     maxSpeed: 1.5,
-    weapons: ["enemy-laser"],
+    weapons: ["enemy-laser", "enemy-secondary-laser", "enemy-missile"],
     mainLaserCooldown: 0.5,
+    secondaryLaserCooldown: 0.2,
+    missileCooldown: 0.2,
     health: 10,
     bounty: 100,
     size: 40

@@ -1,6 +1,9 @@
-import Projectile from "./Projectile.js";
 import Debris from "./Debris.js";
-import { fireMainWeapon, fireSecondaryWeapon } from "./weaponsHelper.js";
+import {
+  fireMainWeapon,
+  fireSecondaryWeapon,
+  fireMissile
+} from "./weaponsHelper.js";
 
 import enemyTypes from "./constants/enemy-types.js";
 
@@ -31,6 +34,10 @@ class Enemy {
     this.secondaryLaserCanFire = type.weapons.includes("enemy-secondary-laser");
     this.secondaryLaserCooldown = type.secondaryLaserCooldown;
     this.secondaryLaserPosition = 1;
+
+    this.missileCanFire = type.weapons.includes("enemy-missile");
+    this.missileCooldown = type.missileCooldown;
+    this.missilePosition = 1;
   }
 
   takeDamage({ damage, dx, dy, owner }) {
@@ -47,7 +54,7 @@ class Enemy {
     }
   }
 
-  weaponsTick(sound) {
+  weaponsTick(sound, ship) {
     fireMainWeapon({
       canFire: this.mainLaserCanFire,
       cooldown: this.mainLaserCooldown,
@@ -73,6 +80,17 @@ class Enemy {
       type: "enemy-secondary-laser",
       owner: this,
       sound: () => sound.secondaryLaser()
+    });
+    fireMissile({
+      canFire: this.missileCanFire,
+      cooldown: this.missileCooldown,
+      x: this.missilePosition * Math.cos(this.yaw) * (this.size / 2) + this.x,
+      y: this.missilePosition * Math.sin(this.yaw) * (this.size / 2) + this.y,
+      yaw: this.yaw + (Math.PI / 2) * this.missilePosition,
+      type: "enemy-missile",
+      owner: this,
+      target: ship,
+      sound: () => sound.missile()
     });
   }
 
@@ -106,7 +124,7 @@ class Enemy {
           (this.y - ship.y) * (this.y - ship.y)
       );
       if (!ship.exploding && distanceFromShip < 320)
-        this.weaponsTick(sound, [ship]);
+        this.weaponsTick(sound, ship);
     }
 
     this.x += this.dx;

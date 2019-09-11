@@ -34,6 +34,16 @@ let projectileTypes = {
     maxSpeed: 5,
     arc: 2,
     largeExplosion: true
+  },
+  "enemy-missile": {
+    type: "missile",
+    color: "#f60",
+    shadowColor: "#f60",
+    speed: 0.8,
+    lifeSpan: 10,
+    maxSpeed: 5,
+    arc: 2,
+    largeExplosion: true
   }
 };
 

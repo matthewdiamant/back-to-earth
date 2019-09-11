@@ -1,7 +1,10 @@
 import Debris from "./Debris.js";
-import Projectile from "./Projectile.js";
 
-import { fireMainWeapon, fireSecondaryWeapon } from "./weaponsHelper.js";
+import {
+  fireMainWeapon,
+  fireSecondaryWeapon,
+  fireMissile
+} from "./weaponsHelper.js";
 
 import shipDesigns from "./constants/ship-designs.js";
 import shipLevels from "./constants/ship-levels.js";
@@ -13,8 +16,6 @@ let yaw = 3.4,
   size = 20,
   mainLaserCooldown = 0.3,
   secondaryLaserCooldown = 0.2,
-  missileCanFire = false,
-  missilePosition = 1,
   missileCooldown = 0.2,
   state = {
     engineOn: false
@@ -57,6 +58,8 @@ export default class Ship {
     this.mainLaserCanFire = true;
     this.secondaryLaserCanFire = false;
     this.secondaryLaserPosition = 1;
+    this.missileCanFire = false;
+    this.missilePosition = 1;
 
     this.setLevel(1);
   }
@@ -107,12 +110,12 @@ export default class Ship {
       size,
       mainLaserCooldown,
       secondaryLaserCooldown,
-      missileCooldown,
-      missileCanFire
+      missileCooldown
     } = shipLevels[level]);
 
     this.mainLaserCanFire = shipLevels[level].mainLaserCanFire;
     this.secondaryLaserCanFire = shipLevels[level].secondaryLaserCanFire;
+    this.missileCanFire = shipLevels[level].missileCanFire;
     this.maxHealth = shipLevels[level].maxHealth;
     this.level = level;
   }
@@ -122,9 +125,8 @@ export default class Ship {
       fireMainWeapon({
         canFire: this.mainLaserCanFire,
         cooldown: mainLaserCooldown,
-        x: this.x,
-        y: this.y,
-        size,
+        x: this.x + (Math.sin(yaw) * size) / 2,
+        y: this.y - (Math.cos(yaw) * size) / 2,
         yaw,
         type: "main-laser",
         owner: this,
@@ -141,27 +143,17 @@ export default class Ship {
         owner: this,
         sound: () => sound.secondaryLaser()
       });
-
-      if (missileCanFire) {
-        this.projectiles.push(
-          new Projectile({
-            x: missilePosition * Math.cos(yaw) * (size / 2) + this.x,
-            y: missilePosition * Math.sin(yaw) * (size / 2) + this.y,
-            yaw: yaw + (Math.PI / 2) * missilePosition,
-            damage: 1,
-            type: "missile",
-            owner: this,
-            target: getClosestEnemy(this.x, this.y, enemies, 260)
-          })
-        );
-        missilePosition *= -1;
-        missileCanFire = false;
-        window.setTimeout(
-          () => (missileCanFire = true),
-          missileCooldown * 1000
-        );
-        sound.missile();
-      }
+      fireMissile({
+        canFire: this.missileCanFire,
+        cooldown: missileCooldown,
+        x: this.missilePosition * Math.cos(yaw) * (size / 2) + this.x,
+        y: this.missilePosition * Math.sin(yaw) * (size / 2) + this.y,
+        yaw: yaw + (Math.PI / 2) * this.missilePosition,
+        type: "missile",
+        owner: this,
+        target: getClosestEnemy(this.x, this.y, enemies, 260),
+        sound: () => sound.missile()
+      });
     }
   }
 
