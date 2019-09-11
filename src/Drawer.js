@@ -172,7 +172,7 @@ export default class Drawer {
     }
     if (strokeColor) {
       cx.strokeStyle = strokeColor;
-      cx.fillStyle = "#131";
+      cx.fillStyle = fillColor || "#131";
       cx.fill(path);
       cx.stroke(path);
     }

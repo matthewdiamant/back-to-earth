@@ -1,12 +1,18 @@
+import shipDesigns from "./ship-designs";
+
 export default [
   {
     draw: (drawer, x, y, size, rotation) => {
       drawer.draw(() => {
-        drawer.rect({
-          rect: [x - size / 2, y - size / 2, size, size],
-          fillColor: "#fff",
+        drawer.fill({
+          path: new Path2D(shipDesigns.enemies[1]),
+          x: x,
+          y: y,
           rotation: rotation,
-          size: size
+          fillColor: "#700",
+          strokeColor: "#a44",
+          centered: false,
+          size
         });
       });
     },
@@ -22,11 +28,15 @@ export default [
   {
     draw: (drawer, x, y, size, rotation) => {
       drawer.draw(() => {
-        drawer.rect({
-          rect: [x - size / 2, y - size / 2, size, size],
-          fillColor: "#fff",
+        drawer.fill({
+          path: new Path2D(shipDesigns.enemies[0]),
+          x: x,
+          y: y,
           rotation: rotation,
-          size: size
+          fillColor: "#300",
+          strokeColor: "#f44",
+          centered: false,
+          size
         });
       });
     },
@@ -35,7 +45,7 @@ export default [
     maxSpeed: 1.5,
     weapons: ["enemy-laser"],
     mainLaserCooldown: 0.5,
-    health: 5,
+    health: 3,
     bounty: 100,
     size: 10
   }

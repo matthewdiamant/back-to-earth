@@ -3,7 +3,7 @@ export default [
     turnSpeed: 0.05,
     maxSpeed: 1,
     acceleration: 0.01,
-    size: 10,
+    size: 20,
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
     maxHealth: 10
@@ -13,7 +13,7 @@ export default [
     turnSpeed: 0.07,
     maxSpeed: 2,
     acceleration: 0.03,
-    size: 15,
+    size: 20,
     mainLaserCooldown: 0.3,
     mainLaserCanFire: true,
     secondaryLaserCooldown: 0.2,
