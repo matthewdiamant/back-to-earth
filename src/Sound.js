@@ -59,7 +59,7 @@ export default class Sound {
   }
 
   playSound(url) {
-    const soundUrl = jsfxr(eval(url));
+    let soundUrl = jsfxr(eval(url));
 
     let player = new Audio();
     player.src = soundUrl;

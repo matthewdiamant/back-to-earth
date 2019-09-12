@@ -35,12 +35,12 @@ import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
 
 window.onload = () => {
-  const gameContainer = new GameContainer();
+  let gameContainer = new GameContainer();
 
-  const drawer = new Drawer(gameContainer.canvas);
-  const keyboard = new Keyboard();
-  const sound = new Sound();
-  const collisionDetector = new CollisionDetector();
+  let drawer = new Drawer(gameContainer.canvas);
+  let keyboard = new Keyboard();
+  let sound = new Sound();
+  let collisionDetector = new CollisionDetector();
 
   gameContainer.initialize();
 
@@ -126,19 +126,19 @@ window.onload = () => {
     hud
   ];
 
-  const background = new Background({
+  let background = new Background({
     cw: gameContainer.canvas.width,
     ch: gameContainer.canvas.height
   });
-  const compasses = new Compasses();
-  const hud = new HUD();
-  const earthScreen = new EarthScreen();
-  const earth = new Earth();
-  const enemies = new Enemies();
-  const gameOverScreen = new GameOverScreen();
-  const music = new Music();
-  const ship = new Ship();
-  const asteroids = new Asteroids();
+  let compasses = new Compasses();
+  let hud = new HUD();
+  let earthScreen = new EarthScreen();
+  let earth = new Earth();
+  let enemies = new Enemies();
+  let gameOverScreen = new GameOverScreen();
+  let music = new Music();
+  let ship = new Ship();
+  let asteroids = new Asteroids();
 
   document.querySelector("main").className += " loaded";
   gameLoop();

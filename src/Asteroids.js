@@ -1,6 +1,6 @@
 import Debris from "./Debris.js";
 
-const asteroidStyles = [
+let asteroidStyles = [
   [
     [-6, -10],
     [2, -10],
