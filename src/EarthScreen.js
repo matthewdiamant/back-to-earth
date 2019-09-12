@@ -6,8 +6,8 @@ export default class EarthScreen {
   makeEnemy(ship) {
     let theta = Math.random() * Math.PI * 2;
     return [
-      (300 + 300 * Math.sin(theta)) + ship.getX(),
-      (300 + 300 * Math.cos(theta)) + ship.getY(),
+      (500 + 100 * Math.random()) * Math.sin(theta) + ship.getX(),
+      (500 + 100 * Math.random()) * Math.cos(theta) + ship.getY(),
       ship.level
     ];
   }
