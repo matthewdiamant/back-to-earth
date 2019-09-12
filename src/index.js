@@ -1,13 +1,15 @@
 /*
   TODO:
+    * Enemy beam weapons
     * Improve enemy spawning logic
     * Balancing
     * Add other worlds / compasses
     * Music
-    * Refactor opportunities
-    * * Create object with x/y/dx/dy
-    * * Create vector library utils
-    * * Move to objects over classes
+  
+  Refactor opportunities:
+  * Create object with x/y/dx/dy
+  * Create vector library utils
+  * Move to objects over classes
 */
 
 import Drawer from "./Drawer.js";
