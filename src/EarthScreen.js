@@ -3,6 +3,16 @@ export default class EarthScreen {
     this.timeout = 15;
   }
 
+  makeEnemy(ship) {
+    return [
+      (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
+      ship.getX(),
+      (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
+      ship.getY(),
+      ship.level
+    ];
+  }
+
   tick(keyboard, ship, asteroids, enemies) {
     if (keyboard.isDown(keyboard.ENTER) && this.timeout < 0) {
       this.timeout = 15;
@@ -13,23 +23,8 @@ export default class EarthScreen {
       asteroids.initializeAsteroids();
       ship.heal();
       if (ship.level >= 1) {
-        for (let i = 0; i < 5; i++) {
-          enemies.addEnemy(
-            (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
-              ship.getX(),
-            (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
-              ship.getY()
-          );
-        }
-      }
-      if (ship.level >= 2) {
-        for (let i = 0; i < 20; i++) {
-          enemies.addEnemy(
-            (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
-              ship.getX(),
-            (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
-              ship.getY()
-          );
+        for (let i = 0; i < ship.level; i++) {
+          enemies.addEnemy(...this.makeEnemy(ship));
         }
       }
     }

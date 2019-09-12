@@ -5,7 +5,8 @@ import {
   fireMissile
 } from "./weaponsHelper.js";
 
-import enemyTypes from "./constants/enemy-types.js";
+import encounters from './constants/encounters';
+import enemyTypes from './constants/enemy-types';
 
 class Enemy {
   constructor(type, x, y) {
@@ -121,7 +122,7 @@ class Enemy {
 
       let distanceFromShip = Math.sqrt(
         (this.x - ship.x) * (this.x - ship.x) +
-          (this.y - ship.y) * (this.y - ship.y)
+        (this.y - ship.y) * (this.y - ship.y)
       );
       if (!ship.exploding && distanceFromShip < 320)
         this.weaponsTick(sound, ship);
@@ -177,9 +178,33 @@ export default class Enemies {
     this.enemies = [];
   }
 
-  addEnemy(x, y) {
-    let enemyType = Math.floor(Math.random() * 3);
-    this.enemies.push(new Enemy(enemyTypes[enemyType], x, y));
+  createEnemy(template) {
+    let enemy = {};
+
+    let speed = enemyTypes.speed[template.speed];
+    let size = enemyTypes.size[template.size];
+    let health = enemyTypes.health[template.health];
+    let weaponVars = template.weapons.reduce((acc, weapon) => {
+      return Object.assign(acc, enemyTypes.weapons[weapon]);
+    }, {})
+    let weapons = template.weapons.map(weapon => enemyTypes.weapons[weapon].weapon)
+
+    Object.assign(enemy, speed);
+    Object.assign(enemy, size);
+    Object.assign(enemy, health);
+    Object.assign(enemy, weaponVars);
+    enemy.weapons = weapons;
+
+    return enemy;
+  }
+
+  addEnemy(x, y, level) {
+    let templateGroup = encounters[level];
+    let enemyTemplate = this.enemies.length === 0 ? 0 : Math.floor(Math.random() * templateGroup.length);
+
+    let enemy = this.createEnemy(templateGroup[enemyTemplate]);
+
+    this.enemies.push(new Enemy(enemy, x, y));
   }
 
   tick(sound, ship) {
