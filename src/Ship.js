@@ -48,7 +48,7 @@ export default class Ship {
     this.dy = 0.5;
     this.projectiles = [];
     this.landed = false;
-    this.ore = 0;
+    this.ore = 100;
     this.timeout = 0;
     this.level = 0;
     this.shipLevels = shipLevels;
@@ -80,9 +80,7 @@ export default class Ship {
     this.dy = d;
   }
 
-  takeDamage({ damage, dx1, dy1 }) {
-    // this.dx += dx1 / 30;
-    // this.dy += dy1 / 30;
+  takeDamage({ damage }) {
     this.health -= damage;
     if (this.health <= 0) {
       this.exploding = true;
@@ -107,7 +105,6 @@ export default class Ship {
       turnSpeed,
       maxSpeed,
       acceleration,
-      size,
       mainLaserCooldown,
       secondaryLaserCooldown,
       missileCooldown
@@ -164,7 +161,7 @@ export default class Ship {
           type: "beam",
           owner: this,
           target: closestEnemy,
-          sound: () => {}
+          sound: () => { }
         });
       }
     }

@@ -9,7 +9,7 @@ import encounters from './constants/encounters';
 import enemyTypes from './constants/enemy-types';
 
 class Enemy {
-  constructor(type, x, y) {
+  constructor(type, x, y, level) {
     this.x = x;
     this.y = y;
     this.dx = 0;
@@ -17,6 +17,7 @@ class Enemy {
     this.yaw = 0;
     this.shouldDie = false;
     this.exploding = false;
+    this.level = level;
 
     this.type = type;
     this.projectiles = [];
@@ -44,14 +45,15 @@ class Enemy {
   takeDamage({ damage, dx, dy, owner }) {
     if (dx) this.dx += dx / 30;
     if (dy) this.dy += dy / 30;
+    let oldHealth = this.health;
     this.health -= damage;
-    if (this.health <= 0) {
+    if (this.health <= 0 && oldHealth > 0) {
       this.exploding = true;
       this.debris = Array(40)
         .fill()
         .map(d => new Debris({ x: this.x, y: this.y, color: "#aa3" }));
       this.lifeSpan = 80;
-      owner.ore += this.bounty;
+      owner.ore += (Math.pow(2, this.level) * 10);
     }
   }
 
@@ -204,7 +206,7 @@ export default class Enemies {
 
     let enemy = this.createEnemy(templateGroup[enemyTemplate]);
 
-    this.enemies.push(new Enemy(enemy, x, y));
+    this.enemies.push(new Enemy(enemy, x, y, level));
   }
 
   tick(sound, ship) {
