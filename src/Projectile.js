@@ -51,6 +51,13 @@ let projectileTypes = {
     shadowColor: "#0ff",
     speed: 100,
     lifeSpan: (1 / 1000) * 60
+  },
+  "enemy-beam": {
+    type: "beam",
+    color: "#f66",
+    shadowColor: "#f66",
+    speed: 100,
+    lifeSpan: (1 / 1000) * 60
   }
 };
 

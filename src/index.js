@@ -1,6 +1,5 @@
 /*
   TODO:
-    * Enemy beam weapons
     * Improve enemy spawning logic
     * Balancing
     * Add other worlds / compasses

@@ -2,7 +2,8 @@ import Debris from "./Debris.js";
 import {
   fireMainWeapon,
   fireSecondaryWeapon,
-  fireMissile
+  fireMissile,
+  fireBeam
 } from "./weaponsHelper.js";
 
 import encounters from './constants/encounters';
@@ -40,6 +41,8 @@ class Enemy {
     this.missileCanFire = type.weapons.includes("enemy-missile");
     this.missileCooldown = type.missileCooldown;
     this.missilePosition = 1;
+    
+    this.beamCanFire = type.weapons.includes("enemy-beam");
   }
 
   takeDamage({ damage, dx, dy, owner }) {
@@ -57,7 +60,7 @@ class Enemy {
     }
   }
 
-  weaponsTick(sound, ship) {
+  weaponsTick(sound, ship, distanceFromShip) {
     fireMainWeapon({
       canFire: this.mainLaserCanFire,
       cooldown: this.mainLaserCooldown,
@@ -95,6 +98,16 @@ class Enemy {
       target: ship,
       sound: () => sound.missile()
     });
+    if (distanceFromShip < 150)
+    fireBeam({
+      canFire: this.beamCanFire,
+      x: this.x + (Math.sin(this.yaw) * this.size) / 2,
+      y: this.y - (Math.cos(this.yaw) * this.size) / 2,
+      type: "enemy-beam",
+      owner: this,
+      target: ship,
+      sound: () => {}
+    });
   }
 
   tick(sound, ship) {
@@ -127,7 +140,7 @@ class Enemy {
         (this.y - ship.y) * (this.y - ship.y)
       );
       if (!ship.exploding && distanceFromShip < 320)
-        this.weaponsTick(sound, ship);
+        this.weaponsTick(sound, ship, distanceFromShip);
     }
 
     this.x += this.dx;
