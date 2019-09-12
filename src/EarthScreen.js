@@ -4,16 +4,15 @@ export default class EarthScreen {
   }
 
   makeEnemy(ship) {
+    let theta = Math.random() * Math.PI * 2;
     return [
-      (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
-      ship.getX(),
-      (300 + 300 * Math.random()) * (Math.round(Math.random()) * 2 - 1) +
-      ship.getY(),
+      (300 + 300 * Math.sin(theta)) + ship.getX(),
+      (300 + 300 * Math.cos(theta)) + ship.getY(),
       ship.level
     ];
   }
 
-  tick(keyboard, ship, asteroids, enemies) {
+  tick(keyboard, ship, asteroids, enemies, compasses) {
     if (keyboard.isDown(keyboard.ENTER) && this.timeout < 0) {
       this.timeout = 15;
       ship.landed = false;
@@ -37,6 +36,9 @@ export default class EarthScreen {
       if (ship.ore >= upgradeCost) {
         ship.ore -= upgradeCost;
         ship.setLevel(ship.level + 1);
+        if (ship.level >= 9) {
+          compasses.createWorld();
+        }
       }
     }
   }
