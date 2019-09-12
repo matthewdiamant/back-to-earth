@@ -48,7 +48,7 @@ export default class Ship {
     this.dy = 0.5;
     this.projectiles = [];
     this.landed = false;
-    this.ore = 100;
+    this.ore = 0;
     this.timeout = 0;
     this.level = 0;
     this.shipLevels = shipLevels;

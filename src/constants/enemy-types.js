@@ -15,7 +15,7 @@ let size = {
 let health = {
   weak: { health: 3 },
   medium: { health: 5 },
-  strong: { health: 10 }
+  strong: { health: 20 }
 };
 
 let weapons = {

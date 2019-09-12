@@ -84,10 +84,7 @@ export default class EarthScreen {
       } else {
         let nextShip = ship.shipLevels[ship.level + 1];
         text([230, 165, "Next ship improvements"]);
-        // nextShip.descriptions.forEach(t => text(t));
-        // text([245, 195, `Speed:     ${nextShip.speed}`, "#ffa"]);
-        // text([227, 220, `Weapons:     ${nextShip.weapons}`, "#ffa"]);
-        // text([252, 245, `Hull:     ${nextShip.hull}`, "#ffa"]);
+        nextShip.descriptions.forEach(t => text(t));
         text([252, 270, `Cost:     ${nextShip.cost} ore`, "#ffa"]);
         text([218, 300, `You have:     ${ship.ore} ore`]);
         text([230, 335, `SPACE to upgrade ship`]);

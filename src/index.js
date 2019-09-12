@@ -1,14 +1,7 @@
 /*
-  MVP:
+  TODO:
     * Improve enemy spawning logic
-    * Add enemies
-    * * Bigger / badder enemies
-    * * Squads of enemies
-    * * Enemy aggro distance
-    * Add ship upgrades
-    * * more levels (stats)
-    
-  FUTURE:
+    * Balancing
     * Add other worlds / compasses
     * Music
     * Refactor opportunities

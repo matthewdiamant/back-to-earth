@@ -15,26 +15,20 @@ let beamCanFire = [false, false, false, false, false, false, false, true, true, 
 let missileCooldown = [false, false, false, false, false, 0.2, 0.2, 0.2, 0.2, 0.2];
 let missileCanFire = [false, false, false, false, false, true, true, true, true, true];
 
-let maxHealth = [10, 10, 60, 60, 100, 100, 200, 200, 400, 400];
+let maxHealth = [10, 10, 60, 60, 100, 100, 150, 150, 300, 300];
 
 let descriptions = [
   [],
-  [[245, 195, `Speed:     good`, "#ffa"]],
-  [[245, 195, `Speed:     great`, "#ffa"]],
+  [[262, 215, `Speed upgrade`, "#ffa"]],
+  [[255, 215, `Shields upgrade`, "#ffa"]],
+  [[245, 215, `Dual-blaster lasers`, "#ffa"]],
+  [[262, 200, `Speed upgrade`, "#ffa"], [255, 225, `Shields upgrade`, "#ffa"]],
+  [[227, 215, `Auto-targeting missiles`, "#ffa"]],
+  [[262, 200, `Shields upgrade`, "#ffa"], [223, 225, `Weapon fire rate upgrade`, "#ffa"]],
+  [[280, 215, `Beam laser`, "#ffa"]],
+  [[262, 195, `Speed upgrade`, "#ffa"], [255, 215, `Shields upgrade`, "#ffa"], [223, 235, `Weapon fire rate upgrade`, "#ffa"]],
+  [[222, 215, `Compass to another world`, "#ffa"]],
 ];
-
-`
-1: start
-2: faster
-3: stronger
-4: secondary laser
-5: faster/stronger
-6: missiles
-7: stronger/fire rate
-8: beam
-9: stronger/faster/fire rate
-10: compass
-`
 
 let types = [];
 for (let i = 0; i < 10; i++) {
