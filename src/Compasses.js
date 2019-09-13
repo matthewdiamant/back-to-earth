@@ -8,6 +8,8 @@ export default class Compasses {
     ];
     this.timer = 0;
     this.worlds = [];
+    this.finalEncounter = true;
+    this.finalEncounterStarted = false;
   }
 
   createWorld() {
@@ -22,13 +24,25 @@ export default class Compasses {
     return Math.sqrt(Math.pow(ship.getX() - compass.x, 2) + Math.pow(ship.getY() - compass.y, 2))
   }
 
-  tick(ship) {
+  tick(ship, encounters, enemies) {
     this.timer += 1;
     this.compasses = this.compasses.map(compass => {
       compass.visible = this.distanceToWorld(ship, compass) > 300;
       compass.theta = Math.atan2(ship.getY() - compass.y, ship.getX() - compass.x);
       return compass;
     });
+    if (this.compasses[1]) {
+      if (this.distanceToWorld(ship, this.compasses[1]) < 400) {
+        if (this.finalEncounter) {
+          this.finalEncounter = false;
+          encounters.makeEncounter(ship, enemies);
+          this.finalEncounterStarted = true;
+        }
+      }
+    }
+    if (this.finalEncounterStarted && enemies.enemies.length === 0) {
+      ship.finalHalo = [this.compasses[1].x, this.compasses[1].y];
+    }
   }
 
   draw(drawer) {

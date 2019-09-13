@@ -54,7 +54,7 @@ window.onload = () => {
       earthScreen.tick(keyboard, ship, asteroids, enemies, encounters, compasses);
     } else {
       hud.tick(ship);
-      compasses.tick(ship);
+      compasses.tick(ship, encounters, enemies);
       encounters.tick(ship, enemies);
       enemies.tick(sound, ship);
       ship.tick(
@@ -113,8 +113,8 @@ window.onload = () => {
     background,
     earth,
     asteroids,
-    enemies,
     compasses,
+    enemies,
     ship,
     hud
   ];

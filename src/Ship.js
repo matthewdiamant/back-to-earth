@@ -63,6 +63,7 @@ export default class Ship {
     this.missileCanFire = false;
     this.missilePosition = 1;
     this.beamCanFire = false;
+    this.finalHalo = false;
   }
 
   getX() {
@@ -240,6 +241,10 @@ export default class Ship {
       state.engineOn && this.drawEngine(drawer);
       let distanceToEarth = this.x * this.x + this.y * this.y;
       distanceToEarth < 60 * 60 && this.drawHalo(drawer, distanceToEarth);
+      if (this.finalHalo) {
+        let distanceToPlanet = Math.pow(this.x - this.finalHalo[0], 2) + Math.pow(this.y - this.finalHalo[1], 2);
+        distanceToPlanet < 40000 && this.drawHalo(drawer, distanceToPlanet, '#f00', .15);
+      }
 
       drawer.draw(() => {
         drawer.fill({
@@ -252,9 +257,6 @@ export default class Ship {
           size
         });
       });
-      // drawer.draw(() =>
-      //   drawer.hitbox({ x: this.x, y: this.y, size: this.size })
-      // ); // hitbox
     }
   }
 
@@ -275,17 +277,17 @@ export default class Ship {
     });
   }
 
-  drawHalo(drawer, distanceToEarth) {
+  drawHalo(drawer, distanceToEarth, color, scale = 1) {
     drawer.draw(() => {
       drawer.arc({
         arc: [
           this.x,
           this.y,
-          (distanceToEarth * 4) / 60 + Math.sin(haloSize / 8) + 10,
+          (distanceToEarth * scale * 4) / 60 + Math.sin(haloSize / 8) + 10,
           0,
           2 * Math.PI
         ],
-        strokeColor: `rgba(255, 255, 255, ${1 - distanceToEarth / (60 * 60)})`
+        strokeColor: color || `rgba(255, 255, 255, ${1 - distanceToEarth / (60 * 60)})`
       });
     });
   }
