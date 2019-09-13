@@ -15,7 +15,7 @@ export default class Encounters {
   makeEncounter(ship, enemies) {
     let numberOfEnemies = enemies.enemies.length
     if (ship.level >= 1) {
-      for (let i = 0; i < ship.level - numberOfEnemies + 1; i++) {
+      for (let i = 0; i < ship.level - numberOfEnemies; i++) {
         enemies.addEnemy(...this.makeEnemy(ship));
       }
     }
