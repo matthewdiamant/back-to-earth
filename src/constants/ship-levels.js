@@ -15,7 +15,7 @@ let beamCanFire = [false, false, false, false, false, false, false, true, true, 
 let missileCooldown = [false, false, false, false, false, 0.2, 0.2, 0.2, 0.2, 0.2];
 let missileCanFire = [false, false, false, false, false, true, true, true, true, true];
 
-let maxHealth = [10, 10, 60, 60, 100, 100, 150, 150, 300, 300];
+let maxHealth = [10, 10, 60, 60, 100, 100, 150, 150, 600, 600];
 
 let descriptions = [
   [],

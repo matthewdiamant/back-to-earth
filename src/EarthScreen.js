@@ -3,16 +3,7 @@ export default class EarthScreen {
     this.timeout = 15;
   }
 
-  makeEnemy(ship) {
-    let theta = Math.random() * Math.PI * 2;
-    return [
-      (500 + 100 * Math.random()) * Math.sin(theta) + ship.getX(),
-      (500 + 100 * Math.random()) * Math.cos(theta) + ship.getY(),
-      ship.level
-    ];
-  }
-
-  tick(keyboard, ship, asteroids, enemies, compasses) {
+  tick(keyboard, ship, asteroids, enemies, encounters, compasses) {
     if (keyboard.isDown(keyboard.ENTER) && this.timeout < 0) {
       this.timeout = 15;
       ship.landed = false;
@@ -21,11 +12,7 @@ export default class EarthScreen {
       ship.setDy(0);
       asteroids.initializeAsteroids();
       ship.heal();
-      if (ship.level >= 1) {
-        for (let i = 0; i < ship.level; i++) {
-          enemies.addEnemy(...this.makeEnemy(ship));
-        }
-      }
+      ship.healed = false;
     }
     this.timeout -= 1;
 
@@ -39,6 +26,7 @@ export default class EarthScreen {
         if (ship.level >= 9) {
           compasses.createWorld();
         }
+        encounters.makeEncounter(ship, enemies);
       }
     }
   }
@@ -75,12 +63,16 @@ export default class EarthScreen {
       drawer.text({
         text: "Welcome to Earth",
         x: 210,
-        y: 130,
+        y: 120,
         size: "20px",
         font: "serif",
         letterSpacing: true,
         adjusted: false
       });
+
+      if (ship.healed) {
+        text([207, 142, "Your ship has been repaired", "#9f9"]);
+      }
       if (ship.level >= ship.shipLevels.length - 1) {
         text([212, 210, "You have all ship upgrades"]);
       } else {

@@ -22,6 +22,7 @@ import Background from "./Background.js";
 import Compasses from "./Compasses.js";
 import EarthScreen from "./EarthScreen.js";
 import Earth from "./Earth.js";
+import Encounters from "./Encounters.js";
 import Enemies from "./Enemies.js";
 import GameOverScreen from "./GameOverScreen.js";
 import HUD from "./HUD.js";
@@ -51,12 +52,12 @@ window.onload = () => {
   };
 
   let tick = () => {
-    // ship.landed = true;
     if (ship.landed) {
-      earthScreen.tick(keyboard, ship, asteroids, enemies, compasses);
+      earthScreen.tick(keyboard, ship, asteroids, enemies, encounters, compasses);
     } else {
       hud.tick(ship);
       compasses.tick(ship);
+      encounters.tick(ship, enemies);
       enemies.tick(sound, ship);
       ship.tick(
         keyboard,
@@ -125,6 +126,7 @@ window.onload = () => {
     ch: gameContainer.canvas.height
   });
   let compasses = new Compasses();
+  let encounters = new Encounters();
   let hud = new HUD();
   let earthScreen = new EarthScreen();
   let earth = new Earth();

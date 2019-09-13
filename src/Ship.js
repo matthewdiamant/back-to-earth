@@ -54,6 +54,7 @@ export default class Ship {
     this.shipLevels = shipLevels;
     this.maxHealth = 10;
     this.health = 10;
+    this.healed = false;
     this.exploding = false;
     this.size = size;
     this.mainLaserCanFire = true;
@@ -178,6 +179,9 @@ export default class Ship {
       let distanceToEarth = Math.sqrt(this.x * this.x + this.y * this.y);
       if (this.timeout < 0 && keyboard.isDown(keyboard.ENTER) && distanceToEarth < 50) {
         this.landed = true;
+        if (this.health < this.maxHealth) {
+          this.healed = true;
+        }
       }
       this.timeout -= 1;
 
