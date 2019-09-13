@@ -2,7 +2,7 @@ export default class Earth {
   draw(drawer) {
     drawer.draw(() => {
       drawer.text({
-        text: "🌎",
+        text: "\u{1F30E}",
         x: -65,
         y: 35,
         size: "100px",
