@@ -175,7 +175,8 @@ export default class Ship {
       this.debris.map(d => d.tick());
       if (this.lifeSpan <= 0) this.death = true;
     } else {
-      if (this.timeout < 0 && keyboard.isDown(keyboard.ENTER)) {
+      let distanceToEarth = Math.sqrt(this.x * this.x + this.y * this.y);
+      if (this.timeout < 0 && keyboard.isDown(keyboard.ENTER) && distanceToEarth < 50) {
         this.landed = true;
       }
       this.timeout -= 1;
