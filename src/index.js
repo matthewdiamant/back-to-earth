@@ -1,8 +1,6 @@
 /*
   TODO:
-    * Improve enemy spawning logic
-    * Balancing
-    * Add other worlds / compasses
+    * Boss
     * Music
   
   Refactor opportunities:

@@ -25,8 +25,10 @@ export default class Encounters {
     this.timeout -= 1;
 
     if (this.timeout <= 0) {
-      this.makeEncounter(ship, enemies);
-      this.timeout = (Math.random() * 10 + 30) * 60;
+      if (ship.level < 9) {
+        this.makeEncounter(ship, enemies);
+        this.timeout = (Math.random() * 10 + 30) * 60;
+      }
     }
   }
 }
