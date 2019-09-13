@@ -64,6 +64,7 @@ export default class Ship {
     this.missilePosition = 1;
     this.beamCanFire = false;
     this.finalHalo = false;
+    this.credits = false;
   }
 
   getX() {
@@ -182,6 +183,12 @@ export default class Ship {
         this.landed = true;
         if (this.health < this.maxHealth) {
           this.healed = true;
+        }
+      }
+      if (this.finalHalo) {
+        let distanceToPlanet = Math.pow(this.x - this.finalHalo[0], 2) + Math.pow(this.y - this.finalHalo[1], 2);
+        if (this.timeout < 0 && keyboard.isDown(keyboard.ENTER) && this.finalHalo && distanceToPlanet < 40000) {
+          this.credits = true;
         }
       }
       this.timeout -= 1;

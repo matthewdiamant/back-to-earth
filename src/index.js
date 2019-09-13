@@ -26,6 +26,7 @@ import GameOverScreen from "./GameOverScreen.js";
 import HUD from "./HUD.js";
 import Ship from "./Ship.js";
 import Asteroids from "./Asteroids.js";
+import Credits from './Credits.js'
 
 window.onload = () => {
   let gameContainer = new GameContainer();
@@ -50,6 +51,7 @@ window.onload = () => {
   };
 
   let tick = () => {
+    if (ship.credits) return;
     if (ship.landed) {
       earthScreen.tick(keyboard, ship, asteroids, enemies, encounters, compasses);
     } else {
@@ -105,6 +107,7 @@ window.onload = () => {
       drawObjects().map(object => object.draw(drawer));
       if (ship.landed) earthScreen.draw(drawer, ship);
       if (ship.death) gameOverScreen.draw(drawer);
+      if (ship.credits) credits.draw(drawer);
       lastTime = currentTime - (delta % interval);
     }
   };
@@ -133,6 +136,7 @@ window.onload = () => {
   let music = new Music();
   let ship = new Ship();
   let asteroids = new Asteroids();
+  let credits = new Credits();
 
   document.querySelector("main").className += " loaded";
   gameLoop();
