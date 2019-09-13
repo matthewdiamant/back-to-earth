@@ -25,7 +25,7 @@ export default class Compasses {
   tick(ship) {
     this.timer += 1;
     this.compasses = this.compasses.map(compass => {
-      compass.visible = this.distanceToWorld(ship, compass) > 400;
+      compass.visible = this.distanceToWorld(ship, compass) > 300;
       compass.theta = Math.atan2(ship.getY() - compass.y, ship.getX() - compass.x);
       return compass;
     });
